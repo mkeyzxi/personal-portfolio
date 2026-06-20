@@ -14,19 +14,27 @@ function containsBadWords(text: string) {
 export async function GET() {
   try {
     const adminDb = getAdminDb();
+    // Meminta semua testimonial yang 'approved' saja
+    // OrderBy dihapus dari query untuk menghindari error Composite Index di Firestore
     const snapshot = await adminDb.collection('testimonials')
       .where('status', '==', 'approved')
-      .orderBy('createdAt', 'desc')
       .get();
     
     if (snapshot.empty) {
       return NextResponse.json({ success: true, data: [] }, { status: 200 });
     }
 
-    const testimonialsData = snapshot.docs.map(doc => ({
+    let testimonialsData = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
+
+    // Sorting berdasarkan 'createdAt' (descending) dilakukan di memory (JS)
+    testimonialsData.sort((a: any, b: any) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return dateB - dateA; // descending
+    });
 
     return NextResponse.json(
       { success: true, data: testimonialsData },
@@ -76,14 +84,19 @@ export async function POST(request: Request) {
     const adminDb = getAdminDb();
 
     // 3. Rate limiting (1 per 24 jam)
+    // Filter kedua ('createdAt') dipindahkan ke JavaScript array filter untuk menghindari Composite Index error
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-    const recentSnapshot = await adminDb.collection('testimonials')
+    const userTestimonialsSnapshot = await adminDb.collection('testimonials')
       .where('uid', '==', uid)
-      .where('createdAt', '>=', oneDayAgo)
-      .limit(1)
       .get();
 
-    if (!recentSnapshot.empty) {
+    // Lakukan filter data yang di bawah 24 jam di memory
+    const hasRecentTestimonial = userTestimonialsSnapshot.docs.some(doc => {
+      const data = doc.data();
+      return data.createdAt >= oneDayAgo;
+    });
+
+    if (hasRecentTestimonial) {
       return NextResponse.json({ success: false, message: 'Rate Limit: Anda hanya dapat mengirim 1 testimoni per 24 jam' }, { status: 429 });
     }
 
