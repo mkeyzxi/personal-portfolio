@@ -1,52 +1,52 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
-import { cn } from '@/lib/utils';
-import * as LucideIcons from 'lucide-react';
+import {useState, useEffect} from 'react'
+import {useRouter} from 'next/navigation'
+import {signInWithEmailAndPassword, onAuthStateChanged, signOut} from 'firebase/auth'
+import {auth} from '@/lib/firebase'
+import {cn} from '@/lib/utils'
+import * as LucideIcons from 'lucide-react'
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState<any>(null);
-  const router = useRouter();
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [user, setUser] = useState<any>(null)
+  const router = useRouter()
 
   useEffect(() => {
     // Mengecek apakah admin sudah login
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        setUser(currentUser);
+        setUser(currentUser)
       } else {
-        setUser(null);
+        setUser(null)
       }
-    });
+    })
 
-    return () => unsubscribe();
-  }, []);
+    return () => unsubscribe()
+  }, [])
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password)
       // Pindahkan ini ke state atau re-render, onAuthStateChanged akan menangkap
     } catch (err: any) {
-      console.error(err);
-      setError('Login gagal. Periksa kembali email dan password.');
+      console.error(err)
+      setError('Login gagal. Periksa kembali email dan password.')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleLogout = async () => {
-    await signOut(auth);
-  };
+    await signOut(auth)
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[var(--color-bg-main)] p-4">
@@ -91,9 +91,12 @@ export default function AdminLoginPage() {
                 {error}
               </div>
             )}
-            
+
             <div className="space-y-1">
-              <label className="text-sm font-medium text-[var(--color-text-secondary)]" htmlFor="email">
+              <label
+                className="text-sm font-medium text-[var(--color-text-secondary)]"
+                htmlFor="email"
+              >
                 Email
               </label>
               <input
@@ -108,7 +111,10 @@ export default function AdminLoginPage() {
             </div>
 
             <div className="space-y-1">
-              <label className="text-sm font-medium text-[var(--color-text-secondary)]" htmlFor="password">
+              <label
+                className="text-sm font-medium text-[var(--color-text-secondary)]"
+                htmlFor="password"
+              >
                 Password
               </label>
               <input
@@ -137,5 +143,5 @@ export default function AdminLoginPage() {
         )}
       </div>
     </div>
-  );
+  )
 }

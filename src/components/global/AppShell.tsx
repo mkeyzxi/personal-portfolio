@@ -9,6 +9,8 @@ import { VALID_SECTION_KEYS, STORAGE_KEY_ACTIVE_SECTION } from '@/lib/constants'
 import SidebarNav from './SidebarNav';
 import BottomNav from './BottomNav';
 import MobileDrawer from './MobileDrawer';
+import Footer from '@/components/global/Footer';
+import { Toaster } from '@/components/ui/sonner';
 
 // ============================================================
 // DYNAMIC IMPORTS — SDD §3: Lazy Loading / Dynamic Imports
@@ -230,6 +232,9 @@ export default function AppShell() {
             <ActiveComponent />
           </motion.div>
         </AnimatePresence>
+        
+        {/* Footer diletakkan di dalam main agar ikut ter-scroll bersama konten */}
+        <Footer />
       </main>
 
       <BottomNav 
@@ -243,6 +248,14 @@ export default function AppShell() {
         onClose={() => setIsDrawerOpen(false)}
         active={activeSection}
         onNavigate={handleNavigate}
+      />
+      
+      {/* Shadcn Toaster untuk notifikasi */}
+      <Toaster 
+        position="bottom-right" 
+        toastOptions={{
+          className: 'bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)]',
+        }}
       />
     </div>
   );

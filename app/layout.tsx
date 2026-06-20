@@ -1,13 +1,13 @@
-import type { Metadata, Viewport } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
-import './globals.css';
-import { cn } from "@/lib/utils";
+import type {Metadata, Viewport} from 'next'
+import {Geist, Geist_Mono} from 'next/font/google'
+import './globals.css'
+import {cn} from '@/lib/utils'
 
 /**
  * Font: Geist Sans — Main text, headings, body paragraphs.
  * SDD §4.2: tracking-tight digunakan pada heading.
  */
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({subsets: ['latin'], variable: '--font-sans'})
 
 /**
  * Font: Geist Mono — Badge angka, tag tech stack, elemen mirip kode.
@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
   variable: '--font-mono',
   subsets: ['latin'],
   display: 'swap',
-});
+})
 
 /**
  * SEO Metadata — PRD §16.1
@@ -37,14 +37,14 @@ export const metadata: Metadata = {
     'firebase',
     'web development',
   ],
-  authors: [{ name: 'Portfolio Owner' }],
+  authors: [{name: 'Portfolio Owner'}],
   robots: 'index, follow',
   openGraph: {
     type: 'website',
     title: 'Portfolio | Full Stack Developer',
     description:
       'Personal Portfolio — Full Stack Developer spesialisasi Next.js, React, TypeScript, dan Firebase.',
-    images: [{ url: '/images/og-image.jpg', width: 1200, height: 630 }],
+    images: [{url: '/images/og-image.jpg', width: 1200, height: 630}],
     siteName: 'Portfolio',
   },
   twitter: {
@@ -54,35 +54,35 @@ export const metadata: Metadata = {
       'Personal Portfolio — Full Stack Developer spesialisasi Next.js, React, TypeScript, dan Firebase.',
     images: ['/images/og-image.jpg'],
   },
-};
+}
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
+    {media: '(prefers-color-scheme: light)', color: '#ffffff'},
+    {media: '(prefers-color-scheme: dark)', color: '#0a0a0a'},
   ],
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html
       lang="id"
-      className={cn(geistMono.variable, "font-sans", geist.variable)}
+      className={cn(geistMono.variable, 'font-sans', geist.variable)}
       suppressHydrationWarning
     >
       <head>
         {/*
          * Dark Mode Anti-FOUC Script — PRD §9.9, SDD §4.1
-         * 
+         *
          * Script ini berjalan SEBELUM React hydration untuk mencegah
          * flash of light theme pada pengguna dark mode.
-         * 
+         *
          * Prioritas:
          * 1. localStorage preference (user telah toggle manual)
          * 2. System preference (prefers-color-scheme: dark)
@@ -114,10 +114,7 @@ export default function RootLayout({
               name: 'Portfolio Owner',
               jobTitle: 'Full Stack Developer',
               url: 'https://yourwebsite.vercel.app',
-              sameAs: [
-                'https://github.com/username',
-                'https://linkedin.com/in/username',
-              ],
+              sameAs: ['https://github.com/username', 'https://linkedin.com/in/username'],
               knowsAbout: ['Next.js', 'React', 'TypeScript', 'Firebase'],
             }),
           }}
@@ -127,5 +124,5 @@ export default function RootLayout({
         {children}
       </body>
     </html>
-  );
+  )
 }

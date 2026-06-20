@@ -49,3 +49,73 @@ export interface OwnerInfo {
   location: string;
   avatarPath: string;
 }
+
+// ============================================================
+// TYPES — Data Statis
+// ============================================================
+
+export interface Experience {
+  id: string;
+  type: 'work' | 'organization' | 'education';
+  company: string;
+  position: string;
+  period: string;
+  description: string;
+  logo?: string;
+  technologies?: string[];
+}
+
+export interface Project {
+  id: string;
+  slug: string;
+  title: string;
+  description?: string; // Tanda tanya untuk backward compatibility jika diperlukan
+  shortDescription: string;
+  content: any[]; // JSON mentah dari BlockNote editor
+  category: 'web' | 'mobile' | 'api' | 'other';
+  thumbnail: string;
+  technologies: string[];
+  githubUrl?: string;
+  liveUrl?: string;
+  featured: boolean;
+  year?: number;
+  createdAt?: string;
+}
+
+export interface TechItem {
+  name: string;
+  icon: string; // Iconify icon string
+  category: string;
+  level?: 'beginner' | 'intermediate' | 'advanced';
+}
+
+export interface StoryMilestone {
+  id: string;
+  year: string;
+  title: string;
+  description: string;
+  icon?: string;
+  highlight?: boolean;
+}
+
+export interface Testimonial {
+  id: string;
+  uid: string;
+  name: string;
+  email: string;
+  avatar: string;
+  provider: string;
+  message: string;
+  createdAt: string;
+  updatedAt: string;
+  likes: number;
+  status: "approved" | "pending" | "rejected";
+  isEdited: boolean;
+}
+
+export interface ContactForm {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
