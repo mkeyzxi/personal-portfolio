@@ -1,147 +1,78 @@
-'use client'
+'use client';
 
-import {useState, useEffect} from 'react'
-import {useRouter} from 'next/navigation'
-import {signInWithEmailAndPassword, onAuthStateChanged, signOut} from 'firebase/auth'
-import {auth} from '@/lib/firebase'
-import {cn} from '@/lib/utils'
-import * as LucideIcons from 'lucide-react'
+import Link from 'next/link';
+import * as LucideIcons from 'lucide-react';
 
-export default function AdminLoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [user, setUser] = useState<any>(null)
-  const router = useRouter()
-
-  useEffect(() => {
-    // Mengecek apakah admin sudah login
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser)
-      } else {
-        setUser(null)
-      }
-    })
-
-    return () => unsubscribe()
-  }, [])
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setError('')
-
-    try {
-      await signInWithEmailAndPassword(auth, email, password)
-      // Pindahkan ini ke state atau re-render, onAuthStateChanged akan menangkap
-    } catch (err: any) {
-      console.error(err)
-      setError('Login gagal. Periksa kembali email dan password.')
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const handleLogout = async () => {
-    await signOut(auth)
-  }
-
+export default function AdminDashboardPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[var(--color-bg-main)] p-4">
-      <div className="w-full max-w-md rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] p-8 shadow-xl">
-        <div className="mb-8 flex flex-col items-center text-center">
-          <div className="mb-4 rounded-full bg-[var(--color-interactive)] p-3 text-[var(--color-interactive-text)]">
-            <LucideIcons.Lock className="h-6 w-6" />
+    <div className="p-8 max-w-5xl mx-auto min-h-screen bg-[var(--color-bg-main)]">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-[var(--color-text-primary)]">Admin Dashboard</h1>
+        <p className="text-[var(--color-text-secondary)] mt-2">Selamat datang di pusat kendali portofolio Anda.</p>
+      </div>
+
+      {/* Placeholder Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-[var(--color-border)] shadow-sm">
+          <div className="flex justify-between items-start">
+            <div>
+              <p className="text-sm font-medium text-[var(--color-text-secondary)] mb-1">Total Proyek</p>
+              <h3 className="text-3xl font-bold text-[var(--color-text-primary)]">12</h3>
+            </div>
+            <div className="bg-blue-500/10 p-3 rounded-lg text-blue-500">
+              <LucideIcons.FolderGit2 className="w-6 h-6" />
+            </div>
           </div>
-          <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Admin Portal</h1>
-          <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-            Masuk untuk mengelola pesan dan testimoni.
-          </p>
         </div>
-
-        {user ? (
-          <div className="flex flex-col items-center gap-4">
-            <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
-              <LucideIcons.CheckCircle2 className="h-5 w-5" />
-              <span className="font-medium">Anda sudah login sebagai Admin</span>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-[var(--color-border)] shadow-sm">
+          <div className="flex justify-between items-start">
+            <div>
+              <p className="text-sm font-medium text-[var(--color-text-secondary)] mb-1">Testimoni</p>
+              <h3 className="text-3xl font-bold text-[var(--color-text-primary)]">24</h3>
             </div>
-            <p className="text-sm text-[var(--color-text-secondary)]">{user.email}</p>
-            <div className="mt-4 flex w-full gap-4">
-              <button
-                onClick={() => router.push('/')}
-                className="flex-1 rounded-xl border border-[var(--color-border)] px-4 py-2 text-sm font-semibold transition-colors hover:bg-[var(--color-bg-elevated)]"
-              >
-                Ke Beranda
-              </button>
-              <button
-                onClick={handleLogout}
-                className="flex-1 rounded-xl bg-[var(--color-interactive)] px-4 py-2 text-sm font-semibold text-[var(--color-interactive-text)] transition-colors hover:bg-[var(--color-interactive-hover)]"
-              >
-                Logout
-              </button>
+            <div className="bg-green-500/10 p-3 rounded-lg text-green-500">
+              <LucideIcons.MessageSquare className="w-6 h-6" />
             </div>
           </div>
-        ) : (
-          <form onSubmit={handleLogin} className="flex flex-col gap-4">
-            {error && (
-              <div className="rounded-lg bg-red-500/10 p-3 text-sm text-red-600 dark:text-red-400 border border-red-500/20 flex items-center gap-2">
-                <LucideIcons.AlertCircle className="h-4 w-4" />
-                {error}
-              </div>
-            )}
-
-            <div className="space-y-1">
-              <label
-                className="text-sm font-medium text-[var(--color-text-secondary)]"
-                htmlFor="email"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-main)] px-4 py-3 text-[var(--color-text-primary)] focus:border-[var(--color-focus-ring)] focus:outline-none focus:ring-1 focus:ring-[var(--color-focus-ring)] transition-colors"
-                placeholder="admin@domain.com"
-              />
+        </div>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-[var(--color-border)] shadow-sm">
+          <div className="flex justify-between items-start">
+            <div>
+              <p className="text-sm font-medium text-[var(--color-text-secondary)] mb-1">Cerita Diterbitkan</p>
+              <h3 className="text-3xl font-bold text-[var(--color-text-primary)]">8</h3>
             </div>
-
-            <div className="space-y-1">
-              <label
-                className="text-sm font-medium text-[var(--color-text-secondary)]"
-                htmlFor="password"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-main)] px-4 py-3 text-[var(--color-text-primary)] focus:border-[var(--color-focus-ring)] focus:outline-none focus:ring-1 focus:ring-[var(--color-focus-ring)] transition-colors"
-                placeholder="••••••••"
-              />
+            <div className="bg-purple-500/10 p-3 rounded-lg text-purple-500">
+              <LucideIcons.FileText className="w-6 h-6" />
             </div>
+          </div>
+        </div>
+      </div>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="mt-4 flex w-full items-center justify-center rounded-xl bg-[var(--color-interactive)] px-4 py-3 font-semibold text-[var(--color-interactive-text)] transition-colors hover:bg-[var(--color-interactive-hover)] disabled:opacity-70"
-            >
-              {isLoading ? (
-                <LucideIcons.Loader2 className="h-5 w-5 animate-spin" />
-              ) : (
-                'Masuk ke Sistem'
-              )}
-            </button>
-          </form>
-        )}
+      {/* Navigation Cards */}
+      <h2 className="text-xl font-bold text-[var(--color-text-primary)] mb-4">Pengelola CMS</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Link href="/admin/projects" className="group">
+          <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-[var(--color-border)] shadow-sm h-full transition-all hover:border-[var(--color-interactive)] hover:shadow-md">
+            <LucideIcons.FolderGit2 className="w-8 h-8 text-[var(--color-interactive)] mb-4 group-hover:scale-110 transition-transform" />
+            <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Kelola Projects</h3>
+            <p className="text-sm text-[var(--color-text-secondary)]">Tambah, edit, atau hapus portofolio proyek Anda.</p>
+          </div>
+        </Link>
+        <Link href="/admin/testimonials" className="group">
+          <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-[var(--color-border)] shadow-sm h-full transition-all hover:border-[var(--color-interactive)] hover:shadow-md">
+            <LucideIcons.MessageSquare className="w-8 h-8 text-[var(--color-interactive)] mb-4 group-hover:scale-110 transition-transform" />
+            <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Kelola Testimonials</h3>
+            <p className="text-sm text-[var(--color-text-secondary)]">Tinjau dan setujui ulasan dari klien atau rekan kerja.</p>
+          </div>
+        </Link>
+        <Link href="/admin/story" className="group">
+          <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-[var(--color-border)] shadow-sm h-full transition-all hover:border-[var(--color-interactive)] hover:shadow-md">
+            <LucideIcons.FileText className="w-8 h-8 text-[var(--color-interactive)] mb-4 group-hover:scale-110 transition-transform" />
+            <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Kelola Stories</h3>
+            <p className="text-sm text-[var(--color-text-secondary)]">Tulis artikel, blog, atau cerita perjalanan Anda.</p>
+          </div>
+        </Link>
       </div>
     </div>
-  )
+  );
 }

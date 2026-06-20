@@ -6,11 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import type { SectionKey } from '@/types';
 import { VALID_SECTION_KEYS, STORAGE_KEY_ACTIVE_SECTION } from '@/lib/constants';
 
-import SidebarNav from './SidebarNav';
-import BottomNav from './BottomNav';
-import MobileDrawer from './MobileDrawer';
-import Footer from '@/components/global/Footer';
-import { Toaster } from '@/components/ui/sonner';
+
 
 // ============================================================
 // DYNAMIC IMPORTS — SDD §3: Lazy Loading / Dynamic Imports
@@ -163,10 +159,8 @@ export default function AppShell() {
     setIsInitialized(true);
   }, []);
 
-  // ── Browser Back/Forward Handler ────────────────────────
-  // Mendengarkan event popstate untuk navigasi browser.
   useEffect(() => {
-    function handlePopState() {
+    function handleLocationChange() {
       const hashSection = getHashSection();
       if (hashSection) {
         setActiveSection(hashSection);
@@ -178,8 +172,12 @@ export default function AppShell() {
       }
     }
 
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('hashchange', handleLocationChange);
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('hashchange', handleLocationChange);
+    };
   }, []);
 
   // ── Navigation Handler ──────────────────────────────────
@@ -211,52 +209,17 @@ export default function AppShell() {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <SidebarNav active={activeSection} onNavigate={handleNavigate} />
-
-      {/* Area konten utama */}
-      <main
-        className="flex-1 overflow-y-auto lg:ml-64 pb-16 lg:pb-0"
-        role="main"
-        aria-label="Konten utama"
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={activeSection}
+        initial={sectionTransition.initial}
+        animate={sectionTransition.animate}
+        exit={sectionTransition.exit}
+        transition={sectionTransition.transition}
+        className="min-h-full"
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeSection}
-            initial={sectionTransition.initial}
-            animate={sectionTransition.animate}
-            exit={sectionTransition.exit}
-            transition={sectionTransition.transition}
-            className="min-h-full"
-          >
-            <ActiveComponent />
-          </motion.div>
-        </AnimatePresence>
-        
-        {/* Footer diletakkan di dalam main agar ikut ter-scroll bersama konten */}
-        <Footer />
-      </main>
-
-      <BottomNav 
-        active={activeSection} 
-        onNavigate={handleNavigate} 
-        onOpenDrawer={() => setIsDrawerOpen(true)} 
-      />
-
-      <MobileDrawer 
-        isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        active={activeSection}
-        onNavigate={handleNavigate}
-      />
-      
-      {/* Shadcn Toaster untuk notifikasi */}
-      <Toaster 
-        position="bottom-right" 
-        toastOptions={{
-          className: 'bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)]',
-        }}
-      />
-    </div>
+        <ActiveComponent />
+      </motion.div>
+    </AnimatePresence>
   );
 }

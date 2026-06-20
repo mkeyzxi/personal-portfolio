@@ -2,7 +2,7 @@ import type {Metadata, Viewport} from 'next'
 import {Geist, Geist_Mono} from 'next/font/google'
 import './globals.css'
 import {cn} from '@/lib/utils'
-
+import GlobalLayout from '@/components/global/GlobalLayout'
 /**
  * Font: Geist Sans — Main text, headings, body paragraphs.
  * SDD §4.2: tracking-tight digunakan pada heading.
@@ -121,7 +121,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-[var(--color-bg-main)] text-[var(--color-text-primary)] font-sans antialiased">
-        {children}
+        <GlobalLayout>
+          {children}
+        </GlobalLayout>
       </body>
     </html>
   )
