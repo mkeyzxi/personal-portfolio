@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# file
+AGENTS.md
+CLAUDE.md
+.claude
+NewFeatProyek.md
+NewFeatTestimonials.md
+plansebelumnya.md
+PRD.md
+SDD.md
