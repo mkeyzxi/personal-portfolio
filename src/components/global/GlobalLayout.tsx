@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import type { SectionKey } from '@/types';
 import { VALID_SECTION_KEYS, STORAGE_KEY_ACTIVE_SECTION } from '@/lib/constants';
@@ -10,6 +10,7 @@ import BottomNav from './BottomNav';
 import MobileDrawer from './MobileDrawer';
 import Footer from '@/components/global/Footer';
 import { Toaster } from '@/components/ui/sonner';
+import { useSectionTitle } from '@/hooks/useSectionTitle';
 
 function isValidSectionKey(value: string): value is SectionKey {
   return VALID_SECTION_KEYS.has(value as SectionKey);
@@ -37,6 +38,19 @@ export default function GlobalLayout({ children }: { children: React.ReactNode }
   
   const [activeSection, setActiveSection] = useState<SectionKey>('home');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  useSectionTitle(activeSection);
+
+  // Focus management: move focus to main content when section changes
+  useEffect(() => {
+    if (pathname === '/') {
+      const mainEl = document.getElementById('main-content');
+      if (mainEl) {
+        // slight delay to wait for Framer Motion animation to start
+        setTimeout(() => mainEl.focus(), 100);
+      }
+    }
+  }, [activeSection, pathname]);
 
   // Sync active section with Pathname or Hash
   useEffect(() => {
@@ -101,12 +115,17 @@ export default function GlobalLayout({ children }: { children: React.ReactNode }
 
   return (
     <div className="flex h-screen overflow-hidden">
+      <a href="#main-content" className="skip-link">Lewati navigasi, langsung ke konten</a>
+      
       <SidebarNav active={activeSection} onNavigate={handleNavigate} />
 
       <main
+        id="main-content"
+        tabIndex={-1}
         className="flex-1 overflow-y-auto lg:ml-64 pb-16 lg:pb-0"
         role="main"
         aria-label="Konten utama"
+        aria-live="polite"
       >
         {children}
         <Footer />

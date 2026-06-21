@@ -112,7 +112,7 @@ export default function SidebarNav({active, onNavigate}: SidebarNavProps) {
           </span>
           <button
             onClick={toggleTheme}
-            className="rounded-full p-2 text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)]"
+            className="flex h-11 w-11 items-center justify-center rounded-full text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)]"
             aria-label="Toggle Dark Mode"
             title="Toggle Dark Mode"
           >

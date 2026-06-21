@@ -47,7 +47,7 @@ const cardVariants = {
 
 export default function AboutSection() {
   return (
-    <section className="flex min-h-screen w-full items-center justify-center py-24 px-6 sm:px-10">
+    <section aria-labelledby="about-heading" className="flex min-h-screen w-full items-center justify-center py-24 px-6 sm:px-10">
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -57,9 +57,9 @@ export default function AboutSection() {
       >
         {/* Section Header */}
         <motion.div variants={rightSlideVariants} className="mb-16">
-          <h2 className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl">
+          <h1 id="about-heading" className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl">
             Tentang Saya
-          </h2>
+          </h1>
           <div className="mt-2 h-1 w-20 bg-[var(--color-text-primary)]"></div>
         </motion.div>
 

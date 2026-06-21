@@ -83,7 +83,7 @@ export default function HeroSection() {
   }
 
   return (
-    <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-6">
+    <section aria-labelledby="home-heading" className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-6">
       {/* ── Background Animation (Subtle Mesh) ────────────────── */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {/* Blob 1 */}
@@ -127,6 +127,7 @@ export default function HeroSection() {
         </motion.div>
 
         <motion.h1
+          id="home-heading"
           variants={itemVariants}
           className="mb-4 text-5xl font-extrabold tracking-tight text-[var(--color-text-primary)] sm:text-6xl md:text-7xl"
         >

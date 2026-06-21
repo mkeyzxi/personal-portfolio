@@ -113,7 +113,7 @@ export default function MobileDrawer({ isOpen, onClose, active, onNavigate }: Mo
               <h3 className="font-semibold text-[var(--color-text-primary)]">Menu</h3>
               <button
                 onClick={onClose}
-                className="rounded-full p-2 text-[var(--color-text-muted)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)]"
+                className="flex h-11 w-11 items-center justify-center rounded-full text-[var(--color-text-muted)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)]"
                 aria-label="Close Menu"
               >
                 <LucideIcons.X className="h-5 w-5" />
@@ -152,7 +152,7 @@ export default function MobileDrawer({ isOpen, onClose, active, onNavigate }: Mo
                 <span className="text-sm font-medium text-[var(--color-text-secondary)]">Ubah Tema</span>
                 <button
                   onClick={toggleTheme}
-                  className="rounded-full bg-[var(--color-bg-surface)] p-3 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] border border-[var(--color-border-muted)] shadow-sm"
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] border border-[var(--color-border-muted)] shadow-sm"
                   aria-label="Toggle Dark Mode"
                 >
                   <LucideIcons.Moon className="h-5 w-5 hidden dark:block" />

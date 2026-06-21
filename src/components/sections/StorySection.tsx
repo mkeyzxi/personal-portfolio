@@ -31,14 +31,14 @@ export default function StorySection() {
   };
 
   return (
-    <section className="flex min-h-screen w-full flex-col items-center py-24 px-6 sm:px-10">
-      <div className="w-full max-w-3xl">
+    <section aria-labelledby="story-heading" className="flex min-h-screen w-full flex-col items-center py-24 px-6 sm:px-10">
+      <div className="w-full max-w-4xl">
         {/* Section Header */}
-        <div className="mb-16 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl">
+        <div className="mb-16 text-center md:text-left">
+          <h1 id="story-heading" className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl">
             Cerita Perjalanan
-          </h2>
-          <div className="mt-2 h-1 w-20 bg-[var(--color-text-primary)] mx-auto"></div>
+          </h1>
+          <div className="mt-2 h-1 w-20 bg-[var(--color-text-primary)] mx-auto md:mx-0"></div>
           <p className="mt-4 text-[var(--color-text-secondary)]">
             Bagaimana saya mulai menulis kode dan menemukan ketertarikan di dunia rekayasa perangkat lunak.
           </p>

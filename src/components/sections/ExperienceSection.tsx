@@ -45,13 +45,13 @@ export default function ExperienceSection() {
   );
 
   return (
-    <section className="flex min-h-screen w-full flex-col items-center py-24 px-6 sm:px-10">
+    <section aria-labelledby="experience-heading" className="flex min-h-screen w-full flex-col items-center py-24 px-6 sm:px-10">
       <div className="w-full max-w-4xl">
         {/* Section Header */}
         <div className="mb-12 text-center md:text-left">
-          <h2 className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl">
+          <h1 id="experience-heading" className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl">
             Pengalaman & Kredensial
-          </h2>
+          </h1>
           <div className="mt-2 h-1 w-20 bg-[var(--color-text-primary)] mx-auto md:mx-0"></div>
           <p className="mt-4 text-[var(--color-text-secondary)]">
             Jejak karir, pendidikan, organisasi, serta sertifikasi profesional saya.
