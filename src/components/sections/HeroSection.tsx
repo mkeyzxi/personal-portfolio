@@ -1,8 +1,9 @@
-'use client';
+'use client'
 
-import { motion } from 'framer-motion';
-import { ArrowRight, Mail } from 'lucide-react';
-import { OWNER_INFO } from '@/lib/constants';
+import {motion} from 'framer-motion'
+import {ArrowRight, Mail} from 'lucide-react'
+import {OWNER_INFO} from '@/lib/constants'
+import ShinyText from '@/components/ShinyText'
 
 // ============================================================
 // ANIMASI FRAMER MOTION
@@ -10,7 +11,7 @@ import { OWNER_INFO } from '@/lib/constants';
 
 // Stagger untuk kontainer teks
 const containerVariants = {
-  hidden: { opacity: 0 },
+  hidden: {opacity: 0},
   show: {
     opacity: 1,
     transition: {
@@ -18,17 +19,17 @@ const containerVariants = {
       delayChildren: 0.2,
     },
   },
-};
+}
 
 // Efek fade up untuk elemen individu
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { 
-    opacity: 1, 
+  hidden: {opacity: 0, y: 20},
+  show: {
+    opacity: 1,
     y: 0,
-    transition: { type: 'spring' as const, stiffness: 300, damping: 24 }
+    transition: {type: 'spring' as const, stiffness: 300, damping: 24},
   },
-};
+}
 
 // Efek background partikel "subtle mesh" (Monokromatik)
 const particleVariants = {
@@ -42,13 +43,13 @@ const particleVariants = {
       repeat: Infinity,
     },
   },
-};
+}
 
 export default function HeroSection() {
   // Fungsi navigasi menembakkan event hash change agar ditangkap oleh AppShell
   const navigateTo = (section: string) => {
-    window.location.hash = section;
-  };
+    window.location.hash = section
+  }
 
   return (
     <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-6">
@@ -65,7 +66,7 @@ export default function HeroSection() {
           variants={particleVariants}
           animate="animate"
           className="absolute -bottom-1/4 -right-1/4 h-[60vw] w-[60vw] rounded-full bg-[var(--color-border)] blur-[150px] mix-blend-multiply opacity-20 dark:opacity-10"
-          style={{ animationDelay: '-5s' }} // Offset animasi manual
+          style={{animationDelay: '-5s'}} // Offset animasi manual
         />
       </div>
 
@@ -78,8 +79,19 @@ export default function HeroSection() {
       >
         <motion.div variants={itemVariants} className="mb-6 flex justify-center">
           <span className="inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-1.5 text-sm font-medium text-[var(--color-text-secondary)]">
-            <span className="mr-2 flex h-2 w-2 rounded-full bg-[var(--color-text-primary)] animate-pulse"></span>
-            Tersedia untuk proyek baru
+            {/* <span className="mr-2 flex h-2 w-2 rounded-full bg-[var(--color-text-primary)] animate-pulse"></span> */}
+            <ShinyText
+              text="Tersedia untuk proyek baru"
+              speed={2}
+              delay={0}
+              color="#b5b5b5"
+              shineColor="#ffffff"
+              spread={120}
+              direction="left"
+              yoyo={false}
+              pauseOnHover={false}
+              disabled={false}
+            />
           </span>
         </motion.div>
 
@@ -101,8 +113,9 @@ export default function HeroSection() {
           variants={itemVariants}
           className="mx-auto mb-10 max-w-2xl text-base text-[var(--color-text-muted)] sm:text-lg leading-relaxed"
         >
-          Saya membangun antarmuka digital yang bersih, efisien, dan berpusat pada pengguna. 
-          Memadukan desain elegan dengan kode berkualitas tinggi untuk menciptakan pengalaman web yang modern.
+          Saya membangun antarmuka digital yang bersih, efisien, dan berpusat pada pengguna.
+          Memadukan desain elegan dengan kode berkualitas tinggi untuk menciptakan pengalaman web
+          yang modern.
         </motion.p>
 
         {/* ── Call to Action Buttons ───────────────────────────── */}
@@ -117,7 +130,7 @@ export default function HeroSection() {
             Lihat Proyek
             <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
           </button>
-          
+
           <button
             onClick={() => navigateTo('contact')}
             className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border-2 border-[var(--color-border)] bg-transparent px-8 py-4 font-semibold text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-surface)] hover:border-[var(--color-text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:ring-offset-2 dark:focus:ring-offset-[#0a0a0a]"
@@ -128,5 +141,5 @@ export default function HeroSection() {
         </motion.div>
       </motion.div>
     </section>
-  );
+  )
 }

@@ -58,13 +58,16 @@ export interface OwnerInfo {
 
 export interface Experience {
   id: string;
-  type: 'work' | 'organization' | 'education';
+  type: 'work' | 'organization' | 'education' | 'certificate';
   company: string;
   position: string;
   period: string;
   description: string;
   logo?: string;
   technologies?: string[];
+  credentialUrl?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Project {

@@ -67,6 +67,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </Link>
 
             <Link 
+              href="/admin/experiences"
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
+                pathname.includes('/admin/experiences') ? 'bg-[var(--color-interactive)] text-[var(--color-interactive-text)]' : 'hover:bg-[var(--color-bg-elevated)] text-[var(--color-text-secondary)]'
+              }`}
+            >
+              <LucideIcons.Briefcase className="w-5 h-5" />
+              <span className="font-medium">Experiences</span>
+            </Link>
+
+            <Link 
               href="/admin/story"
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
                 pathname.includes('/admin/story') ? 'bg-[var(--color-interactive)] text-[var(--color-interactive-text)]' : 'hover:bg-[var(--color-bg-elevated)] text-[var(--color-text-secondary)]'
