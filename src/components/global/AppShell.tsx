@@ -39,8 +39,8 @@ const TestimonialsSection = dynamic(
   () => import('@/components/sections/TestimonialsSection'),
   { ssr: false }
 );
-const StorySection = dynamic(
-  () => import('@/components/sections/StorySection'),
+const JourneySection = dynamic(
+  () => import('@/components/sections/JourneySection'),
   { ssr: false }
 );
 const ContactSection = dynamic(
@@ -58,7 +58,7 @@ const SECTION_MAP: Record<SectionKey, ComponentType> = {
   projects: ProjectsSection,
   'tech-stack': TechStackSection,
   testimonials: TestimonialsSection,
-  story: StorySection,
+  journey: JourneySection,
   contact: ContactSection,
 };
 

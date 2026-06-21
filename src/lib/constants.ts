@@ -12,7 +12,7 @@ export const NAV_ITEMS: NavItem[] = [
   { key: 'projects', label: 'Projects', icon: 'FolderOpen', bottomNav: true },
   { key: 'tech-stack', label: 'Tech Stack', icon: 'Layers', bottomNav: false },
   { key: 'testimonials', label: 'Testimonials', icon: 'MessageSquare', bottomNav: false },
-  { key: 'story', label: 'Story', icon: 'BookOpen', bottomNav: false },
+  { key: 'journey', label: 'Journey', icon: 'Route', bottomNav: false },
   { key: 'contact', label: 'Contact', icon: 'Mail', bottomNav: true },
 ];
 

@@ -9,7 +9,7 @@ export type SectionKey =
   | 'projects'
   | 'tech-stack'
   | 'testimonials'
-  | 'story'
+  | 'journey'
   | 'contact';
 
 /**
@@ -128,6 +128,14 @@ export interface ContactForm {
 // ============================================================
 // TYPES — CMS Story Data Models
 // ============================================================
+
+export interface Journey {
+  id?: string;
+  year: number;
+  title: string;
+  description: string;
+  createdAt: string;
+}
 
 export interface CategoryDocument {
   id: string;
