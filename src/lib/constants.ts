@@ -43,21 +43,38 @@ export const STORAGE_KEY_ACTIVE_SECTION = 'portfolio_active_section';
 export const SOCIAL_LINKS: SocialLink[] = [
   {
     platform: 'GitHub',
-    url: 'https://github.com/username',
+    url: 'https://github.com/Mkeyzxi',
     icon: 'Github',
+    iconify: 'logos:github-icon',
     ariaLabel: 'Kunjungi profil GitHub',
   },
   {
     platform: 'LinkedIn',
-    url: 'https://linkedin.com/in/username',
+    url: 'https://www.linkedin.com/in/muhammad-makbul-n-ab30a4280/',
     icon: 'Linkedin',
+    iconify: 'skill-icons:linkedin',
     ariaLabel: 'Kunjungi profil LinkedIn',
   },
   {
     platform: 'Instagram',
-    url: 'https://instagram.com/username',
+    url: 'https://www.instagram.com/mkeyzxi/?hl=en',
     icon: 'Instagram',
+    iconify: 'skill-icons:instagram',
     ariaLabel: 'Kunjungi profil Instagram',
+  },
+  {
+    platform: 'Facebook',
+    url: 'https://www.facebook.com/profile.php?id=100008627230468',
+    icon: 'Facebook',
+    iconify: 'logos:facebook',
+    ariaLabel: 'Kunjungi profil Facebook',
+  },
+  {
+    platform: 'WhatsApp',
+    url: 'https://api.whatsapp.com/send/?phone=6285342181132&text=Halo%20mbul%2C%20saya%20dapat%20kontak%20kamu%20dari%20portofolio%20yang%20kamu%20miliki.&type=phone_number&app_absent=0',
+    icon: 'MessageCircle',
+    iconify: 'logos:whatsapp-icon',
+    ariaLabel: 'Hubungi via WhatsApp',
   },
 ];
 
@@ -66,10 +83,10 @@ export const SOCIAL_LINKS: SocialLink[] = [
  * Placeholder — ganti dengan data asli sebelum deployment produksi.
  */
 export const OWNER_INFO: OwnerInfo = {
-  name: 'Nama Lengkap',
+  name: 'Muhammad Makbul N',
   role: 'Full Stack Developer',
-  tagline: 'Full Stack Developer | Firebase Enthusiast',
-  email: 'email@domain.com',
-  location: 'Indonesia',
+  tagline: 'Full Stack Developer',
+  email: 'muhmakbul6@gmail.com',
+  location: 'Indonesia, Makassar',
   avatarPath: '/profile.jpeg',
 };

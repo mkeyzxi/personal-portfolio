@@ -34,6 +34,8 @@ export interface SocialLink {
   url: string;
   /** Nama ikon Lucide React atau Iconify */
   icon: string;
+  /** Nama ikon Iconify untuk warna (e.g. logos:github-icon) */
+  iconify: string;
   ariaLabel: string;
 }
 
