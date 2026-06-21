@@ -49,7 +49,7 @@ export default function TimelineItem({ experience, index }: TimelineItemProps) {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-50px' }}
-      className="relative flex items-center justify-between md:justify-normal w-full mb-12"
+      className="relative flex items-center justify-between w-full mb-12"
     >
       {/* ── Desktop: Garis Tengah & Ikon ──────────────────────── */}
       <div className="absolute left-6 md:left-1/2 md:-translate-x-1/2 flex h-12 w-12 items-center justify-center rounded-full border-4 border-[var(--color-bg-main)] bg-[var(--color-interactive)] text-[var(--color-interactive-text)] z-10 shadow-sm">
