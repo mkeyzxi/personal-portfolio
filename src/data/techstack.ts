@@ -5,8 +5,6 @@ export const techStack: Record<string, TechItem[]> = {
     { name: 'JavaScript (ES6+)', icon: 'logos:javascript', category: 'Bahasa Pemrograman', level: 'advanced' },
     { name: 'TypeScript', icon: 'logos:typescript-icon', category: 'Bahasa Pemrograman', level: 'intermediate' },
     { name: 'PHP', icon: 'logos:php', category: 'Bahasa Pemrograman', level: 'intermediate' },
-    { name: 'Kotlin', icon: 'logos:kotlin-icon', category: 'Bahasa Pemrograman', level: 'intermediate' },
-    { name: 'C++', icon: 'logos:c-plusplus', category: 'Bahasa Pemrograman', level: 'intermediate' },
     { name: 'Python', icon: 'logos:python', category: 'Bahasa Pemrograman', level: 'intermediate' },
   ],
   'Frontend & Mobile': [

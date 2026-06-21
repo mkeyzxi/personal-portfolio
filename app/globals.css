@@ -43,7 +43,7 @@
   /* ── Text ──────────────────────────────────────────────── */
   --color-text-primary: #171717;
   --color-text-secondary: #525252;
-  --color-text-muted: #a3a3a3;
+  --color-text-muted: #737373; /* Dipergelap dari #a3a3a3 agar lebih kontras */
 
   /* ── Interactive (Button Primary / Active Nav) ─────────── */
   --color-interactive: #000000;
@@ -186,6 +186,7 @@ body {
  */
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -292,9 +293,11 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
   }

@@ -82,7 +82,7 @@ export default function SidebarNav({active, onNavigate}: SidebarNavProps) {
                 key={item.key}
                 onClick={() => onNavigate(item.key)}
                 className={cn(
-                  'group flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium transition-colors',
+                  'group flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium transition-colors transition-all ',
                   isActive
                     ? 'bg-[var(--color-interactive)] text-[var(--color-interactive-text)]'
                     : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)]',
@@ -92,7 +92,7 @@ export default function SidebarNav({active, onNavigate}: SidebarNavProps) {
                 <span
                   className={cn(
                     'transition-transform group-hover:scale-110',
-                    isActive ? 'scale-110' : '',
+                    isActive ? 'scale-110 -rotate-14 delay-200' : '',
                   )}
                 >
                   {getIcon(item.icon)}

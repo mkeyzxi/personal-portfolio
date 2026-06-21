@@ -1,5 +1,6 @@
 'use client'
 
+import {useState, useEffect} from 'react'
 import {motion} from 'framer-motion'
 import {ArrowRight, Mail} from 'lucide-react'
 import {OWNER_INFO} from '@/lib/constants'
@@ -45,7 +46,37 @@ const particleVariants = {
   },
 }
 
+// Custom hook untuk mendeteksi dark mode secara reaktif tanpa SSR mismatch
+function useThemeStatus() {
+  const [isDark, setIsDark] = useState(false)
+
+  useEffect(() => {
+    // Set status awal
+    setIsDark(document.documentElement.classList.contains('dark'))
+
+    // Observer untuk memantau perubahan class pada elemen html
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          setIsDark(document.documentElement.classList.contains('dark'))
+        }
+      })
+    })
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  return isDark
+}
+
 export default function HeroSection() {
+  const isDarkMode = useThemeStatus()
+
   // Fungsi navigasi menembakkan event hash change agar ditangkap oleh AppShell
   const navigateTo = (section: string) => {
     window.location.hash = section
@@ -84,8 +115,8 @@ export default function HeroSection() {
               text="Tersedia untuk proyek baru"
               speed={2}
               delay={0}
-              color="#b5b5b5"
-              shineColor="#ffffff"
+              color={isDarkMode ? '#b5b5b5' : '#737373'}
+              shineColor={isDarkMode ? '#ffffff' : '#171717'}
               spread={120}
               direction="left"
               yoyo={false}
