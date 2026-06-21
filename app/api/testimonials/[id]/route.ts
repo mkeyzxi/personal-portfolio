@@ -49,7 +49,8 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     }
 
     const data = docSnap.data();
-    if (data?.uid !== uid) {
+    const isAdmin = decodedToken.email === process.env.ADMIN_EMAIL;
+    if (!isAdmin && data?.uid !== uid) {
       return NextResponse.json({ success: false, message: 'Forbidden: Anda bukan pemilik testimoni ini' }, { status: 403 });
     }
 
@@ -93,7 +94,8 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     }
 
     const data = docSnap.data();
-    if (data?.uid !== uid) {
+    const isAdmin = decodedToken.email === process.env.ADMIN_EMAIL;
+    if (!isAdmin && data?.uid !== uid) {
       return NextResponse.json({ success: false, message: 'Forbidden: Anda bukan pemilik testimoni ini' }, { status: 403 });
     }
 

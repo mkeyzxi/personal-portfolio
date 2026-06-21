@@ -10,13 +10,14 @@ import { id } from 'date-fns/locale';
 export const revalidate = 3600; // ISR 1 jam
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 // 1. Generate Metadata untuk SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
   const adminDb = getAdminDb();
-  const snapshot = await adminDb.collection('projects').where('slug', '==', params.slug).limit(1).get();
+  const snapshot = await adminDb.collection('projects').where('slug', '==', slug).limit(1).get();
   
   if (snapshot.empty) return { title: 'Proyek Tidak Ditemukan' };
   
@@ -83,8 +84,9 @@ function renderBlockNoteJSON(blocks: any[]) {
 
 // 2. Main Page Render
 export default async function ProjectDetailPage({ params }: PageProps) {
+  const { slug } = await params;
   const adminDb = getAdminDb();
-  const snapshot = await adminDb.collection('projects').where('slug', '==', params.slug).limit(1).get();
+  const snapshot = await adminDb.collection('projects').where('slug', '==', slug).limit(1).get();
   
   if (snapshot.empty) {
     notFound();

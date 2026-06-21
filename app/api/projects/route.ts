@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { getAdminDb, getAdminAuth } from '@/lib/firebase-admin';
+import { getAdminDb } from '@/lib/firebase-admin';
+import { verifyAdminToken } from '@/lib/adminAuthHelper';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60; // Cache selama 60 detik
@@ -29,18 +30,13 @@ export async function GET() {
 // POST: Membuat proyek baru (Terproteksi)
 export async function POST(request: Request) {
   try {
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
-    }
-
-    const token = authHeader.split('Bearer ')[1];
-    const adminAuth = getAdminAuth();
-    const decodedToken = await adminAuth.verifyIdToken(token);
-    
-    // Verifikasi bahwa token valid (admin yang login)
-    if (!decodedToken || !decodedToken.uid) {
-      return NextResponse.json({ success: false, message: 'Unauthorized access' }, { status: 403 });
+    try {
+      await verifyAdminToken(request);
+    } catch (e: any) {
+      if (e.message === 'UNAUTHORIZED' || e.message === 'INVALID_TOKEN') {
+        return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
+      }
+      return NextResponse.json({ success: false, message: 'Forbidden' }, { status: 403 });
     }
 
     const body = await request.json();

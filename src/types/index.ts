@@ -119,3 +119,45 @@ export interface ContactForm {
   subject: string;
   message: string;
 }
+
+// ============================================================
+// TYPES — CMS Story Data Models
+// ============================================================
+
+export interface CategoryDocument {
+  id: string;
+  name: string;
+  slug: string;
+  createdAt: string;
+}
+
+export interface StoryDocument {
+  id: string;
+  title: string;
+  slug: string;
+  categorySlug: string;
+  content: string; // JSON string from BlockNote
+  summary: string;
+  status: 'draft' | 'published';
+  createdAt: string;
+  updatedAt: string;
+  views: number;
+  likeCount: number;
+  commentCount: number;
+}
+
+export interface LikeDocument {
+  storyId: string;
+  userId: string;
+  createdAt: string;
+}
+
+export interface CommentDocument {
+  id: string;
+  storyId: string;
+  userId: string;
+  userName: string;
+  userAvatar: string;
+  content: string;
+  createdAt: string;
+}
