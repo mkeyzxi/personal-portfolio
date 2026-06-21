@@ -82,9 +82,9 @@ export default function ContactSection() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={link.ariaLabel}
-                    className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-bg-elevated)] text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-interactive)] hover:text-[var(--color-interactive-text)] hover:-translate-y-1"
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-bg-elevated)] transition-all hover:bg-[var(--color-bg-surface)] border border-transparent hover:border-[var(--color-border)] hover:-translate-y-1"
                   >
-                    <Icon icon={link.icon} className="h-6 w-6" />
+                    <Icon icon={link.iconify} className="h-6 w-6" />
                   </a>
                 ))}
               </div>
