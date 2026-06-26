@@ -97,48 +97,50 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   return (
     <div className="min-h-screen bg-[var(--color-bg-main)]">
       {/* Header Banner */}
-      <div className="w-full h-[40vh] md:h-[50vh] relative overflow-hidden bg-[var(--color-bg-elevated)] border-b border-[var(--color-border)]">
+      <div className="w-full h-[40vh] md:h-[55vh] relative overflow-hidden bg-[var(--color-bg-elevated)] border-b border-[var(--color-border)]">
         {project.thumbnail && (
           <img 
             src={project.thumbnail} 
             alt={`Cover ${project.title}`} 
-            className="w-full h-full object-cover opacity-40 img-mono"
+            className="absolute inset-0 w-full h-full object-cover opacity-80 md:opacity-90 transition-opacity duration-500"
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-main)] to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-main)] via-[var(--color-bg-main)/60] to-transparent/10" />
         
         <div className="absolute bottom-0 left-0 w-full p-6 md:p-10">
-          <div className="max-w-4xl mx-auto">
-            <Link href="/" className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors mb-6">
-              <ArrowLeft className="h-4 w-4" /> Kembali ke Beranda
-            </Link>
-            <h1 className="text-4xl md:text-5xl font-bold font-geist-sans text-[var(--color-text-primary)] mb-4 leading-tight">
-              {project.title}
-            </h1>
-            <p className="text-lg md:text-xl text-[var(--color-text-secondary)] max-w-2xl">
-              {project.shortDescription || project.description}
-            </p>
+          <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-end gap-6">
+            <div className="flex-1">
+              <Link href="/" className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-text-primary)] opacity-80 hover:opacity-100 transition-opacity mb-6 bg-[var(--color-bg-surface)]/50 backdrop-blur-md px-4 py-2 rounded-full border border-[var(--color-border)] shadow-sm">
+                <ArrowLeft className="h-4 w-4" /> Kembali ke Beranda
+              </Link>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-geist-sans text-[var(--color-text-primary)] mb-4 leading-tight">
+                {project.title}
+              </h1>
+              <p className="text-lg md:text-xl text-[var(--color-text-secondary)] max-w-2xl">
+                {project.shortDescription || project.description}
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Konten Utama */}
-      <article className="max-w-4xl mx-auto py-12 px-6 md:px-10 flex flex-col md:flex-row gap-12">
+      <article className="max-w-5xl mx-auto py-12 px-6 md:px-10 flex flex-col md:flex-row justify-between gap-12 md:gap-16">
         {/* Kolom Kiri: Detail & Render BlockNote */}
-        <div className="flex-1">
+        <div className="flex-1 md:max-w-2xl">
           {/* Metadata Proyek (Mobile Only) */}
-          <div className="flex flex-col gap-4 mb-10 md:hidden bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-[var(--color-border)]">
+          <div className="flex flex-col gap-6 mb-10 md:hidden bg-[var(--color-bg-surface)] p-6 rounded-3xl border border-[var(--color-border)] shadow-sm">
             <ProjectMetaInfo project={project} />
           </div>
 
-          <div className="prose prose-neutral dark:prose-invert max-w-none text-[var(--color-text-secondary)]">
+          <div className="prose prose-neutral dark:prose-invert max-w-none text-[var(--color-text-secondary)] prose-img:rounded-2xl prose-img:border prose-img:border-[var(--color-border)]">
             {renderBlockNoteJSON(project.content)}
           </div>
         </div>
 
         {/* Kolom Kanan: Sidebar Metadata (Desktop) */}
-        <aside className="w-full md:w-72 flex-shrink-0 hidden md:flex flex-col gap-8">
-          <div className="sticky top-10 flex flex-col gap-6 bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-[var(--color-border)]">
+        <aside className="w-full md:w-72 lg:w-80 flex-shrink-0 hidden md:flex flex-col gap-8">
+          <div className="sticky top-10 flex flex-col gap-6 bg-[var(--color-bg-surface)] p-8 rounded-3xl border border-[var(--color-border)] shadow-sm transition-all hover:shadow-md">
             <ProjectMetaInfo project={project} />
           </div>
         </aside>
@@ -151,25 +153,25 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 function ProjectMetaInfo({ project }: { project: any }) {
   return (
     <>
-      <div>
-        <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-2">Kategori</h3>
+      <div className="flex flex-col gap-1">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)]">Kategori</h3>
         <p className="font-medium text-[var(--color-text-primary)] capitalize">{project.category}</p>
       </div>
 
       {project.createdAt && (
-        <div>
-          <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-2">Dipublikasikan</h3>
+        <div className="flex flex-col gap-1">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)]">Dipublikasikan</h3>
           <p className="font-medium text-[var(--color-text-primary)]">
             {format(new Date(project.createdAt), 'dd MMMM yyyy', { locale: id })}
           </p>
         </div>
       )}
 
-      <div>
-        <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-3">Teknologi</h3>
+      <div className="flex flex-col gap-2 mt-2">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)]">Teknologi</h3>
         <div className="flex flex-wrap gap-2">
           {project.technologies?.map((tech: string) => (
-            <span key={tech} className="font-mono text-xs font-medium px-3 py-1.5 bg-[var(--color-bg-elevated)] border border-[var(--color-border)] text-[var(--color-text-secondary)] rounded-lg">
+            <span key={tech} className="font-mono text-xs font-medium px-3 py-1.5 bg-[var(--color-bg-elevated)] border border-[var(--color-border)] text-[var(--color-text-secondary)] rounded-lg hover:text-[var(--color-text-primary)] transition-colors">
               {tech}
             </span>
           ))}
@@ -177,15 +179,15 @@ function ProjectMetaInfo({ project }: { project: any }) {
       </div>
 
       {(project.liveUrl || project.githubUrl) && (
-        <div className="pt-6 border-t border-[var(--color-border-muted)] flex flex-col gap-3">
+        <div className="pt-6 border-t border-[var(--color-border)] flex flex-col gap-3 mt-2">
           {project.liveUrl && (
-            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[var(--color-interactive)] text-[var(--color-interactive-text)] font-semibold hover:bg-[var(--color-interactive-hover)] transition-colors">
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[var(--color-interactive)] text-[var(--color-interactive-text)] font-semibold hover:bg-[var(--color-interactive-hover)] transition-all hover:-translate-y-0.5 active:translate-y-0 shadow-sm">
               <ExternalLink className="h-4 w-4" /> Kunjungi Situs
             </a>
           )}
           {project.githubUrl && (
-            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-main)] text-[var(--color-text-primary)] font-semibold hover:bg-[var(--color-bg-elevated)] transition-colors">
-              <Icon icon="mdi:github" className="h-4 w-4" /> Repositori Kode
+            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-main)] text-[var(--color-text-primary)] font-semibold hover:bg-[var(--color-bg-elevated)] transition-all hover:-translate-y-0.5 active:translate-y-0 shadow-sm">
+              <Icon icon="mdi:github" className="h-5 w-5" /> Repositori Kode
             </a>
           )}
         </div>

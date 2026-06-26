@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useSWR from 'swr';
 import { TerminalSquare, Code, MonitorSmartphone, Rocket, BookOpen, Loader2 } from 'lucide-react';
 import { getJourneys } from '@/lib/firebase/journey';
 import type { Journey } from '@/types';
@@ -22,22 +23,7 @@ const itemVariants = {
 };
 
 export default function JourneySection() {
-  const [journeys, setJourneys] = useState<Journey[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchJourneys = async () => {
-      try {
-        const data = await getJourneys('asc');
-        setJourneys(data);
-      } catch (error) {
-        console.error('Failed to load journeys', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchJourneys();
-  }, []);
+  const { data: journeys = [], isLoading } = useSWR<Journey[]>('journeys-asc', () => getJourneys('asc'));
 
   const getIcon = (title?: string) => {
     const t = title?.toLowerCase() || '';
@@ -49,10 +35,10 @@ export default function JourneySection() {
   };
 
   return (
-    <section aria-labelledby="journey-heading" className="flex min-h-screen w-full flex-col items-center py-24 px-6 sm:px-10">
-      <div className="w-full max-w-4xl">
+    <section aria-labelledby="journey-heading" className="flex min-h-screen w-full flex-col items-center justify-center py-24 px-6 md:px-10">
+      <div className="w-full max-w-5xl">
         {/* Section Header */}
-        <div className="mb-16 text-center md:text-left">
+        <div className="mb-12 md:mb-16 text-center md:text-left">
           <h1 id="journey-heading" className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl">
             Jejak Langkah
           </h1>

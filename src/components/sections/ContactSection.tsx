@@ -21,10 +21,10 @@ const itemVariants = {
 
 export default function ContactSection() {
   return (
-    <section aria-labelledby="contact-heading" className="flex min-h-screen w-full flex-col items-center py-24 px-6 sm:px-10">
-      <div className="w-full max-w-6xl">
+    <section aria-labelledby="contact-heading" className="flex min-h-screen w-full flex-col items-center justify-center py-24 px-6 md:px-10">
+      <div className="w-full max-w-5xl">
         {/* Section Header */}
-        <div className="mb-16 text-center md:text-left">
+        <div className="mb-12 md:mb-16 text-center md:text-left">
           <h1 id="contact-heading" className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl">
             Hubungi Saya
           </h1>

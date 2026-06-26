@@ -129,6 +129,17 @@ export interface ContactForm {
 // TYPES — CMS Story Data Models
 // ============================================================
 
+export interface AboutData {
+  location: string;
+  employmentStatus: string;
+  education: string;
+  yearsOfExperience: number;
+  bio: string;
+  totalProjects?: number; // Fetched dynamically, not stored in about collection
+  updatedAt?: string;
+}
+
+
 export interface Journey {
   id?: string;
   year: number;

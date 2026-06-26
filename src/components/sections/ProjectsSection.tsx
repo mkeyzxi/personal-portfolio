@@ -1,54 +1,44 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import ProjectCard from '@/components/ui/ProjectCard';
-import { cn } from '@/lib/utils';
-import type { Project } from '@/types';
-import * as LucideIcons from 'lucide-react';
+import {useState, useEffect} from 'react'
+import {motion, AnimatePresence} from 'framer-motion'
+import useSWR from 'swr'
+import ProjectCard from '@/components/ui/ProjectCard'
+import {cn} from '@/lib/utils'
+import {fetcher} from '@/lib/fetcher'
+import type {Project} from '@/types'
+import * as LucideIcons from 'lucide-react'
 
-type ProjectCategory = Project['category'] | 'all';
+type ProjectCategory = Project['category'] | 'all'
 
-const CATEGORIES: { label: string; value: ProjectCategory }[] = [
-  { label: 'Semua', value: 'all' },
-  { label: 'Web', value: 'web' },
-  { label: 'Mobile', value: 'mobile' },
-  { label: 'API', value: 'api' },
-  { label: 'Lainnya', value: 'other' },
-];
+const CATEGORIES: {label: string; value: ProjectCategory}[] = [
+  {label: 'Semua', value: 'all'},
+  {label: 'Web', value: 'web'},
+  {label: 'Mobile', value: 'mobile'},
+  {label: 'API', value: 'api'},
+  {label: 'Lainnya', value: 'other'},
+]
 
 export default function ProjectsSection() {
-  const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all');
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const res = await fetch('/api/projects');
-        const json = await res.json();
-        if (json.success) {
-          setProjects(json.data);
-        }
-      } catch (err) {
-        console.error('Failed to fetch projects', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchProjects();
-  }, []);
+  const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all')
+  const {data: projects = [], isLoading} = useSWR<Project[]>('/api/projects', fetcher)
 
   const filteredProjects = projects.filter((proj) =>
-    activeCategory === 'all' ? true : proj.category === activeCategory
-  );
+    activeCategory === 'all' ? true : proj.category === activeCategory,
+  )
 
   return (
-    <section aria-labelledby="projects-heading" className="flex min-h-screen w-full flex-col items-center py-24 px-6 sm:px-10">
-      <div className="w-full max-w-6xl">
+    <section
+      aria-labelledby="projects-heading"
+      className="flex min-h-screen w-full flex-col items-center justify-center py-24 px-6 md:px-10"
+    >
+      <div className="w-full max-w-5xl">
         {/* Section Header */}
-        <div className="mb-12 text-center md:text-left">
-          <h1 id="projects-heading" className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl">
+        <div className="mb-12 md:mb-16 text-center md:text-left">
+          <h1
+            id="projects-heading"
+            className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl"
+          >
             Proyek
           </h1>
           <div className="mt-2 h-1 w-20 bg-[var(--color-text-primary)] mx-auto md:mx-0"></div>
@@ -60,26 +50,28 @@ export default function ProjectsSection() {
         {/* ── Filter Tabs ──────────────────────────────────────── */}
         <div className="mb-12 flex flex-wrap justify-center md:justify-start gap-2">
           {CATEGORIES.map((cat) => {
-            const isActive = activeCategory === cat.value;
+            const isActive = activeCategory === cat.value
             return (
               <button
                 key={cat.value}
                 onClick={() => setActiveCategory(cat.value)}
                 className={cn(
-                  "relative px-5 py-2 text-sm font-medium transition-colors rounded-full",
-                  isActive ? "text-[var(--color-interactive-text)]" : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+                  'relative px-5 py-2 text-sm font-medium transition-colors rounded-full',
+                  isActive
+                    ? 'text-[var(--color-interactive-text)]'
+                    : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]',
                 )}
               >
                 {isActive && (
                   <motion.div
                     layoutId="project-filter-active"
                     className="absolute inset-0 bg-[var(--color-interactive)] rounded-full -z-10"
-                    transition={{ type: "spring", stiffness: 300, damping: 24 }}
+                    transition={{type: 'spring', stiffness: 300, damping: 24}}
                   />
                 )}
                 <span className="relative z-10">{cat.label}</span>
               </button>
-            );
+            )
           })}
         </div>
 
@@ -96,9 +88,9 @@ export default function ProjectsSection() {
               ))
             ) : (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                exit={{opacity: 0}}
                 className="col-span-full py-12 text-center text-[var(--color-text-muted)]"
               >
                 Belum ada proyek untuk kategori ini.
@@ -108,5 +100,5 @@ export default function ProjectsSection() {
         </motion.div>
       </div>
     </section>
-  );
+  )
 }

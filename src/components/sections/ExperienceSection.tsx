@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useSWR from 'swr';
 import TimelineItem from '@/components/ui/TimelineItem';
 import { cn } from '@/lib/utils';
+import { fetcher } from '@/lib/fetcher';
 import type { Experience } from '@/types';
 
 type FilterType = 'all' | 'work' | 'organization' | 'education' | 'certificate';
@@ -18,37 +20,17 @@ const FILTERS: { label: string; value: FilterType }[] = [
 
 export default function ExperienceSection() {
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
-  const [experiences, setExperiences] = useState<Experience[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchExperiences = async () => {
-      try {
-        const res = await fetch('/api/experiences');
-        const json = await res.json();
-        if (json.success) {
-          setExperiences(json.data);
-        } else {
-          console.error(json.message);
-        }
-      } catch (error) {
-        console.error('Failed to fetch experiences:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchExperiences();
-  }, []);
+  const { data: experiences = [], isLoading } = useSWR<Experience[]>('/api/experiences', fetcher);
 
   const filteredExperiences = experiences.filter((exp) => 
     activeFilter === 'all' ? true : exp.type === activeFilter
   );
 
   return (
-    <section aria-labelledby="experience-heading" className="flex min-h-screen w-full flex-col items-center py-24 px-6 sm:px-10">
-      <div className="w-full max-w-4xl">
+    <section aria-labelledby="experience-heading" className="flex min-h-screen w-full flex-col items-center justify-center py-24 px-6 md:px-10">
+      <div className="w-full max-w-5xl">
         {/* Section Header */}
-        <div className="mb-12 text-center md:text-left">
+        <div className="mb-12 md:mb-16 text-center md:text-left">
           <h1 id="experience-heading" className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl">
             Pengalaman & Kredensial
           </h1>
