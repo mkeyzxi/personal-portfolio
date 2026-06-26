@@ -110,12 +110,21 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
-              '@type': 'Person',
-              name: 'Portfolio Owner',
-              jobTitle: 'Full Stack Developer',
-              url: 'https://yourwebsite.vercel.app',
-              sameAs: ['https://github.com/username', 'https://linkedin.com/in/username'],
-              knowsAbout: ['Next.js', 'React', 'TypeScript', 'Firebase'],
+              '@graph': [
+                {
+                  '@type': 'Person',
+                  name: 'Portfolio Owner',
+                  jobTitle: 'Full Stack Developer',
+                  url: 'https://domainanda.com',
+                  sameAs: ['https://github.com/username', 'https://linkedin.com/in/username'],
+                  knowsAbout: ['Next.js', 'React', 'TypeScript', 'Firebase', 'Web Accessibility'],
+                },
+                {
+                  '@type': 'WebSite',
+                  name: 'Portfolio Owner Portfolio',
+                  url: 'https://domainanda.com',
+                }
+              ]
             }),
           }}
         />

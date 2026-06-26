@@ -1,6 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
+import useSWR from 'swr';
+import { fetcher } from '@/lib/fetcher';
 import { Testimonial } from '@/types';
 import TestimonialCard from './TestimonialCard';
 import TestimonialForm from './TestimonialForm';
@@ -12,27 +14,8 @@ import { Button } from '@/components/ui/button';
 
 export default function TestimonialList() {
   const [user, loadingAuth] = useAuthState(auth);
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data: testimonials = [], isLoading: loading, mutate: fetchTestimonials } = useSWR<Testimonial[]>('/api/testimonials', fetcher);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
-  const fetchTestimonials = useCallback(async () => {
-    try {
-      const res = await fetch('/api/testimonials');
-      const data = await res.json();
-      if (data.success) {
-        setTestimonials(data.data);
-      }
-    } catch (error) {
-      console.error('Failed to fetch testimonials', error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchTestimonials();
-  }, [fetchTestimonials]);
 
   if (loading || loadingAuth) {
     return (

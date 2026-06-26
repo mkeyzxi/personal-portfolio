@@ -16,7 +16,7 @@ export default function Footer() {
         </div>
 
         <div className="text-sm text-[var(--color-text-muted)] flex items-center gap-1">
-          &copy; {currentYear} Dibangun dengan <span className="mx-1 text-[var(--color-text-primary)]">♥</span> dan Next.js
+          &copy; {currentYear} Dibangun dengan hati
         </div>
       </div>
     </footer>

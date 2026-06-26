@@ -61,36 +61,33 @@ export default function AdminProjectsPage() {
   if (!user) return null;
 
   return (
-    <div className="flex min-h-screen bg-[var(--color-bg-main)] p-6 md:p-10">
-      <div className="mx-auto w-full max-w-6xl flex flex-col gap-8">
+    <div className="p-6 md:p-8 max-w-6xl mx-auto min-h-screen bg-[var(--color-bg-main)]">
+      <div className="flex flex-col gap-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] p-6 shadow-sm">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
           <div>
-            <h1 className="text-2xl font-bold text-[var(--color-text-primary)] flex items-center gap-2">
-              <LucideIcons.FolderKanban className="h-6 w-6" />
-              Kelola Proyek
-            </h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-[var(--color-text-primary)]">Kelola Proyek</h1>
             <p className="text-sm text-[var(--color-text-secondary)] mt-1">CMS untuk menambah dan mengatur portofolio proyek.</p>
           </div>
           <div className="flex gap-4">
             <button
               onClick={() => router.push('/admin')}
-              className="rounded-xl border border-[var(--color-border)] px-4 py-2 text-sm font-semibold transition-colors hover:bg-[var(--color-bg-elevated)] text-[var(--color-text-primary)]"
+              className="px-4 py-2 border border-[var(--color-border)] rounded-xl hover:bg-[var(--color-bg-main)] text-[var(--color-text-secondary)] font-medium transition-colors"
             >
-              Kembali ke Dashboard
+              Kembali
             </button>
             <Link
               href="/admin/projects/new"
-              className="flex items-center gap-2 rounded-xl bg-[var(--color-interactive)] px-4 py-2 text-sm font-semibold text-[var(--color-interactive-text)] transition-colors hover:bg-[var(--color-interactive-hover)]"
+              className="flex items-center gap-2 bg-[var(--color-interactive)] text-[var(--color-interactive-text)] px-4 py-2 rounded-xl font-medium hover:bg-[var(--color-interactive-hover)] transition-colors"
             >
-              <LucideIcons.Plus className="h-4 w-4" />
-              Tambah Proyek
+              <LucideIcons.Plus className="h-5 w-5" />
+              Tambah Baru
             </Link>
           </div>
         </div>
 
         {/* Content */}
-        <div className="flex flex-col rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] p-6 shadow-sm flex-1">
+        <div className="bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-xl overflow-hidden">
           {isLoading ? (
             <div className="flex flex-1 items-center justify-center py-20">
               <LucideIcons.Loader2 className="h-8 w-8 animate-spin text-[var(--color-text-muted)]" />
@@ -102,28 +99,28 @@ export default function AdminProjectsPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-[var(--color-text-secondary)]">
-                <thead className="bg-[var(--color-bg-elevated)] text-[var(--color-text-primary)]">
+              <table className="w-full text-left">
+                <thead className="bg-[var(--color-bg-elevated)] text-[var(--color-text-secondary)]">
                   <tr>
-                    <th className="px-4 py-3 rounded-tl-lg font-semibold">Judul Proyek</th>
-                    <th className="px-4 py-3 font-semibold">Kategori</th>
-                    <th className="px-4 py-3 font-semibold hidden md:table-cell">Tanggal Buat</th>
-                    <th className="px-4 py-3 font-semibold">Featured</th>
-                    <th className="px-4 py-3 rounded-tr-lg font-semibold text-right">Aksi</th>
+                    <th className="p-4 font-semibold">Judul Proyek</th>
+                    <th className="p-4 font-semibold">Kategori</th>
+                    <th className="p-4 font-semibold hidden md:table-cell">Tanggal Buat</th>
+                    <th className="p-4 font-semibold">Featured</th>
+                    <th className="p-4 font-semibold text-right">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
                   {projects.map((project) => (
-                    <tr key={project.id} className="border-b border-[var(--color-border-muted)] hover:bg-[var(--color-bg-elevated)] transition-colors">
-                      <td className="px-4 py-4 font-medium text-[var(--color-text-primary)]">
+                    <tr key={project.id} className="border-t border-[var(--color-border)] align-top">
+                      <td className="p-4 font-medium text-[var(--color-text-primary)]">
                         {project.title}
                         <div className="text-xs text-[var(--color-text-muted)] font-normal mt-1">{project.slug}</div>
                       </td>
-                      <td className="px-4 py-4 capitalize">{project.category}</td>
-                      <td className="px-4 py-4 hidden md:table-cell whitespace-nowrap">
+                      <td className="p-4 capitalize text-[var(--color-text-secondary)]">{project.category}</td>
+                      <td className="p-4 hidden md:table-cell whitespace-nowrap text-[var(--color-text-secondary)]">
                         {project.createdAt ? format(new Date(project.createdAt), 'dd MMM yyyy', { locale: id }) : '-'}
                       </td>
-                      <td className="px-4 py-4">
+                      <td className="p-4">
                         {project.featured ? (
                           <span className="inline-flex items-center gap-1 rounded-full bg-[var(--color-interactive)]/10 px-2 py-1 text-xs font-semibold text-[var(--color-interactive)]">
                             <LucideIcons.Star className="h-3 w-3 fill-current" /> Ya
@@ -132,22 +129,22 @@ export default function AdminProjectsPage() {
                           <span className="text-[var(--color-text-muted)]">-</span>
                         )}
                       </td>
-                      <td className="px-4 py-4 text-right">
+                      <td className="p-4 text-right">
                         <div className="flex items-center justify-end gap-2">
                           <Link
                             href={`/projects/${project.slug}`}
                             target="_blank"
-                            className="p-2 rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-bg-elevated)] text-[var(--color-text-primary)] transition-colors"
+                            className="text-blue-500 hover:text-blue-700 text-sm font-medium transition-colors"
                             title="Lihat Proyek"
                           >
-                            <LucideIcons.ExternalLink className="h-4 w-4" />
+                            <LucideIcons.ExternalLink className="h-5 w-5" />
                           </Link>
                           <button
                             onClick={() => handleDelete(project.id)}
-                            className="p-2 rounded-lg border border-red-500/20 text-red-600 hover:bg-red-500/10 transition-colors"
+                            className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors"
                             title="Hapus Proyek"
                           >
-                            <LucideIcons.Trash2 className="h-4 w-4" />
+                            <LucideIcons.Trash2 className="h-5 w-5" />
                           </button>
                         </div>
                       </td>

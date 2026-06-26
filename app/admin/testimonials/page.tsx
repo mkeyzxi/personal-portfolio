@@ -82,9 +82,12 @@ export default function AdminTestimonialsDashboard() {
   if (isLoading) return <div className="p-8 text-center">Loading...</div>;
 
   return (
-    <div className="p-8 max-w-6xl mx-auto min-h-screen bg-[var(--color-bg-main)]">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-[var(--color-text-primary)]">Testimonial CMS</h1>
+    <div className="p-6 md:p-8 max-w-6xl mx-auto min-h-screen bg-[var(--color-bg-main)]">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-[var(--color-text-primary)]">Testimonial CMS</h1>
+          <p className="text-sm text-[var(--color-text-secondary)] mt-1">Tinjau, setujui, atau tolak testimoni dari pengunjung website.</p>
+        </div>
       </div>
 
       <div className="bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-xl overflow-hidden">

@@ -42,8 +42,10 @@ export default function AdminGuard({ children }: AdminGuardProps) {
         const data = await res.json();
         
         if (data.success) {
+          localStorage.setItem('admin-auth', 'true');
           setIsAdmin(true);
         } else {
+          localStorage.removeItem('admin-auth');
           toast.error('Akses Ditolak: Anda bukan Administrator');
           await auth.signOut();
           router.push('/');

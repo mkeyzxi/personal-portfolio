@@ -1,38 +1,42 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { experiences } from '@/data/experiences';
+import useSWR from 'swr';
 import TimelineItem from '@/components/ui/TimelineItem';
 import { cn } from '@/lib/utils';
+import { fetcher } from '@/lib/fetcher';
+import type { Experience } from '@/types';
 
-type FilterType = 'all' | 'work' | 'organization' | 'education';
+type FilterType = 'all' | 'work' | 'organization' | 'education' | 'certificate';
 
 const FILTERS: { label: string; value: FilterType }[] = [
   { label: 'Semua', value: 'all' },
   { label: 'Kerja', value: 'work' },
   { label: 'Organisasi', value: 'organization' },
   { label: 'Pendidikan', value: 'education' },
+  { label: 'Sertifikat', value: 'certificate' },
 ];
 
 export default function ExperienceSection() {
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
+  const { data: experiences = [], isLoading } = useSWR<Experience[]>('/api/experiences', fetcher);
 
   const filteredExperiences = experiences.filter((exp) => 
     activeFilter === 'all' ? true : exp.type === activeFilter
   );
 
   return (
-    <section className="flex min-h-screen w-full flex-col items-center py-24 px-6 sm:px-10">
-      <div className="w-full max-w-4xl">
+    <section aria-labelledby="experience-heading" className="flex min-h-screen w-full flex-col items-center justify-center py-24 px-6 md:px-10">
+      <div className="w-full max-w-5xl">
         {/* Section Header */}
-        <div className="mb-12 text-center md:text-left">
-          <h2 className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl">
-            Pengalaman
-          </h2>
+        <div className="mb-12 md:mb-16 text-center md:text-left">
+          <h1 id="experience-heading" className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl">
+            Pengalaman & Kredensial
+          </h1>
           <div className="mt-2 h-1 w-20 bg-[var(--color-text-primary)] mx-auto md:mx-0"></div>
           <p className="mt-4 text-[var(--color-text-secondary)]">
-            Jejak karir, pendidikan, dan organisasi saya sejauh ini.
+            Jejak karir, pendidikan, organisasi, serta sertifikasi profesional saya.
           </p>
         </div>
 
@@ -65,35 +69,41 @@ export default function ExperienceSection() {
         {/* ── Timeline ─────────────────────────────────────────── */}
         <div className="relative w-full">
           {/* Garis vertikal background (hanya Desktop) */}
-          <div className="absolute left-12 md:left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2 bg-[var(--color-border)] hidden md:block"></div>
+          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2 bg-[var(--color-border)] hidden md:block"></div>
           {/* Garis vertikal background (Mobile) */}
-          <div className="absolute left-12 top-0 bottom-0 w-0.5 -translate-x-1/2 bg-[var(--color-border)] md:hidden block"></div>
+          <div className="absolute left-6 top-0 bottom-0 w-0.5 -translate-x-1/2 bg-[var(--color-border)] md:hidden block"></div>
 
-          <AnimatePresence mode="popLayout">
-            {filteredExperiences.length > 0 ? (
-              filteredExperiences.map((exp, index) => (
+          {isLoading ? (
+            <div className="py-12 text-center text-[var(--color-text-muted)]">
+              Memuat data...
+            </div>
+          ) : (
+            <AnimatePresence mode="popLayout">
+              {filteredExperiences.length > 0 ? (
+                filteredExperiences.map((exp, index) => (
+                  <motion.div
+                    key={exp.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <TimelineItem experience={exp} index={index} />
+                  </motion.div>
+                ))
+              ) : (
                 <motion.div
-                  key={exp.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.2 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="py-12 text-center text-[var(--color-text-muted)]"
                 >
-                  <TimelineItem experience={exp} index={index} />
+                  Belum ada data untuk kategori ini.
                 </motion.div>
-              ))
-            ) : (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="py-12 text-center text-[var(--color-text-muted)]"
-              >
-                Belum ada data untuk kategori ini.
-              </motion.div>
-            )}
-          </AnimatePresence>
+              )}
+            </AnimatePresence>
+          )}
         </div>
       </div>
     </section>

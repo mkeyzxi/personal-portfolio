@@ -98,19 +98,20 @@ export default function NewProjectPage() {
   if (!user) return null;
 
   return (
-    <div className="flex min-h-screen bg-[var(--color-bg-main)] p-6 md:p-10 pb-24">
-      <div className="mx-auto w-full max-w-4xl flex flex-col gap-8">
+    <div className="p-6 md:p-8 max-w-6xl mx-auto min-h-screen bg-[var(--color-bg-main)] pb-24">
+      <div className="flex flex-col gap-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-[var(--color-text-primary)] flex items-center gap-2">
-              <LucideIcons.PlusSquare className="h-6 w-6" />
-              Tambah Proyek Baru
-            </h1>
-            <Link href="/admin/projects" className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors mt-1 inline-flex items-center gap-1">
-              <LucideIcons.ArrowLeft className="h-4 w-4" /> Kembali ke Daftar Proyek
-            </Link>
+            <h1 className="text-2xl md:text-3xl font-bold text-[var(--color-text-primary)]">Tambah Proyek Baru</h1>
+            <p className="text-sm text-[var(--color-text-secondary)] mt-1">Buat portofolio proyek baru dengan detail lengkap.</p>
           </div>
+          <Link
+            href="/admin/projects"
+            className="px-4 py-2 border border-[var(--color-border)] rounded-xl hover:bg-[var(--color-bg-main)] text-[var(--color-text-secondary)] font-medium transition-colors"
+          >
+            Kembali
+          </Link>
         </div>
 
         {/* Form */}

@@ -3,8 +3,10 @@
 import { useEffect } from 'react';
 import * as LucideIcons from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { DRAWER_NAV_ITEMS } from '@/lib/constants';
+import { DRAWER_NAV_ITEMS, ADMIN_NAV_ITEMS } from '@/lib/constants';
 import type { SectionKey } from '@/types';
 
 // ============================================================
@@ -24,6 +26,7 @@ interface MobileDrawerProps {
   onClose: () => void;
   active: SectionKey;
   onNavigate: (key: SectionKey) => void;
+  isAdmin?: boolean;
 }
 
 // ============================================================
@@ -54,7 +57,10 @@ const drawerVariants = {
  * Menampilkan item menu tambahan yang tidak muat di BottomNav.
  * Animasi dikelola custom via Framer Motion agar memenuhi spesifikasi.
  */
-export default function MobileDrawer({ isOpen, onClose, active, onNavigate }: MobileDrawerProps) {
+export default function MobileDrawer({ isOpen, onClose, active, onNavigate, isAdmin = false }: MobileDrawerProps) {
+  const pathname = usePathname();
+  const router = useRouter();
+
   // Cegah body scrolling saat drawer terbuka
   useEffect(() => {
     if (isOpen) {
@@ -75,6 +81,19 @@ export default function MobileDrawer({ isOpen, onClose, active, onNavigate }: Mo
     } else {
       document.documentElement.classList.add('dark');
       localStorage.setItem('portfolio-theme', 'dark');
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      const { auth } = await import('@/lib/firebase');
+      await auth.signOut();
+      localStorage.removeItem('admin-auth');
+      window.dispatchEvent(new Event('admin-auth-changed'));
+      onClose();
+      router.push('/');
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -113,7 +132,7 @@ export default function MobileDrawer({ isOpen, onClose, active, onNavigate }: Mo
               <h3 className="font-semibold text-[var(--color-text-primary)]">Menu</h3>
               <button
                 onClick={onClose}
-                className="rounded-full p-2 text-[var(--color-text-muted)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)]"
+                className="flex h-11 w-11 items-center justify-center rounded-full text-[var(--color-text-muted)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)]"
                 aria-label="Close Menu"
               >
                 <LucideIcons.X className="h-5 w-5" />
@@ -145,6 +164,42 @@ export default function MobileDrawer({ isOpen, onClose, active, onNavigate }: Mo
                     </button>
                   );
                 })}
+
+                {isAdmin && (
+                  <>
+                    <div className="my-2 border-t border-[var(--color-border)]" />
+                    {ADMIN_NAV_ITEMS.map((item) => {
+                      const isActive = item.href === '/admin' ? pathname === item.href : pathname.startsWith(item.href);
+                      return (
+                        <Link
+                          key={item.key}
+                          href={item.href}
+                          onClick={onClose}
+                          className={cn(
+                            'flex items-center gap-4 rounded-xl px-4 py-4 text-left transition-colors',
+                            isActive
+                              ? 'bg-[var(--color-interactive)] text-[var(--color-interactive-text)] font-semibold'
+                              : 'bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)]'
+                          )}
+                          aria-current={isActive ? 'page' : undefined}
+                        >
+                          {getIcon(item.icon)}
+                          <span className="text-lg">{item.label}</span>
+                        </Link>
+                      );
+                    })}
+                    
+                    <div className="my-2 border-t border-[var(--color-border)]" />
+                    
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center gap-4 rounded-xl px-4 py-4 text-left text-red-500 hover:bg-red-500/10 hover:text-red-600 transition-colors"
+                    >
+                      <LucideIcons.LogOut className="h-5 w-5" />
+                      <span className="text-lg">Logout</span>
+                    </button>
+                  </>
+                )}
               </nav>
 
               {/* Theme Toggle di Drawer */}
@@ -152,7 +207,7 @@ export default function MobileDrawer({ isOpen, onClose, active, onNavigate }: Mo
                 <span className="text-sm font-medium text-[var(--color-text-secondary)]">Ubah Tema</span>
                 <button
                   onClick={toggleTheme}
-                  className="rounded-full bg-[var(--color-bg-surface)] p-3 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] border border-[var(--color-border-muted)] shadow-sm"
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] border border-[var(--color-border-muted)] shadow-sm"
                   aria-label="Toggle Dark Mode"
                 >
                   <LucideIcons.Moon className="h-5 w-5 hidden dark:block" />

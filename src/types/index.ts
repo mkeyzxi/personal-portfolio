@@ -9,6 +9,7 @@ export type SectionKey =
   | 'projects'
   | 'tech-stack'
   | 'testimonials'
+  | 'journey'
   | 'story'
   | 'contact';
 
@@ -58,13 +59,16 @@ export interface OwnerInfo {
 
 export interface Experience {
   id: string;
-  type: 'work' | 'organization' | 'education';
+  type: 'work' | 'organization' | 'education' | 'certificate';
   company: string;
   position: string;
   period: string;
   description: string;
   logo?: string;
   technologies?: string[];
+  credentialUrl?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Project {
@@ -125,6 +129,25 @@ export interface ContactForm {
 // ============================================================
 // TYPES — CMS Story Data Models
 // ============================================================
+
+export interface AboutData {
+  location: string;
+  employmentStatus: string;
+  education: string;
+  yearsOfExperience: number;
+  bio: string;
+  totalProjects?: number; // Fetched dynamically, not stored in about collection
+  updatedAt?: string;
+}
+
+
+export interface Journey {
+  id?: string;
+  year: number;
+  title: string;
+  description: string;
+  createdAt: string;
+}
 
 export interface CategoryDocument {
   id: string;

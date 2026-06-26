@@ -43,7 +43,8 @@
   /* ── Text ──────────────────────────────────────────────── */
   --color-text-primary: #171717;
   --color-text-secondary: #525252;
-  --color-text-muted: #a3a3a3;
+  --color-text-muted: #919191;
+  /* Dipergelap dari #a3a3a3 agar lebih kontras */
 
   /* ── Interactive (Button Primary / Active Nav) ─────────── */
   --color-interactive: #000000;
@@ -186,6 +187,7 @@ body {
  */
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -212,6 +214,27 @@ body {
 
 .img-mono:hover {
   filter: grayscale(0%);
+}
+
+/*
+ * ============================================================
+ * SKIP LINK — Aksesibilitas (PRD §15)
+ * ============================================================
+ */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--color-interactive);
+  color: var(--color-interactive-text);
+  padding: 8px 16px;
+  z-index: 9999;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 0;
 }
 
 /*
@@ -292,9 +315,11 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
   }

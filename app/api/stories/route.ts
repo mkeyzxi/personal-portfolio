@@ -3,9 +3,10 @@ import { getAdminDb } from '@/lib/firebase-admin';
 import { verifyAdminToken } from '@/lib/adminAuthHelper';
 
 export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const category = searchParams.get('category');
+
   try {
-    const { searchParams } = new URL(request.url);
-    const category = searchParams.get('category');
     const authHeader = request.headers.get('authorization');
     
     let isAdmin = false;
