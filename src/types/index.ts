@@ -10,6 +10,7 @@ export type SectionKey =
   | 'tech-stack'
   | 'testimonials'
   | 'journey'
+  | 'story'
   | 'contact';
 
 /**

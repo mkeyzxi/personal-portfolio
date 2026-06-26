@@ -38,6 +38,7 @@ export default function AdminLoginPage() {
       const data = await res.json();
       
       if (data.success) {
+        localStorage.setItem('admin-auth', 'true');
         toast.success('Login berhasil!');
         router.push('/admin');
       } else {

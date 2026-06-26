@@ -59,6 +59,7 @@ const SECTION_MAP: Record<SectionKey, ComponentType> = {
   'tech-stack': TechStackSection,
   testimonials: TestimonialsSection,
   journey: JourneySection,
+  story: () => null,
   contact: ContactSection,
 };
 

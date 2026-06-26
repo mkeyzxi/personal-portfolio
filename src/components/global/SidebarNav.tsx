@@ -3,8 +3,10 @@
 import {useMemo} from 'react'
 import * as LucideIcons from 'lucide-react'
 import {motion} from 'framer-motion'
+import { usePathname, useRouter } from 'next/navigation'
+import Link from 'next/link'
 import {cn} from '@/lib/utils'
-import {NAV_ITEMS, OWNER_INFO} from '@/lib/constants'
+import {NAV_ITEMS, ADMIN_NAV_ITEMS, OWNER_INFO} from '@/lib/constants'
 import type {SectionKey} from '@/types'
 
 // ============================================================
@@ -24,6 +26,7 @@ interface SidebarNavProps {
   onNavigate: (key: SectionKey) => void
   isCollapsed: boolean
   onToggleCollapse: () => void
+  isAdmin?: boolean
 }
 
 /**
@@ -37,7 +40,11 @@ export default function SidebarNav({
   onNavigate,
   isCollapsed,
   onToggleCollapse,
+  isAdmin = false,
 }: SidebarNavProps) {
+  const pathname = usePathname()
+  const router = useRouter()
+
   // Toggle fungsi dark mode yang mengakses classList HTML
   const toggleTheme = () => {
     const isDark = document.documentElement.classList.contains('dark')
@@ -47,6 +54,18 @@ export default function SidebarNav({
     } else {
       document.documentElement.classList.add('dark')
       localStorage.setItem('portfolio-theme', 'dark')
+    }
+  }
+
+  const handleLogout = async () => {
+    try {
+      const { auth } = await import('@/lib/firebase');
+      await auth.signOut();
+      localStorage.removeItem('admin-auth');
+      window.dispatchEvent(new Event('admin-auth-changed'));
+      router.push('/');
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -135,6 +154,48 @@ export default function SidebarNav({
               </button>
             )
           })}
+
+          {isAdmin && (
+            <>
+              <div className={cn("my-2 h-px bg-[var(--color-border)]", isCollapsed ? "mx-2" : "mx-4")} />
+              {ADMIN_NAV_ITEMS.map((item) => {
+                const isActive = item.href === '/admin' ? pathname === item.href : pathname.startsWith(item.href)
+
+                return (
+                  <Link
+                    key={item.key}
+                    href={item.href}
+                    className={cn(
+                      'group flex items-center rounded-md text-sm font-medium transition-all duration-300',
+                      isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-3',
+                      isActive
+                        ? 'bg-[var(--color-interactive)] text-[var(--color-interactive-text)]'
+                        : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)]',
+                    )}
+                    title={isCollapsed ? item.label : undefined}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    <span
+                      className={cn(
+                        'transition-transform group-hover:scale-110 shrink-0',
+                        isActive ? 'scale-110 -rotate-14 delay-200' : '',
+                      )}
+                    >
+                      {getIcon(item.icon)}
+                    </span>
+                    <span
+                      className={cn(
+                        'overflow-hidden whitespace-nowrap transition-all duration-300',
+                        isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100',
+                      )}
+                    >
+                      {item.label}
+                    </span>
+                  </Link>
+                )
+              })}
+            </>
+          )}
         </nav>
       </div>
 
@@ -187,6 +248,27 @@ export default function SidebarNav({
             <LucideIcons.Sun className="h-4 w-4 block dark:hidden" />
           </button>
         </div>
+
+        {isAdmin && (
+          <button
+            onClick={handleLogout}
+            className={cn(
+              'flex items-center rounded-md text-red-500 hover:bg-red-500/10 hover:text-red-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 mt-2',
+              isCollapsed ? 'justify-center h-11 w-11 mx-auto' : 'px-3 py-2 gap-3',
+            )}
+            title="Logout"
+          >
+            <LucideIcons.LogOut className="h-5 w-5 shrink-0" />
+            <span
+              className={cn(
+                'font-medium text-sm overflow-hidden whitespace-nowrap transition-all duration-300',
+                isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100',
+              )}
+            >
+              Logout
+            </span>
+          </button>
+        )}
       </div>
     </aside>
   )

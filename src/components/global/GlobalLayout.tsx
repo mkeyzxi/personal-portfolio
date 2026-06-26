@@ -12,6 +12,7 @@ import MobileDrawer from './MobileDrawer';
 import Footer from '@/components/global/Footer';
 import { Toaster } from '@/components/ui/sonner';
 import { useSectionTitle } from '@/hooks/useSectionTitle';
+import { useAdminAuthLazy } from '@/hooks/useAdminAuthLazy';
 
 function isValidSectionKey(value: string): value is SectionKey {
   return VALID_SECTION_KEYS.has(value as SectionKey);
@@ -40,6 +41,8 @@ export default function GlobalLayout({ children }: { children: React.ReactNode }
   const [activeSection, setActiveSection] = useState<SectionKey>('home');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  
+  const isAdmin = useAdminAuthLazy();
 
   useSectionTitle(activeSection);
 
@@ -122,27 +125,13 @@ export default function GlobalLayout({ children }: { children: React.ReactNode }
     }
   }, [pathname, router]);
 
-  const isAdminRoute = pathname.startsWith('/admin');
-
-  if (isAdminRoute) {
-    return (
-      <>
-        {children}
-        <Toaster 
-          position="bottom-right" 
-          toastOptions={{
-            className: 'bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)]',
-          }}
-        />
-      </>
-    );
-  }
+  // Hapus isAdminRoute return early, agar layout ini menangani semua rute.
 
   return (
     <div className="flex h-screen overflow-hidden">
       <a href="#main-content" className="skip-link">Lewati navigasi, langsung ke konten</a>
       
-      <SidebarNav active={activeSection} onNavigate={handleNavigate} isCollapsed={isSidebarCollapsed} onToggleCollapse={handleToggleSidebar} />
+      <SidebarNav active={activeSection} onNavigate={handleNavigate} isCollapsed={isSidebarCollapsed} onToggleCollapse={handleToggleSidebar} isAdmin={isAdmin} />
 
       <main
         id="main-content"
@@ -170,6 +159,7 @@ export default function GlobalLayout({ children }: { children: React.ReactNode }
         onClose={() => setIsDrawerOpen(false)}
         active={activeSection}
         onNavigate={handleNavigate}
+        isAdmin={isAdmin}
       />
       
       <Toaster 

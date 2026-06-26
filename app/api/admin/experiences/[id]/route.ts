@@ -4,7 +4,7 @@ import { verifyAdminToken } from '@/lib/adminAuthHelper';
 
 export const dynamic = 'force-dynamic';
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     try {
       await verifyAdminToken(request);
@@ -12,7 +12,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
     const adminDb = getAdminDb();
     
@@ -30,7 +30,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     try {
       await verifyAdminToken(request);
@@ -38,7 +38,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
       return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     const adminDb = getAdminDb();
 
     await adminDb.collection('experiences').doc(id).delete();

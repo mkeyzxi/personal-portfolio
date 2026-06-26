@@ -112,7 +112,7 @@ async function migrate() {
   
   // Clear existing
   const existing = await db.collection('experiences').get();
-  existing.docs.forEach(doc => batch.delete(doc.ref));
+  existing.docs.forEach((doc: any) => batch.delete(doc.ref));
 
   // Insert new
   seedData.forEach(exp => {

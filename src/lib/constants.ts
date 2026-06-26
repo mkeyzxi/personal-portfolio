@@ -17,6 +17,20 @@ export const NAV_ITEMS: NavItem[] = [
 ];
 
 /**
+ * ADMIN_NAV_ITEMS — Daftar item navigasi khusus Admin.
+ * Ini menggunakan struktur href karena Admin menggunakan App Router biasa (bukan Single Page scroll).
+ */
+export const ADMIN_NAV_ITEMS = [
+  { key: 'admin-dashboard', label: 'Dashboard', icon: 'LayoutDashboard', href: '/admin' },
+  { key: 'admin-about', label: 'About CMS', icon: 'User', href: '/admin/about' },
+  { key: 'admin-projects', label: 'Projects', icon: 'FolderGit2', href: '/admin/projects' },
+  { key: 'admin-testimonials', label: 'Testimonials', icon: 'MessageSquare', href: '/admin/testimonials' },
+  { key: 'admin-experiences', label: 'Experiences', icon: 'Briefcase', href: '/admin/experiences' },
+  { key: 'admin-journey', label: 'Journey', icon: 'Route', href: '/admin/journey' },
+  { key: 'admin-stories', label: 'Stories', icon: 'FileText', href: '/admin/story' },
+];
+
+/**
  * BOTTOM_NAV_ITEMS — Subset item yang tampil di bottom nav mobile.
  * Derived dari NAV_ITEMS untuk menghindari duplikasi data.
  */
