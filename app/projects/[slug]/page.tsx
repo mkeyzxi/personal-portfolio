@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getAdminDb } from '@/lib/firebase-admin';
+import { getAdminDb } from '@/lib/firebase-admin-db';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, ExternalLink } from 'lucide-react';

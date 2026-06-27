@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
-import { getAdminDb } from '@/lib/firebase-admin';
+import { getAdminDb } from '@/lib/firebase-admin-db';
 import type { Experience } from '@/types';
+
+export const runtime = 'nodejs';
 
 // Omitted token check intentionally just for this one-time script execution.
 // Usually we'd secure this, but since we will delete it immediately after running, it's fine.

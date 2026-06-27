@@ -1,6 +1,8 @@
 import {NextResponse} from 'next/server'
-import {getAdminDb} from '@/lib/firebase-admin'
+import { getAdminDb } from '@/lib/firebase-admin-db';
 import nodemailer from 'nodemailer'
+
+export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
   try {

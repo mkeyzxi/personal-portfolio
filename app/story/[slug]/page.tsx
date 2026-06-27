@@ -1,4 +1,4 @@
-import { getAdminDb } from '@/lib/firebase-admin';
+import { getAdminDb } from '@/lib/firebase-admin-db';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import * as LucideIcons from 'lucide-react';
