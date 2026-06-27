@@ -1,10 +1,10 @@
 'use client'
 
 import {useState} from 'react'
-import {auth} from '@/lib/firebase'
-import {useAuthState} from 'react-firebase-hooks/auth'
+import {useLazyAuthState} from '@/hooks/useLazyAuthState'
 import {toast} from 'sonner'
 import {Icon} from '@iconify/react'
+import Image from 'next/image'
 
 interface TestimonialFormProps {
   onSuccess: () => void
@@ -12,7 +12,7 @@ interface TestimonialFormProps {
 }
 
 export default function TestimonialForm({onSuccess, onLoginRequest}: TestimonialFormProps) {
-  const [user, loading] = useAuthState(auth)
+  const [user, loading] = useLazyAuthState()
   const [message, setMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -63,8 +63,8 @@ export default function TestimonialForm({onSuccess, onLoginRequest}: Testimonial
       toast.success('Testimoni berhasil ditambahkan!')
       setMessage('')
       onSuccess() // Refresh daftar testimoni
-    } catch (error: any) {
-      toast.error('Gagal', {description: error.message})
+    } catch (error: unknown) {
+      toast.error('Gagal', {description: (error instanceof Error ? error.message : String(error))})
     } finally {
       setIsSubmitting(false)
     }
@@ -91,10 +91,12 @@ export default function TestimonialForm({onSuccess, onLoginRequest}: Testimonial
           {user && (
             <div className="absolute top-4 left-4 flex items-center gap-2 bg-[var(--color-bg-elevated)] px-2.5 py-1.5 rounded-full border border-[var(--color-border)] shadow-sm pointer-events-none select-none">
               {user.photoURL ? (
-                <img
+                <Image
                   src={user.photoURL}
                   referrerPolicy="no-referrer"
                   alt={user.displayName || 'Avatar'}
+                  width={20}
+                  height={20}
                   className="w-5 h-5 rounded-full img-mono"
                 />
               ) : (

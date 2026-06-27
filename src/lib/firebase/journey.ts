@@ -1,7 +1,4 @@
-import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 import type { Journey } from '@/types';
-
 const COLLECTION_NAME = 'journeys';
 
 /**
@@ -10,6 +7,9 @@ const COLLECTION_NAME = 'journeys';
  */
 export async function getJourneys(sortOrder: 'asc' | 'desc' = 'asc'): Promise<Journey[]> {
   try {
+    const { db } = await import('@/lib/firebase');
+    const { collection, getDocs, query, orderBy } = await import('firebase/firestore');
+    
     const q = query(collection(db, COLLECTION_NAME), orderBy('year', sortOrder));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({
@@ -27,6 +27,9 @@ export async function getJourneys(sortOrder: 'asc' | 'desc' = 'asc'): Promise<Jo
  */
 export async function addJourney(data: Omit<Journey, 'id' | 'createdAt'>): Promise<string> {
   try {
+    const { db } = await import('@/lib/firebase');
+    const { collection, addDoc } = await import('firebase/firestore');
+    
     const docRef = await addDoc(collection(db, COLLECTION_NAME), {
       ...data,
       createdAt: new Date().toISOString()
@@ -43,6 +46,9 @@ export async function addJourney(data: Omit<Journey, 'id' | 'createdAt'>): Promi
  */
 export async function updateJourney(id: string, data: Partial<Omit<Journey, 'id' | 'createdAt'>>): Promise<void> {
   try {
+    const { db } = await import('@/lib/firebase');
+    const { doc, updateDoc } = await import('firebase/firestore');
+    
     const docRef = doc(db, COLLECTION_NAME, id);
     await updateDoc(docRef, data);
   } catch (error) {
@@ -56,6 +62,9 @@ export async function updateJourney(id: string, data: Partial<Omit<Journey, 'id'
  */
 export async function deleteJourney(id: string): Promise<void> {
   try {
+    const { db } = await import('@/lib/firebase');
+    const { doc, deleteDoc } = await import('firebase/firestore');
+    
     const docRef = doc(db, COLLECTION_NAME, id);
     await deleteDoc(docRef);
   } catch (error) {

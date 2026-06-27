@@ -52,7 +52,9 @@ function useThemeStatus() {
 
   useEffect(() => {
     // Set status awal
-    setIsDark(document.documentElement.classList.contains('dark'))
+    requestAnimationFrame(() => {
+      setIsDark(document.documentElement.classList.contains('dark'))
+    })
 
     // Observer untuk memantau perubahan class pada elemen html
     const observer = new MutationObserver((mutations) => {
@@ -83,7 +85,10 @@ export default function HeroSection() {
   }
 
   return (
-    <section aria-labelledby="home-heading" className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-6">
+    <section
+      aria-labelledby="home-heading"
+      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-6"
+    >
       {/* ── Background Animation (Subtle Mesh) ────────────────── */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {/* Blob 1 */}
@@ -145,9 +150,10 @@ export default function HeroSection() {
           variants={itemVariants}
           className="mx-auto mb-10 max-w-2xl text-base text-[var(--color-text-muted)] sm:text-lg leading-relaxed"
         >
-          Saya membangun antarmuka digital yang bersih, efisien, dan berpusat pada pengguna.
-          Memadukan desain elegan dengan kode berkualitas tinggi untuk menciptakan pengalaman web
-          yang modern.
+          Saya mengembangkan aplikasi web yang modern, cepat, dan berorientasi pada pengalaman
+          pengguna. Dengan memadukan desain yang bersih, arsitektur yang baik, dan kode yang
+          berkualitas, saya membangun solusi digital yang efisien, mudah dipelihara, dan memberikan
+          nilai bagi bisnis.
         </motion.p>
 
         {/* ── Call to Action Buttons ───────────────────────────── */}

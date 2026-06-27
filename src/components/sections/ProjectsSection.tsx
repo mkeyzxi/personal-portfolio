@@ -21,7 +21,11 @@ const CATEGORIES: {label: string; value: ProjectCategory}[] = [
 
 export default function ProjectsSection() {
   const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all')
-  const {data: projects = [], isLoading} = useSWR<Project[]>('/api/projects', fetcher)
+  const {data: projects = [], isLoading} = useSWR<Project[]>(
+    '/api/projects', 
+    fetcher,
+    { revalidateOnFocus: false, dedupingInterval: 60000 * 5 }
+  )
 
   const filteredProjects = projects.filter((proj) =>
     activeCategory === 'all' ? true : proj.category === activeCategory,

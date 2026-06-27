@@ -1,10 +1,14 @@
 'use client'
 
 import {useMemo} from 'react'
-import * as LucideIcons from 'lucide-react'
+import {
+  House, User, Briefcase, FolderOpen, Layers, MessageSquare, Route, Mail, 
+  LayoutDashboard, FolderGit2, FileText, PanelLeftOpen, PanelLeftClose, Moon, Sun, LogOut 
+} from 'lucide-react'
 import {motion} from 'framer-motion'
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import {cn} from '@/lib/utils'
 import {NAV_ITEMS, ADMIN_NAV_ITEMS, OWNER_INFO} from '@/lib/constants'
 import type {SectionKey} from '@/types'
@@ -12,9 +16,13 @@ import type {SectionKey} from '@/types'
 // ============================================================
 // Ikon Pemetaan Dinamis dari Lucide
 // ============================================================
+const iconMap: Record<string, React.ElementType> = {
+  House, User, Briefcase, FolderOpen, Layers, MessageSquare, Route, Mail,
+  LayoutDashboard, FolderGit2, FileText
+}
+
 const getIcon = (iconName: string) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const Icon = (LucideIcons as any)[iconName]
+  const Icon = iconMap[iconName]
   return Icon ? <Icon className="h-5 w-5" /> : null
 }
 
@@ -97,10 +105,13 @@ export default function SidebarNav({
               Menggunakan tag img standar sementara. 
               SDD §4.3: Wajib ada class img-mono (grayscale).
             */}
-            <img
+            <Image
               src={OWNER_INFO.avatarPath}
               alt={OWNER_INFO.name}
-              className="h-full w-full object-cover img-mono"
+              fill
+              sizes="80px"
+              priority
+              className="object-cover img-mono"
             />
           </div>
           <div
@@ -210,9 +221,9 @@ export default function SidebarNav({
           title={isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
         >
           {isCollapsed ? (
-            <LucideIcons.PanelLeftOpen className="h-5 w-5 shrink-0" />
+            <PanelLeftOpen className="h-5 w-5 shrink-0" />
           ) : (
-            <LucideIcons.PanelLeftClose className="h-5 w-5 shrink-0" />
+            <PanelLeftClose className="h-5 w-5 shrink-0" />
           )}
           <span
             className={cn(
@@ -244,8 +255,8 @@ export default function SidebarNav({
             aria-label="Toggle Dark Mode"
             title="Toggle Dark Mode"
           >
-            <LucideIcons.Moon className="h-4 w-4 hidden dark:block" />
-            <LucideIcons.Sun className="h-4 w-4 block dark:hidden" />
+            <Moon className="h-4 w-4 hidden dark:block" />
+            <Sun className="h-4 w-4 block dark:hidden" />
           </button>
         </div>
 
@@ -258,7 +269,7 @@ export default function SidebarNav({
             )}
             title="Logout"
           >
-            <LucideIcons.LogOut className="h-5 w-5 shrink-0" />
+            <LogOut className="h-5 w-5 shrink-0" />
             <span
               className={cn(
                 'font-medium text-sm overflow-hidden whitespace-nowrap transition-all duration-300',

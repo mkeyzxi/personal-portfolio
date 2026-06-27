@@ -7,14 +7,17 @@ import { Testimonial } from '@/types';
 import TestimonialCard from './TestimonialCard';
 import TestimonialForm from './TestimonialForm';
 import LoginModal from './LoginModal';
-import { auth } from '@/lib/firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { useLazyAuthState } from '@/hooks/useLazyAuthState';
 import { Icon } from '@iconify/react';
 import { Button } from '@/components/ui/button';
 
 export default function TestimonialList() {
-  const [user, loadingAuth] = useAuthState(auth);
-  const { data: testimonials = [], isLoading: loading, mutate: fetchTestimonials } = useSWR<Testimonial[]>('/api/testimonials', fetcher);
+  const [user, loadingAuth] = useLazyAuthState();
+  const { data: testimonials = [], isLoading: loading, mutate: fetchTestimonials } = useSWR<Testimonial[]>(
+    '/api/testimonials', 
+    fetcher,
+    { revalidateOnFocus: false, dedupingInterval: 60000 }
+  );
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   if (loading || loadingAuth) {

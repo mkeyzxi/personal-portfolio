@@ -11,7 +11,7 @@ import type { Journey } from '@/types';
 import { toast } from 'sonner';
 
 export default function AdminJourneyDashboard() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<import('firebase/auth').User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [journeys, setJourneys] = useState<Journey[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);

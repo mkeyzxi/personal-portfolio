@@ -53,10 +53,10 @@ export async function POST(request: Request) {
         };
 
         await transporter.sendMail(mailOptions);
-      } catch (emailError: any) {
+      } catch (emailError: unknown) {
         // Tangani error khusus untuk email (seperti ISP memblokir port SMTP)
         // Pesan tetap tersimpan di Firestore, jadi kita tidak menggagalkan seluruh request
-        console.warn("Gagal mengirim notifikasi email (Mungkin port SMTP diblokir oleh provider internet Anda saat berjalan di localhost):", emailError.message);
+        console.warn("Gagal mengirim notifikasi email (Mungkin port SMTP diblokir oleh provider internet Anda saat berjalan di localhost):", (emailError instanceof Error ? emailError.message : String(emailError)));
       }
     } else {
       console.warn("EMAIL_USER atau EMAIL_PASS tidak dikonfigurasi. Pesan disimpan di database tetapi email notifikasi tidak dikirim.");

@@ -10,13 +10,13 @@ import dynamic from 'next/dynamic';
 import { toast } from 'sonner';
 
 // Lazy load BlockNote editor
-const WYSIWYGEditor = dynamic(() => import('@/components/ui/WYSIWYGEditor'), {
+const BlockNoteEditor = dynamic(() => import('@/components/admin/BlockNoteEditor'), {
   ssr: false,
   loading: () => <div className="min-h-[400px] flex items-center justify-center bg-[var(--color-bg-elevated)] border border-[var(--color-border)] rounded-xl animate-pulse text-[var(--color-text-muted)]">Memuat Editor...</div>
 });
 
 export default function NewProjectPage() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<import('firebase/auth').User | null>(null);
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +31,7 @@ export default function NewProjectPage() {
     liveUrl: '',
     featured: false,
   });
-  const [content, setContent] = useState<any[]>([]);
+  const [content, setContent] = useState<string>('');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -62,7 +62,7 @@ export default function NewProjectPage() {
 
     try {
       // Mendapatkan token untuk auth backend
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken();
 
       const payload = {
         ...formData,
@@ -230,10 +230,9 @@ export default function NewProjectPage() {
             </div>
           </label>
 
-          {/* BlockNote WYSIWYG */}
           <div className="space-y-2 mt-4">
             <label className="text-sm font-medium text-[var(--color-text-secondary)]">Konten Detail Proyek *</label>
-            <WYSIWYGEditor onChange={setContent} />
+            <BlockNoteEditor onChange={setContent} />
           </div>
 
           <div className="pt-6 border-t border-[var(--color-border-muted)] flex justify-end">

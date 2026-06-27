@@ -5,6 +5,26 @@ import * as LucideIcons from 'lucide-react';
 import StoryReader from '@/components/public/StoryReader';
 import LikeButton from '@/components/public/LikeButton';
 import CommentSection from '@/components/public/CommentSection';
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const story = await getStory(resolvedParams.slug);
+  
+  if (!story) return { title: 'Cerita Tidak Ditemukan' };
+  
+  return {
+    title: `${story.title} | Portofolio`,
+    description: `Cerita mengenai ${story.title}`,
+    openGraph: {
+      images: ['/og-image.jpeg'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: ['/og-image.jpeg'],
+    }
+  };
+}
 
 // Mengambil data di server-side untuk SEO optimal
 async function getStory(slug: string) {

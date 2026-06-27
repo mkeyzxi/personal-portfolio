@@ -12,10 +12,10 @@ const BlockNoteEditor = dynamic(() => import('@/components/admin/BlockNoteEditor
 type ViewState = 'list' | 'create' | 'edit';
 
 export default function AdminStoryDashboard() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<import('firebase/auth').User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [view, setView] = useState<ViewState>('list');
-  const [stories, setStories] = useState<any[]>([]);
+  const [stories, setStories] = useState<import('@/types').StoryDocument[]>([]);
   const router = useRouter();
 
   // Form State
@@ -26,6 +26,19 @@ export default function AdminStoryDashboard() {
   const [summary, setSummary] = useState('');
   const [content, setContent] = useState('');
   const [status, setStatus] = useState('draft');
+
+  const fetchStories = async (currentUser: import('firebase/auth').User | null) => {
+    try {
+      const token = await currentUser?.getIdToken();
+      const res = await fetch('/api/stories', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const json = await res.json();
+      if (json.success) setStories(json.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -40,18 +53,7 @@ export default function AdminStoryDashboard() {
     return () => unsubscribe();
   }, [router]);
 
-  const fetchStories = async (currentUser: any) => {
-    try {
-      const token = await currentUser.getIdToken();
-      const res = await fetch('/api/stories', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      const json = await res.json();
-      if (json.success) setStories(json.data);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+
 
   const handleCreate = () => {
     setCurrentId('');
@@ -64,7 +66,7 @@ export default function AdminStoryDashboard() {
     setView('create');
   };
 
-  const handleEdit = (story: any) => {
+  const handleEdit = (story: import('@/types').StoryDocument) => {
     setCurrentId(story.id);
     setTitle(story.title);
     setSlug(story.slug);
@@ -78,7 +80,7 @@ export default function AdminStoryDashboard() {
   const handleDelete = async (slugToDelete: string) => {
     if (!confirm('Hapus cerita ini beserta semua komentar dan likes?')) return;
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken();
       const res = await fetch(`/api/stories/${slugToDelete}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
@@ -93,7 +95,7 @@ export default function AdminStoryDashboard() {
 
   const handleSave = async () => {
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken();
       const payload = { title, slug, categorySlug, summary, content, status };
       const url = view === 'edit' ? `/api/stories/${slug}` : '/api/stories';
       const method = view === 'edit' ? 'PUT' : 'POST';
@@ -111,7 +113,7 @@ export default function AdminStoryDashboard() {
         fetchStories(user);
       } else {
         const err = await res.json();
-        alert('Gagal menyimpan: ' + err.message);
+        alert('Gagal menyimpan: ' + (err instanceof Error ? err.message : String(err)));
       }
     } catch (e) {
       console.error(e);

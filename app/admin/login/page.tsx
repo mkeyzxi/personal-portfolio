@@ -45,7 +45,7 @@ export default function AdminLoginPage() {
         toast.error('Akses Ditolak: Email tidak terdaftar sebagai Admin');
         auth.signOut(); // Sign out user yang bukan admin
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
       toast.error('Gagal login dengan Google.');
     } finally {

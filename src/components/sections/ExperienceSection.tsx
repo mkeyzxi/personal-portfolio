@@ -20,7 +20,11 @@ const FILTERS: { label: string; value: FilterType }[] = [
 
 export default function ExperienceSection() {
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
-  const { data: experiences = [], isLoading } = useSWR<Experience[]>('/api/experiences', fetcher);
+  const { data: experiences = [], isLoading } = useSWR<Experience[]>(
+    '/api/experiences', 
+    fetcher,
+    { revalidateOnFocus: false, dedupingInterval: 60000 * 5 }
+  );
 
   const filteredExperiences = experiences.filter((exp) => 
     activeFilter === 'all' ? true : exp.type === activeFilter

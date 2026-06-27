@@ -36,9 +36,10 @@ export async function GET(request: Request) {
     }));
 
     return NextResponse.json({ success: true, data: stories });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching stories:', error);
-    if (error.code === 9) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if ((error as any).code === 9) {
       // Fallback for index error
       const db = getAdminDb();
       const storiesSnapshot = await db.collection('stories').get();
@@ -57,7 +58,7 @@ export async function GET(request: Request) {
         
       return NextResponse.json({ success: true, data: filtered });
     }
-    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, message: (error instanceof Error ? error.message : String(error)) }, { status: 500 });
   }
 }
 
@@ -65,8 +66,8 @@ export async function POST(request: Request) {
   try {
     try {
       await verifyAdminToken(request);
-    } catch (e: any) {
-      if (e.message === 'UNAUTHORIZED' || e.message === 'INVALID_TOKEN') {
+    } catch (e: unknown) {
+      if ((e instanceof Error ? e.message : String(e)) === 'UNAUTHORIZED' || (e instanceof Error ? e.message : String(e)) === 'INVALID_TOKEN') {
         return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
       }
       return NextResponse.json({ success: false, message: 'Forbidden' }, { status: 403 });
@@ -107,8 +108,8 @@ export async function POST(request: Request) {
       success: true, 
       data: { id: docRef.id, ...newStory } 
     }, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating story:', error);
-    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, message: (error instanceof Error ? error.message : String(error)) }, { status: 500 });
   }
 }

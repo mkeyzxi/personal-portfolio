@@ -24,9 +24,10 @@ const geistMono = Geist_Mono({
  * Placeholder values — ganti sebelum production deployment.
  */
 export const metadata: Metadata = {
-  title: 'Portfolio | Full Stack Developer',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
+  title: 'Makbul N | Full Stack Developer',
   description:
-    'Personal Portfolio — Full Stack Developer spesialisasi Next.js, React, TypeScript, dan Firebase. Lihat proyek, pengalaman, dan hubungi saya.',
+    'Personal Portfolio — Full Stack Developer spesialisasi Next.js, React, TypeScript, Laravel, PHP, dan Firebase. Lihat proyek, pengalaman, dan hubungi saya.',
   keywords: [
     'portfolio',
     'developer',
@@ -37,22 +38,27 @@ export const metadata: Metadata = {
     'firebase',
     'web development',
   ],
-  authors: [{name: 'Portfolio Owner'}],
+  authors: [{name: 'Muhammad Makbul N'}],
   robots: 'index, follow',
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/icon.png',
+  },
   openGraph: {
     type: 'website',
-    title: 'Portfolio | Full Stack Developer',
+    title: 'Makbul N | Full Stack Developer',
     description:
-      'Personal Portfolio — Full Stack Developer spesialisasi Next.js, React, TypeScript, dan Firebase.',
-    images: [{url: '/images/og-image.jpg', width: 1200, height: 630}],
-    siteName: 'Portfolio',
+      'Personal Portfolio — Full Stack Developer spesialisasi Next.js, React, TypeScript, Laravel, PHP, dan Firebase.',
+    images: [{url: '/og-image.jpeg', width: 1200, height: 630}],
+    siteName: 'Muhammad Makbul N',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Portfolio | Full Stack Developer',
+    title: 'Makbul N | Full Stack Developer',
     description:
-      'Personal Portfolio — Full Stack Developer spesialisasi Next.js, React, TypeScript, dan Firebase.',
-    images: ['/images/og-image.jpg'],
+      'Personal Portfolio — Full Stack Developer spesialisasi Next.js, React, TypeScript, Laravel, PHP, dan Firebase.',
+    images: ['/og-image.jpeg'],
   },
 }
 
@@ -123,16 +129,14 @@ export default function RootLayout({
                   '@type': 'WebSite',
                   name: 'Portfolio Owner Portfolio',
                   url: 'https://domainanda.com',
-                }
-              ]
+                },
+              ],
             }),
           }}
         />
       </head>
       <body className="min-h-screen bg-[var(--color-bg-main)] text-[var(--color-text-primary)] font-sans antialiased">
-        <GlobalLayout>
-          {children}
-        </GlobalLayout>
+        <GlobalLayout>{children}</GlobalLayout>
       </body>
     </html>
   )

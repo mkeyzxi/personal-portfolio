@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   try {
     const decodedToken = await verifyAdminToken(request);
     return NextResponse.json({ success: true, user: { email: decodedToken.email, uid: decodedToken.uid } });
-  } catch (e: any) {
-    return NextResponse.json({ success: false, message: e.message }, { status: 401 });
+  } catch (e: unknown) {
+    return NextResponse.json({ success: false, message: (e instanceof Error ? e.message : String(e)) }, { status: 401 });
   }
 }

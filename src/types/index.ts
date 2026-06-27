@@ -77,7 +77,7 @@ export interface Project {
   title: string;
   description?: string; // Tanda tanya untuk backward compatibility jika diperlukan
   shortDescription: string;
-  content: any[]; // JSON mentah dari BlockNote editor
+  content: unknown[]; // JSON mentah dari BlockNote editor
   category: 'web' | 'mobile' | 'api' | 'other';
   thumbnail: string;
   technologies: string[];

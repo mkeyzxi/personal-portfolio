@@ -19,9 +19,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       success: true, 
       data: { id: storyDoc.id, ...storyDoc.data() } 
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching story:', error);
-    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, message: (error instanceof Error ? error.message : String(error)) }, { status: 500 });
   }
 }
 
@@ -31,8 +31,8 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     const { id: slug } = resolvedParams;
     try {
       await verifyAdminToken(request);
-    } catch (e: any) {
-      if (e.message === 'UNAUTHORIZED' || e.message === 'INVALID_TOKEN') {
+    } catch (e: unknown) {
+      if ((e instanceof Error ? e.message : String(e)) === 'UNAUTHORIZED' || (e instanceof Error ? e.message : String(e)) === 'INVALID_TOKEN') {
         return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
       }
       return NextResponse.json({ success: false, message: 'Forbidden' }, { status: 403 });
@@ -63,9 +63,9 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     await storyRef.update(updateData);
 
     return NextResponse.json({ success: true, message: 'Story updated successfully' });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating story:', error);
-    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, message: (error instanceof Error ? error.message : String(error)) }, { status: 500 });
   }
 }
 
@@ -75,8 +75,8 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     const { id: slug } = resolvedParams;
     try {
       await verifyAdminToken(request);
-    } catch (e: any) {
-      if (e.message === 'UNAUTHORIZED' || e.message === 'INVALID_TOKEN') {
+    } catch (e: unknown) {
+      if ((e instanceof Error ? e.message : String(e)) === 'UNAUTHORIZED' || (e instanceof Error ? e.message : String(e)) === 'INVALID_TOKEN') {
         return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
       }
       return NextResponse.json({ success: false, message: 'Forbidden' }, { status: 403 });
@@ -113,8 +113,8 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     await batch.commit();
 
     return NextResponse.json({ success: true, message: 'Story and all associated data deleted successfully' });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error deleting story:', error);
-    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, message: (error instanceof Error ? error.message : String(error)) }, { status: 500 });
   }
 }

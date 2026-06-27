@@ -1,14 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/lib/firebase';
-import * as LucideIcons from 'lucide-react';
+import { useLazyAuthState } from '@/hooks/useLazyAuthState';
+import { Heart } from 'lucide-react';
 import { toast } from 'sonner';
 import LoginModal from '@/components/testimonials/LoginModal';
 
 export default function LikeButton({ initialLikes, storyId }: { initialLikes: number, storyId: string }) {
-  const [user] = useAuthState(auth);
+  const [user] = useLazyAuthState();
   const [likes, setLikes] = useState(initialLikes);
   const [isLiked, setIsLiked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,7 +59,7 @@ export default function LikeButton({ initialLikes, storyId }: { initialLikes: nu
             : 'bg-[var(--color-bg-surface)] border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)]'
         } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
-        <LucideIcons.Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
+        <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
         <span className="font-mono text-sm">{likes}</span>
       </button>
 

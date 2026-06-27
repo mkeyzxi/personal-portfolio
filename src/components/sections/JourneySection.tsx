@@ -23,7 +23,11 @@ const itemVariants = {
 };
 
 export default function JourneySection() {
-  const { data: journeys = [], isLoading } = useSWR<Journey[]>('journeys-asc', () => getJourneys('asc'));
+  const { data: journeys = [], isLoading } = useSWR<Journey[]>(
+    'journeys-asc', 
+    () => getJourneys('asc'),
+    { revalidateOnFocus: false, dedupingInterval: 60000 * 5 } // cache for 5 minutes since journey rarely changes
+  );
 
   const getIcon = (title?: string) => {
     const t = title?.toLowerCase() || '';

@@ -8,7 +8,7 @@ import * as LucideIcons from 'lucide-react';
 import { AboutData } from '@/types';
 
 export default function AdminAboutDashboard() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<import('firebase/auth').User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();

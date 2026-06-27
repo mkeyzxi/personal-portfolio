@@ -1,7 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
-import * as LucideIcons from 'lucide-react';
+import {
+  House, User, Briefcase, FolderOpen, Layers, MessageSquare, Route, Mail, 
+  LayoutDashboard, FolderGit2, FileText, X, LogOut, Moon, Sun
+} from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -12,9 +15,13 @@ import type { SectionKey } from '@/types';
 // ============================================================
 // Ikon Pemetaan Dinamis
 // ============================================================
+const iconMap: Record<string, React.ElementType> = {
+  House, User, Briefcase, FolderOpen, Layers, MessageSquare, Route, Mail,
+  LayoutDashboard, FolderGit2, FileText
+};
+
 const getIcon = (iconName: string) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const Icon = (LucideIcons as any)[iconName];
+  const Icon = iconMap[iconName];
   return Icon ? <Icon className="h-5 w-5" /> : null;
 };
 
@@ -135,7 +142,7 @@ export default function MobileDrawer({ isOpen, onClose, active, onNavigate, isAd
                 className="flex h-11 w-11 items-center justify-center rounded-full text-[var(--color-text-muted)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)]"
                 aria-label="Close Menu"
               >
-                <LucideIcons.X className="h-5 w-5" />
+                <X className="h-5 w-5" />
               </button>
             </div>
 
@@ -195,7 +202,7 @@ export default function MobileDrawer({ isOpen, onClose, active, onNavigate, isAd
                       onClick={handleLogout}
                       className="flex items-center gap-4 rounded-xl px-4 py-4 text-left text-red-500 hover:bg-red-500/10 hover:text-red-600 transition-colors"
                     >
-                      <LucideIcons.LogOut className="h-5 w-5" />
+                      <LogOut className="h-5 w-5" />
                       <span className="text-lg">Logout</span>
                     </button>
                   </>
@@ -210,8 +217,8 @@ export default function MobileDrawer({ isOpen, onClose, active, onNavigate, isAd
                   className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] border border-[var(--color-border-muted)] shadow-sm"
                   aria-label="Toggle Dark Mode"
                 >
-                  <LucideIcons.Moon className="h-5 w-5 hidden dark:block" />
-                  <LucideIcons.Sun className="h-5 w-5 block dark:hidden" />
+                  <Moon className="h-5 w-5 hidden dark:block" />
+                  <Sun className="h-5 w-5 block dark:hidden" />
                 </button>
               </div>
             </div>
