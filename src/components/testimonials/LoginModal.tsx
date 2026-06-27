@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import SocialLoginButton from './SocialLoginButton';
-import { auth } from '@/lib/firebase';
-import { GoogleAuthProvider, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 import { toast } from 'sonner';
 
 interface LoginModalProps {
@@ -15,9 +13,14 @@ interface LoginModalProps {
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const [loadingProvider, setLoadingProvider] = useState<string | null>(null);
 
-  const handleLogin = async (provider: any, providerName: string) => {
+  const handleLogin = async (providerName: 'Google' | 'GitHub') => {
     setLoadingProvider(providerName);
     try {
+      const { auth } = await import('@/lib/firebase');
+      const { GoogleAuthProvider, GithubAuthProvider, signInWithPopup } = await import('firebase/auth');
+      
+      const provider = providerName === 'Google' ? new GoogleAuthProvider() : new GithubAuthProvider();
+      
       await signInWithPopup(auth, provider);
       toast.success(`Berhasil login dengan ${providerName}`);
       onClose();
@@ -48,13 +51,13 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             providerName="Google"
             iconName="logos:google-icon"
             isLoading={loadingProvider === 'Google'}
-            onClick={() => handleLogin(new GoogleAuthProvider(), 'Google')}
+            onClick={() => handleLogin('Google')}
           />
           <SocialLoginButton
             providerName="GitHub"
             iconName="mdi:github"
             isLoading={loadingProvider === 'GitHub'}
-            onClick={() => handleLogin(new GithubAuthProvider(), 'GitHub')}
+            onClick={() => handleLogin('GitHub')}
             className="dark:bg-white dark:text-black dark:hover:bg-gray-200" // Pengecualian style khusus Github di mode gelap jika diperlukan
           />
         </div>

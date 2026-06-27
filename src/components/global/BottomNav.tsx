@@ -1,6 +1,6 @@
 'use client';
 
-import * as LucideIcons from 'lucide-react';
+import { House, FolderOpen, Mail, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { BOTTOM_NAV_ITEMS } from '@/lib/constants';
 import type { SectionKey } from '@/types';
@@ -8,9 +8,12 @@ import type { SectionKey } from '@/types';
 // ============================================================
 // Ikon Pemetaan Dinamis
 // ============================================================
+const iconMap: Record<string, React.ElementType> = {
+  House, FolderOpen, Mail
+};
+
 const getIcon = (iconName: string) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const Icon = (LucideIcons as any)[iconName];
+  const Icon = iconMap[iconName];
   return Icon ? <Icon className="h-5 w-5 mb-1" /> : null;
 };
 
@@ -73,7 +76,7 @@ export default function BottomNav({ active, onNavigate, onOpenDrawer }: BottomNa
         className="flex flex-1 flex-col items-center justify-center h-full text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors"
         aria-label="Open Menu Drawer"
       >
-        <LucideIcons.Menu className="h-5 w-5 mb-1" />
+        <Menu className="h-5 w-5 mb-1" />
         <span className="text-[10px] uppercase tracking-wider">More</span>
       </button>
     </nav>

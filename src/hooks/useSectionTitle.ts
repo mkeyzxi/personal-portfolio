@@ -1,20 +1,20 @@
-'use client';
+'use client'
 
-import { useEffect } from 'react';
+import {useEffect} from 'react'
 
 const sectionTitles: Record<string, string> = {
-  home:         'Portfolio | Full Stack Developer',
-  about:        'Tentang Saya — Portfolio',
-  experience:   'Pengalaman — Portfolio',
-  projects:     'Proyek — Portfolio',
-  'tech-stack': 'Tech Stack — Portfolio',
-  testimonials: 'Testimoni — Portfolio',
-  story:        'Cerita Saya — Portfolio',
-  contact:      'Kontak — Portfolio',
-};
+  home: 'Makbul N | Portofolio',
+  about: 'Tentang Saya | Makbul N',
+  experience: 'Pengalaman | Makbul N',
+  projects: 'Proyek | Makbul N',
+  'tech-stack': 'Teknologi | Makbul N',
+  testimonials: 'Testimoni | Makbul N',
+  story: 'Cerita Saya | Makbul N',
+  contact: 'Kontak | Makbul N',
+}
 
 export function useSectionTitle(activeSection: string) {
   useEffect(() => {
-    document.title = sectionTitles[activeSection] ?? sectionTitles.home;
-  }, [activeSection]);
+    document.title = sectionTitles[activeSection] ?? sectionTitles.home
+  }, [activeSection])
 }

@@ -15,8 +15,8 @@ import { VALID_SECTION_KEYS, STORAGE_KEY_ACTIVE_SECTION } from '@/lib/constants'
 // Setiap section hanya dimuat saat pertama kali diaktifkan.
 // ============================================================
 
-const HeroSection = dynamic(
-  () => import('@/components/sections/HeroSection'),
+const HomeSection = dynamic(
+  () => import('@/components/sections/HomeSection'),
   { ssr: false }
 );
 const AboutSection = dynamic(
@@ -52,7 +52,7 @@ const ContactSection = dynamic(
  * Peta SectionKey → Komponen React yang dirender secara lazy.
  */
 const SECTION_MAP: Record<SectionKey, ComponentType> = {
-  home: HeroSection,
+  home: HomeSection,
   about: AboutSection,
   experience: ExperienceSection,
   projects: ProjectsSection,

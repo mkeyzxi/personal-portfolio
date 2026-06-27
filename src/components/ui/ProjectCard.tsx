@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import type { Project } from '@/types';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface ProjectCardProps {
   project: Project;
@@ -38,10 +39,13 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       >
         {/* Thumbnail */}
         <div className="relative aspect-video w-full overflow-hidden bg-[var(--color-bg-elevated)]">
-          <img
+          <Image
             src={project.thumbnail}
             alt={`Thumbnail untuk ${project.title}`}
-            className="h-full w-full object-cover img-mono transition-transform duration-500 group-hover:scale-105"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            loading="lazy"
+            className="object-cover img-mono transition-transform duration-500 group-hover:scale-105"
           />
           {project.featured && (
             <div className="absolute top-4 right-4 rounded-full bg-[var(--color-interactive)] px-3 py-1 text-xs font-bold text-[var(--color-interactive-text)] shadow-sm">

@@ -26,7 +26,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: `${project.title} | Portofolio`,
     description: project.shortDescription || project.description,
     openGraph: {
-      images: [project.thumbnail || ''],
+      images: [project.thumbnail || '/og-image.jpeg'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: [project.thumbnail || '/og-image.jpeg'],
     }
   };
 }

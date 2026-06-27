@@ -1,16 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/lib/firebase';
-import * as LucideIcons from 'lucide-react';
+import { useLazyAuthState } from '@/hooks/useLazyAuthState';
+import { MessageSquare, User } from 'lucide-react';
 import { toast } from 'sonner';
 import LoginModal from '@/components/testimonials/LoginModal';
 import { formatDistanceToNow } from 'date-fns';
 import { id as idLocale } from 'date-fns/locale';
+import Image from 'next/image';
 
 export default function CommentSection({ storyId }: { storyId: string }) {
-  const [user] = useAuthState(auth);
+  const [user] = useLazyAuthState();
   const [comments, setComments] = useState<any[]>([]);
   const [newComment, setNewComment] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -85,7 +85,7 @@ export default function CommentSection({ storyId }: { storyId: string }) {
       <div className="mb-8">
         {!user ? (
           <div className="flex flex-col items-center justify-center p-6 border border-[var(--color-border)] border-dashed rounded-xl bg-[var(--color-bg-surface)] text-center">
-            <LucideIcons.MessageSquare className="w-8 h-8 text-[var(--color-text-muted)] mb-3" />
+            <MessageSquare className="w-8 h-8 text-[var(--color-text-muted)] mb-3" />
             <p className="text-[var(--color-text-secondary)] mb-4">Login untuk ikut berdiskusi di artikel ini</p>
             <button 
               onClick={() => setIsLoginModalOpen(true)}
@@ -98,10 +98,10 @@ export default function CommentSection({ storyId }: { storyId: string }) {
           <form onSubmit={handleSubmit} className="flex gap-4">
             <div className="shrink-0">
               {user.photoURL ? (
-                <img src={user.photoURL} alt="Avatar" className="w-10 h-10 rounded-full" />
+                <Image src={user.photoURL} alt="Avatar" width={40} height={40} className="w-10 h-10 rounded-full" />
               ) : (
                 <div className="w-10 h-10 rounded-full bg-[var(--color-bg-elevated)] flex items-center justify-center">
-                  <LucideIcons.User className="w-5 h-5 text-[var(--color-text-muted)]" />
+                  <User className="w-5 h-5 text-[var(--color-text-muted)]" />
                 </div>
               )}
             </div>
@@ -145,10 +145,10 @@ export default function CommentSection({ storyId }: { storyId: string }) {
               <div key={comment.id} className={`flex gap-4 ${isMine ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
                 <div className="shrink-0">
                   {comment.userAvatar ? (
-                    <img src={comment.userAvatar} alt="Avatar" className="w-10 h-10 rounded-full" />
+                    <Image src={comment.userAvatar} alt="Avatar" width={40} height={40} className="w-10 h-10 rounded-full" />
                   ) : (
                     <div className="w-10 h-10 rounded-full bg-[var(--color-bg-elevated)] flex items-center justify-center">
-                      <LucideIcons.User className="w-5 h-5 text-[var(--color-text-muted)]" />
+                      <User className="w-5 h-5 text-[var(--color-text-muted)]" />
                     </div>
                   )}
                 </div>

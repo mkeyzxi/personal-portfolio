@@ -2,12 +2,12 @@
 
 import {useState} from 'react'
 import {Testimonial} from '@/types'
-import {auth} from '@/lib/firebase'
-import {useAuthState} from 'react-firebase-hooks/auth'
+import {useLazyAuthState} from '@/hooks/useLazyAuthState'
 import {formatDistanceToNow} from 'date-fns'
 import {id as localeId} from 'date-fns/locale'
 import {Icon} from '@iconify/react'
 import {toast} from 'sonner'
+import Image from 'next/image'
 
 interface TestimonialCardProps {
   testimonial: Testimonial
@@ -15,7 +15,7 @@ interface TestimonialCardProps {
 }
 
 export default function TestimonialCard({testimonial, onUpdate}: TestimonialCardProps) {
-  const [user] = useAuthState(auth)
+  const [user] = useLazyAuthState()
   const isOwner = user?.uid === testimonial.uid
 
   const [isEditing, setIsEditing] = useState(false)
@@ -83,9 +83,11 @@ export default function TestimonialCard({testimonial, onUpdate}: TestimonialCard
           className={`flex items-center gap-3 ${isOwner ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}
         >
           {testimonial.avatar ? (
-            <img
+            <Image
               src={testimonial.avatar}
               alt={testimonial.name}
+              width={40}
+              height={40}
               referrerPolicy="no-referrer"
               className="w-10 h-10 rounded-full img-mono border border-[var(--color-border)]"
             />
