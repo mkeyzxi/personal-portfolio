@@ -1,4 +1,4 @@
-import { getAdminAuth } from './firebase-admin';
+import { getAdminAuth } from './firebase-admin-auth';
 
 /**
  * Memverifikasi token Firebase Auth dan memastikan email cocok dengan ADMIN_EMAIL.

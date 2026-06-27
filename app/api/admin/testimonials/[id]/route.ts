@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
-import { getAdminDb } from '@/lib/firebase-admin';
+import { getAdminDb } from '@/lib/firebase-admin-db';
 import { verifyAdminToken } from '@/lib/adminAuthHelper';
+
+export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
 

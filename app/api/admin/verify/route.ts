@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminToken } from '@/lib/adminAuthHelper';
 
+export const runtime = 'nodejs';
+
 export async function POST(request: Request) {
   try {
     const decodedToken = await verifyAdminToken(request);

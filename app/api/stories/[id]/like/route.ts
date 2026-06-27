@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
-import { getAdminDb, getAdminAuth } from '@/lib/firebase-admin';
+import { getAdminDb } from '@/lib/firebase-admin-db';
+import { getAdminAuth } from '@/lib/firebase-admin-auth';
+
+export const runtime = 'nodejs';
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
