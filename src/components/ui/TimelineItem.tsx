@@ -24,28 +24,8 @@ const itemVariants = {
   }),
 };
 
-export default function TimelineItem({ experience, index }: TimelineItemProps) {
-  // Tentukan ikon berdasarkan tipe
-  const getIcon = () => {
-    switch (experience.type) {
-      case 'work':
-        return <Briefcase className="h-5 w-5" />;
-      case 'organization':
-        return <Users className="h-5 w-5" />;
-      case 'education':
-        return <GraduationCap className="h-5 w-5" />;
-      case 'certificate':
-        return <Award className="h-5 w-5" />;
-      default:
-        return <Briefcase className="h-5 w-5" />;
-    }
-  };
-
-  // Alternasi posisi di desktop (kiri/kanan)
-  const isEven = index % 2 === 0;
-  const isCertificate = experience.type === 'certificate';
-
-  const CardContent = ({ alignRight = false }: { alignRight?: boolean }) => (
+function CardContent({ experience, isCertificate, alignRight = false }: { experience: Experience; isCertificate: boolean; alignRight?: boolean }) {
+  return (
     <div className={cn(
       "flex flex-col gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] p-6 transition-all hover:border-[var(--color-text-muted)] hover:shadow-md",
       isCertificate ? "md:p-4" : ""
@@ -88,6 +68,29 @@ export default function TimelineItem({ experience, index }: TimelineItemProps) {
       )}
     </div>
   );
+}
+
+export default function TimelineItem({ experience, index }: TimelineItemProps) {
+  // Tentukan ikon berdasarkan tipe
+  const getIcon = () => {
+    switch (experience.type) {
+      case 'work':
+        return <Briefcase className="h-5 w-5" />;
+      case 'organization':
+        return <Users className="h-5 w-5" />;
+      case 'education':
+        return <GraduationCap className="h-5 w-5" />;
+      case 'certificate':
+        return <Award className="h-5 w-5" />;
+      default:
+        return <Briefcase className="h-5 w-5" />;
+    }
+  };
+
+  // Alternasi posisi di desktop (kiri/kanan)
+  const isEven = index % 2 === 0;
+  const isCertificate = experience.type === 'certificate';
+
 
   return (
     <motion.div
@@ -108,7 +111,7 @@ export default function TimelineItem({ experience, index }: TimelineItemProps) {
         "w-full md:w-5/12 pl-20 md:pl-0",
         isEven ? "md:text-right md:pr-16" : "md:col-start-2 md:pl-16 hidden md:block opacity-0"
       )}>
-        {isEven && <CardContent alignRight={true} />}
+        {isEven && <CardContent experience={experience} isCertificate={isCertificate} alignRight={true} />}
       </div>
 
       {/* ── Konten Kanan (Desktop) & Default Mobile ───────────── */}
@@ -116,7 +119,7 @@ export default function TimelineItem({ experience, index }: TimelineItemProps) {
         "w-full md:w-5/12 pl-20 md:pl-0",
         !isEven ? "md:pl-16" : "hidden md:block opacity-0"
       )}>
-        {!isEven && <CardContent />}
+        {!isEven && <CardContent experience={experience} isCertificate={isCertificate} />}
       </div>
 
     </motion.div>

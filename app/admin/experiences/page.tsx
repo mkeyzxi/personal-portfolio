@@ -8,9 +8,9 @@ import * as LucideIcons from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
 
 export default function AdminExperiencesDashboard() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<import('firebase/auth').User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [experiences, setExperiences] = useState<any[]>([]);
+  const [experiences, setExperiences] = useState<import('@/types').Experience[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentId, setCurrentId] = useState<string>('');
@@ -25,6 +25,19 @@ export default function AdminExperiencesDashboard() {
   const [technologies, setTechnologies] = useState('');
   const [credentialUrl, setCredentialUrl] = useState('');
 
+  const fetchExperiences = async (currentUser: import('firebase/auth').User | null) => {
+    try {
+      const token = await currentUser?.getIdToken();
+      const res = await fetch('/api/admin/experiences', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const json = await res.json();
+      if (json.success) setExperiences(json.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
@@ -38,18 +51,7 @@ export default function AdminExperiencesDashboard() {
     return () => unsubscribe();
   }, [router]);
 
-  const fetchExperiences = async (currentUser: any) => {
-    try {
-      const token = await currentUser.getIdToken();
-      const res = await fetch('/api/admin/experiences', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      const json = await res.json();
-      if (json.success) setExperiences(json.data);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+
 
   const resetForm = () => {
     setType('work');
@@ -63,7 +65,7 @@ export default function AdminExperiencesDashboard() {
     setIsEditMode(false);
   };
 
-  const handleOpenModal = (exp?: any) => {
+  const handleOpenModal = (exp?: import('@/types').Experience) => {
     if (exp) {
       setIsEditMode(true);
       setCurrentId(exp.id);
@@ -87,9 +89,9 @@ export default function AdminExperiencesDashboard() {
 
   const handleSave = async () => {
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken();
       
-      const payload: any = {
+      const payload: Record<string, unknown> = {
         type,
         company,
         position,
@@ -130,7 +132,7 @@ export default function AdminExperiencesDashboard() {
   const handleDelete = async (id: string) => {
     if (!confirm('Yakin ingin menghapus item ini secara permanen?')) return;
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken();
       const res = await fetch(`/api/admin/experiences/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }

@@ -121,8 +121,8 @@ export async function GET() {
     await batch.commit();
 
     return NextResponse.json({ success: true, message: 'Migration completed successfully!' }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Migration failed:', error);
-    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, message: (error instanceof Error ? error.message : String(error)) }, { status: 500 });
   }
 }

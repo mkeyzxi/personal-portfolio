@@ -16,7 +16,7 @@ const BlockNoteEditor = dynamic(() => import('@/components/admin/BlockNoteEditor
 });
 
 export default function NewProjectPage() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<import('firebase/auth').User | null>(null);
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -62,7 +62,7 @@ export default function NewProjectPage() {
 
     try {
       // Mendapatkan token untuk auth backend
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken();
 
       const payload = {
         ...formData,

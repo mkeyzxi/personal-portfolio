@@ -76,6 +76,7 @@ function renderBlockNoteJSON(blocks: any[]) {
       case 'image':
         return (
           <div key={index} className="my-8 rounded-2xl overflow-hidden border border-[var(--color-border)]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={block.props.url} alt={block.props.caption || "Image"} className="w-full object-cover" />
             {block.props.caption && <p className="text-center text-sm text-[var(--color-text-muted)] mt-2 pb-2">{block.props.caption}</p>}
           </div>
@@ -103,6 +104,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       {/* Header Banner */}
       <div className="w-full h-[40vh] md:h-[55vh] relative overflow-hidden bg-[var(--color-bg-elevated)] border-b border-[var(--color-border)]">
         {project.thumbnail && (
+          /* eslint-disable-next-line @next/next/no-img-element */
           <img 
             src={project.thumbnail} 
             alt={`Cover ${project.title}`} 

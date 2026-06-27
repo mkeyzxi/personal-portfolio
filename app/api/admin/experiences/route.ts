@@ -8,8 +8,8 @@ export async function GET(request: Request) {
   try {
     try {
       await verifyAdminToken(request);
-    } catch (e: any) {
-      if (e.message === 'UNAUTHORIZED' || e.message === 'INVALID_TOKEN') {
+    } catch (e: unknown) {
+      if ((e instanceof Error ? e.message : String(e)) === 'UNAUTHORIZED' || (e instanceof Error ? e.message : String(e)) === 'INVALID_TOKEN') {
         return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
       }
       return NextResponse.json({ success: false, message: 'Forbidden' }, { status: 403 });
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
   try {
     try {
       await verifyAdminToken(request);
-    } catch (e: any) {
+    } catch (e: unknown) {
       return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
     }
 
@@ -59,8 +59,8 @@ export async function POST(request: Request) {
       success: true, 
       data: { id: docRef.id, ...newExperience } 
     }, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error in POST /api/admin/experiences:', error);
-    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, message: (error instanceof Error ? error.message : String(error)) }, { status: 500 });
   }
 }

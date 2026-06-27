@@ -24,10 +24,10 @@ export async function GET() {
       }
     }, { status: 200 });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching about data:', error);
     return NextResponse.json(
-      { success: false, message: error.message || 'Failed to fetch about data' },
+      { success: false, message: (error instanceof Error ? error.message : String(error)) || 'Failed to fetch about data' },
       { status: 500 }
     );
   }
@@ -68,10 +68,10 @@ export async function POST(request: Request) {
     }, { merge: true });
 
     return NextResponse.json({ success: true, message: 'Data About berhasil diperbarui' }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating about data:', error);
     return NextResponse.json(
-      { success: false, message: error.message || 'Gagal memperbarui data About' },
+      { success: false, message: (error instanceof Error ? error.message : String(error)) || 'Gagal memperbarui data About' },
       { status: 500 }
     );
   }

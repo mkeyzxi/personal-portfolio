@@ -52,7 +52,9 @@ function useThemeStatus() {
 
   useEffect(() => {
     // Set status awal
-    setIsDark(document.documentElement.classList.contains('dark'))
+    requestAnimationFrame(() => {
+      setIsDark(document.documentElement.classList.contains('dark'))
+    })
 
     // Observer untuk memantau perubahan class pada elemen html
     const observer = new MutationObserver((mutations) => {

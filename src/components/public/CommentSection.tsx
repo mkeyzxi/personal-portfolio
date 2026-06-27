@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useLazyAuthState } from '@/hooks/useLazyAuthState';
 import { MessageSquare, User } from 'lucide-react';
 import { toast } from 'sonner';
@@ -8,32 +8,33 @@ import LoginModal from '@/components/testimonials/LoginModal';
 import { formatDistanceToNow } from 'date-fns';
 import { id as idLocale } from 'date-fns/locale';
 import Image from 'next/image';
+import type { CommentDocument } from '@/types';
 
 export default function CommentSection({ storyId }: { storyId: string }) {
   const [user] = useLazyAuthState();
-  const [comments, setComments] = useState<any[]>([]);
+  const [comments, setComments] = useState<CommentDocument[]>([]);
   const [newComment, setNewComment] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-  useEffect(() => {
-    fetchComments();
-  }, [storyId]);
-
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     try {
       const res = await fetch(`/api/stories/${storyId}/comments`);
       const data = await res.json();
       if (data.success) {
         setComments(data.data);
       }
-    } catch (e) {
+    } catch (e: unknown) {
       console.error(e);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [storyId]);
+
+  useEffect(() => {
+    fetchComments();
+  }, [fetchComments]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

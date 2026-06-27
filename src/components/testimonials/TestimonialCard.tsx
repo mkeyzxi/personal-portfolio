@@ -38,8 +38,8 @@ export default function TestimonialCard({testimonial, onUpdate}: TestimonialCard
 
       toast.success('Testimoni dihapus')
       onUpdate()
-    } catch (err: any) {
-      toast.error('Gagal menghapus', {description: err.message})
+    } catch (err: unknown) {
+      toast.error('Gagal menghapus', {description: (err instanceof Error ? err.message : String(err))})
       setIsDeleting(false)
     }
   }
@@ -65,8 +65,8 @@ export default function TestimonialCard({testimonial, onUpdate}: TestimonialCard
       toast.success('Testimoni diperbarui')
       setIsEditing(false)
       onUpdate()
-    } catch (err: any) {
-      toast.error('Gagal memperbarui', {description: err.message})
+    } catch (err: unknown) {
+      toast.error('Gagal memperbarui', {description: (err instanceof Error ? err.message : String(err))})
     } finally {
       setIsSubmitting(false)
     }

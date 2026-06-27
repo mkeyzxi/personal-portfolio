@@ -32,8 +32,8 @@ export async function POST(request: Request) {
   try {
     try {
       await verifyAdminToken(request);
-    } catch (e: any) {
-      if (e.message === 'UNAUTHORIZED' || e.message === 'INVALID_TOKEN') {
+    } catch (e: unknown) {
+      if ((e instanceof Error ? e.message : String(e)) === 'UNAUTHORIZED' || (e instanceof Error ? e.message : String(e)) === 'INVALID_TOKEN') {
         return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
       }
       return NextResponse.json({ success: false, message: 'Forbidden' }, { status: 403 });

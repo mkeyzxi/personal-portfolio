@@ -7,10 +7,23 @@ import { auth } from '@/lib/firebase';
 import * as LucideIcons from 'lucide-react';
 
 export default function AdminTestimonialsDashboard() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<import('firebase/auth').User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [testimonials, setTestimonials] = useState<import('@/types').Testimonial[]>([]);
   const router = useRouter();
+
+  const fetchTestimonials = async (currentUser: import('firebase/auth').User | null) => {
+    try {
+      const token = await currentUser?.getIdToken();
+      const res = await fetch('/api/admin/testimonials', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const json = await res.json();
+      if (json.success) setTestimonials(json.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -25,22 +38,11 @@ export default function AdminTestimonialsDashboard() {
     return () => unsubscribe();
   }, [router]);
 
-  const fetchTestimonials = async (currentUser: any) => {
-    try {
-      const token = await currentUser.getIdToken();
-      const res = await fetch('/api/admin/testimonials', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      const json = await res.json();
-      if (json.success) setTestimonials(json.data);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+
 
   const handleUpdateStatus = async (id: string, newStatus: string) => {
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken();
       const res = await fetch(`/api/admin/testimonials/${id}`, {
         method: 'PUT',
         headers: {
@@ -63,7 +65,7 @@ export default function AdminTestimonialsDashboard() {
   const handleDelete = async (id: string) => {
     if (!confirm('Yakin ingin menghapus testimoni ini secara permanen?')) return;
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken();
       const res = await fetch(`/api/admin/testimonials/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
@@ -108,6 +110,7 @@ export default function AdminTestimonialsDashboard() {
                   <td className="p-4">
                     <div className="flex items-center gap-3">
                       {testimonial.avatar ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
                         <img src={testimonial.avatar} alt="Avatar" className="w-8 h-8 rounded-full" />
                       ) : (
                         <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">

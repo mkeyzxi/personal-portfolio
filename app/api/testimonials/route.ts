@@ -24,7 +24,7 @@ export async function GET() {
       return NextResponse.json({ success: true, data: [] }, { status: 200 });
     }
 
-    let testimonialsData = snapshot.docs.map(doc => ({
+    const testimonialsData = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));

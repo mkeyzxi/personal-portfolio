@@ -15,10 +15,10 @@ export async function GET() {
     }));
 
     return NextResponse.json({ success: true, data: experiences }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching experiences:', error);
     return NextResponse.json(
-      { success: false, message: error.message || 'Failed to fetch experiences' },
+      { success: false, message: (error instanceof Error ? error.message : String(error)) || 'Failed to fetch experiences' },
       { status: 500 }
     );
   }

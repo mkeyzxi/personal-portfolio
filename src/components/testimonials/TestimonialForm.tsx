@@ -63,8 +63,8 @@ export default function TestimonialForm({onSuccess, onLoginRequest}: Testimonial
       toast.success('Testimoni berhasil ditambahkan!')
       setMessage('')
       onSuccess() // Refresh daftar testimoni
-    } catch (error: any) {
-      toast.error('Gagal', {description: error.message})
+    } catch (error: unknown) {
+      toast.error('Gagal', {description: (error instanceof Error ? error.message : String(error))})
     } finally {
       setIsSubmitting(false)
     }

@@ -14,7 +14,7 @@ import { id } from 'date-fns/locale';
 export default function AdminProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<import('firebase/auth').User | null>(null);
   const router = useRouter();
 
   useEffect(() => {

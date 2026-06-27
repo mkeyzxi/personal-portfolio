@@ -24,10 +24,10 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       await signInWithPopup(auth, provider);
       toast.success(`Berhasil login dengan ${providerName}`);
       onClose();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(`Login error (${providerName}):`, error);
       toast.error(`Gagal login dengan ${providerName}`, {
-        description: error.message || 'Pastikan provider diaktifkan di Firebase Console.'
+        description: (error instanceof Error ? error.message : String(error)) || 'Pastikan provider diaktifkan di Firebase Console.'
       });
     } finally {
       setLoadingProvider(null);

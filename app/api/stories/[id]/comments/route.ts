@@ -19,10 +19,11 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     }));
 
     return NextResponse.json({ success: true, data: comments });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching comments:', error);
     
-    if (error.code === 9) { // FAILED_PRECONDITION: Index required
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if ((error as any).code === 9) { // FAILED_PRECONDITION: Index required
       const resolvedParams = await params;
       const { id: storyId } = resolvedParams;
       const db = getAdminDb();
@@ -36,7 +37,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ success: true, data: sorted });
     }
     
-    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, message: (error instanceof Error ? error.message : String(error)) }, { status: 500 });
   }
 }
 
@@ -97,11 +98,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       success: true, 
       data: { id: newCommentRef.id, ...newComment }
     }, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error adding comment:', error);
-    if (error.message === 'Story not found') {
-      return NextResponse.json({ success: false, message: error.message }, { status: 404 });
+    if ((error instanceof Error ? error.message : String(error)) === 'Story not found') {
+      return NextResponse.json({ success: false, message: (error instanceof Error ? error.message : String(error)) }, { status: 404 });
     }
-    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, message: (error instanceof Error ? error.message : String(error)) }, { status: 500 });
   }
 }
