@@ -139,6 +139,13 @@ export default function AdminProjectsPage() {
                           >
                             <LucideIcons.ExternalLink className="h-5 w-5" />
                           </Link>
+                          <Link
+                            href={`/admin/projects/${project.id}`}
+                            className="text-amber-500 hover:text-amber-700 text-sm font-medium transition-colors"
+                            title="Edit Proyek"
+                          >
+                            <LucideIcons.Edit className="h-5 w-5" />
+                          </Link>
                           <button
                             onClick={() => handleDelete(project.id)}
                             className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors"
