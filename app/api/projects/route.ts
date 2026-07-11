@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { title, slug, shortDescription, content, category, thumbnail, technologies, githubUrl, liveUrl, featured } = body;
+    const { title, slug, shortDescription, content, category, thumbnail, technologies, githubUrl, liveUrl, featured, readmeContent } = body;
 
     if (!title || !slug || !content) {
       return NextResponse.json({ success: false, message: 'Data proyek tidak lengkap' }, { status: 400 });
@@ -72,6 +72,7 @@ export async function POST(request: Request) {
       githubUrl: githubUrl || null,
       liveUrl: liveUrl || null,
       featured: featured || false,
+      readmeContent: readmeContent || null,
       createdAt: new Date().toISOString(),
     });
 

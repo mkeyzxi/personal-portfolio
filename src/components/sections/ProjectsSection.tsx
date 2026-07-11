@@ -1,23 +1,25 @@
 'use client'
 
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import {motion, AnimatePresence} from 'framer-motion'
 import useSWR from 'swr'
 import ProjectCard from '@/components/ui/ProjectCard'
 import {cn} from '@/lib/utils'
 import {fetcher} from '@/lib/fetcher'
+import {sortProjectsByFeatured} from '@/lib/sortProjects'
 import type {Project} from '@/types'
 import * as LucideIcons from 'lucide-react'
 
 type ProjectCategory = Project['category'] | 'all'
 
-const CATEGORIES: {label: string; value: ProjectCategory}[] = [
-  {label: 'Semua', value: 'all'},
-  {label: 'Web', value: 'web'},
-  {label: 'Mobile', value: 'mobile'},
-  {label: 'API', value: 'api'},
-  {label: 'Lainnya', value: 'other'},
-]
+// Label mapping untuk kategori
+const CATEGORY_LABELS: Record<string, string> = {
+  all: 'Semua',
+  web: 'Web',
+  mobile: 'Mobile',
+  api: 'API',
+  other: 'Lainnya',
+}
 
 export default function ProjectsSection() {
   const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all')
@@ -27,9 +29,37 @@ export default function ProjectsSection() {
     { revalidateOnFocus: false, dedupingInterval: 60000 * 5 }
   )
 
-  const filteredProjects = projects.filter((proj) =>
+  // Sorting: featured projects tampil paling atas
+  const sortedProjects = sortProjectsByFeatured(projects)
+
+  // Dynamic categories: hanya tampilkan kategori yang punya proyek
+  const availableCategories: {label: string; value: ProjectCategory}[] = (() => {
+    const categorySet = new Set(projects.map((p) => p.category))
+    const dynamicCats: {label: string; value: ProjectCategory}[] = [
+      {label: 'Semua', value: 'all'},
+    ]
+    // Tambahkan hanya kategori yang memiliki minimal 1 proyek
+    const orderedCategories: Project['category'][] = ['web', 'mobile', 'api', 'other']
+    for (const cat of orderedCategories) {
+      if (categorySet.has(cat)) {
+        dynamicCats.push({
+          label: CATEGORY_LABELS[cat] || cat,
+          value: cat,
+        })
+      }
+    }
+    return dynamicCats
+  })()
+
+  const filteredProjects = sortedProjects.filter((proj) =>
     activeCategory === 'all' ? true : proj.category === activeCategory,
   )
+
+  // Reset ke 'all' jika active category tidak lagi tersedia
+  const isActiveCategoryAvailable = availableCategories.some((c) => c.value === activeCategory)
+  if (!isActiveCategoryAvailable && activeCategory !== 'all') {
+    setActiveCategory('all')
+  }
 
   return (
     <section
@@ -53,7 +83,7 @@ export default function ProjectsSection() {
 
         {/* ── Filter Tabs ──────────────────────────────────────── */}
         <div className="mb-12 flex flex-wrap justify-center md:justify-start gap-2">
-          {CATEGORIES.map((cat) => {
+          {availableCategories.map((cat) => {
             const isActive = activeCategory === cat.value
             return (
               <button

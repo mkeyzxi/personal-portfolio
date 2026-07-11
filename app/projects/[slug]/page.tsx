@@ -6,6 +6,7 @@ import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { Icon } from '@iconify/react';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
+import ReadmeRenderer from '@/components/public/ReadmeRenderer';
 
 export const revalidate = 3600; // ISR 1 jam
 
@@ -126,15 +127,29 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
   const project = snapshot.docs[0].data();
 
+  // Tentukan apakah konten menggunakan README atau BlockNote
+  const hasReadmeContent = project.readmeContent && typeof project.readmeContent === 'string' && project.readmeContent.trim().length > 0;
+
   let parsedContent = project.content;
-  if (typeof parsedContent === 'string') {
-    try {
-      parsedContent = JSON.parse(parsedContent);
-    } catch (e) {
-      console.error("Gagal mem-parsing konten proyek", e);
-      parsedContent = [];
+  if (!hasReadmeContent) {
+    if (typeof parsedContent === 'string') {
+      try {
+        parsedContent = JSON.parse(parsedContent);
+      } catch (e) {
+        console.error("Gagal mem-parsing konten proyek", e);
+        parsedContent = [];
+      }
     }
   }
+
+  // Cek apakah BlockNote content bermakna (bukan array kosong)
+  const hasBlockNoteContent = !hasReadmeContent && Array.isArray(parsedContent) && parsedContent.length > 0 && 
+    parsedContent.some((block: any) => {
+      if (block.type === 'paragraph' && block.content) {
+        return block.content.some((c: any) => c.text && c.text.trim().length > 0);
+      }
+      return block.type !== 'paragraph';
+    });
 
   return (
     <div className="min-h-screen bg-[var(--color-bg-main)]">
@@ -169,16 +184,25 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
       {/* Konten Utama */}
       <article className="max-w-5xl mx-auto py-12 px-6 md:px-10 flex flex-col md:flex-row justify-between gap-12 md:gap-16">
-        {/* Kolom Kiri: Detail & Render BlockNote */}
+        {/* Kolom Kiri: Detail & Render Konten */}
         <div className="flex-1 md:max-w-2xl">
           {/* Metadata Proyek (Mobile Only) */}
           <div className="flex flex-col gap-6 mb-10 md:hidden bg-[var(--color-bg-surface)] p-6 rounded-3xl border border-[var(--color-border)] shadow-sm">
             <ProjectMetaInfo project={project} />
           </div>
 
-          <div className="prose prose-neutral dark:prose-invert max-w-none text-[var(--color-text-secondary)] prose-img:rounded-2xl prose-img:border prose-img:border-[var(--color-border)]">
-            {renderBlockNoteJSON(parsedContent)}
-          </div>
+          {/* Render konten: README (react-markdown) atau BlockNote */}
+          {hasReadmeContent ? (
+            <ReadmeRenderer content={project.readmeContent} />
+          ) : hasBlockNoteContent ? (
+            <div className="prose prose-neutral dark:prose-invert max-w-none text-[var(--color-text-secondary)] prose-img:rounded-2xl prose-img:border prose-img:border-[var(--color-border)]">
+              {renderBlockNoteJSON(parsedContent)}
+            </div>
+          ) : (
+            <div className="py-12 text-center text-[var(--color-text-muted)]">
+              Belum ada konten detail untuk proyek ini.
+            </div>
+          )}
         </div>
 
         {/* Kolom Kanan: Sidebar Metadata (Desktop) */}

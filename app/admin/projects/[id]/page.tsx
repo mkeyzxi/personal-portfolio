@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
+import { fetchReadmeWithFallback } from '@/lib/github';
 import * as LucideIcons from 'lucide-react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
@@ -36,6 +37,15 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
     featured: false,
   });
   const [content, setContent] = useState<string>('');
+
+  // README fetch states
+  const [readmeContent, setReadmeContent] = useState<string>('');
+  const [isFetchingReadme, setIsFetchingReadme] = useState(false);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const [fetchSuccess, setFetchSuccess] = useState(false);
+
+  // Menentukan apakah menggunakan README atau BlockNote
+  const useReadmeMode = formData.githubUrl.trim().length > 0 && readmeContent.trim().length > 0;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -74,6 +84,11 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
           featured: project.featured || false,
         });
         
+        // Load README content if available
+        if (project.readmeContent) {
+          setReadmeContent(project.readmeContent);
+        }
+        
         // BlockNoteEditor mengekspektasikan JSON string.
         let contentString = project.content;
         if (typeof contentString !== 'string') {
@@ -102,11 +117,50 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
     setFormData(prev => ({ ...prev, title, slug }));
   };
 
+  const handleFetchReadme = async () => {
+    setFetchError(null);
+    setFetchSuccess(false);
+
+    if (!formData.githubUrl.trim()) {
+      setFetchError('Isi kolom GitHub URL terlebih dahulu sebelum mengambil README.');
+      return;
+    }
+
+    // Konfirmasi jika sudah ada konten README
+    if (readmeContent.trim().length > 0) {
+      const confirmed = window.confirm(
+        'Konten README saat ini akan ditimpa dengan README terbaru dari GitHub. Lanjutkan?'
+      );
+      if (!confirmed) return;
+    }
+
+    setIsFetchingReadme(true);
+    try {
+      const readmeText = await fetchReadmeWithFallback(formData.githubUrl);
+      setReadmeContent(readmeText);
+      setFetchSuccess(true);
+      toast.success('README berhasil diambil dari GitHub!');
+    } catch (err) {
+      setFetchError(err instanceof Error ? err.message : 'Terjadi kesalahan tidak diketahui.');
+    } finally {
+      setIsFetchingReadme(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!content || content.length === 0 || content === '[]') {
-      toast.error('Konten proyek tidak boleh kosong');
-      return;
+
+    // Validasi: harus ada konten (README atau BlockNote)
+    if (useReadmeMode) {
+      if (!readmeContent.trim()) {
+        toast.error('Konten README tidak boleh kosong');
+        return;
+      }
+    } else {
+      if (!content || content.length === 0 || content === '[]') {
+        toast.error('Konten proyek tidak boleh kosong');
+        return;
+      }
     }
 
     setIsLoading(true);
@@ -117,7 +171,8 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
       const payload = {
         ...formData,
         technologies: formData.technologies.split(',').map(t => t.trim()).filter(Boolean),
-        content,
+        content: useReadmeMode ? '[]' : content,
+        readmeContent: readmeContent || null,
       };
 
       const res = await fetch(`/api/projects/${id}`, {
@@ -248,12 +303,48 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-1">
               <label className="text-sm font-medium text-[var(--color-text-secondary)]">GitHub URL (Opsional)</label>
-              <input
-                type="url"
-                value={formData.githubUrl}
-                onChange={(e) => setFormData(prev => ({ ...prev, githubUrl: e.target.value }))}
-                className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-main)] px-4 py-3 text-[var(--color-text-primary)] focus:border-[var(--color-focus-ring)] focus:outline-none"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="url"
+                  value={formData.githubUrl}
+                  onChange={(e) => setFormData(prev => ({ ...prev, githubUrl: e.target.value }))}
+                  className="flex-1 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-main)] px-4 py-3 text-[var(--color-text-primary)] focus:border-[var(--color-focus-ring)] focus:outline-none"
+                  placeholder="https://github.com/owner/repo"
+                />
+                <button
+                  type="button"
+                  onClick={handleFetchReadme}
+                  disabled={isFetchingReadme || !formData.githubUrl.trim()}
+                  className="flex items-center gap-2 whitespace-nowrap rounded-xl bg-[var(--color-bg-elevated)] border border-[var(--color-border)] px-4 py-3 text-sm font-medium text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-border)] hover:border-[var(--color-focus-ring)] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isFetchingReadme ? (
+                    <LucideIcons.Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <LucideIcons.FileDown className="h-4 w-4" />
+                  )}
+                  {isFetchingReadme ? 'Mengambil...' : 'Ambil README'}
+                </button>
+              </div>
+
+              {/* Feedback messages */}
+              {isFetchingReadme && (
+                <p role="status" className="text-xs text-[var(--color-text-muted)] mt-1 flex items-center gap-1">
+                  <LucideIcons.Loader2 className="h-3 w-3 animate-spin" />
+                  Sedang mengambil README dari GitHub, mohon tunggu...
+                </p>
+              )}
+              {fetchError && (
+                <p role="alert" className="text-xs text-red-500 mt-1 flex items-center gap-1">
+                  <LucideIcons.AlertCircle className="h-3 w-3 flex-shrink-0" />
+                  {fetchError}
+                </p>
+              )}
+              {fetchSuccess && !fetchError && (
+                <p className="text-xs text-emerald-500 mt-1 flex items-center gap-1">
+                  <LucideIcons.CheckCircle2 className="h-3 w-3 flex-shrink-0" />
+                  README berhasil diambil! Tinjau/edit di bagian konten bawah.
+                </p>
+              )}
             </div>
             <div className="space-y-1">
               <label className="text-sm font-medium text-[var(--color-text-secondary)]">Live Demo URL (Opsional)</label>
@@ -262,6 +353,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
                 value={formData.liveUrl}
                 onChange={(e) => setFormData(prev => ({ ...prev, liveUrl: e.target.value }))}
                 className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-main)] px-4 py-3 text-[var(--color-text-primary)] focus:border-[var(--color-focus-ring)] focus:outline-none"
+                placeholder="https://..."
               />
             </div>
           </div>
@@ -279,10 +371,62 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
             </div>
           </label>
 
+          {/* ── Konten Editor ──────────────────────────────────── */}
           <div className="space-y-2 mt-4">
-            <label className="text-sm font-medium text-[var(--color-text-secondary)]">Konten Detail Proyek *</label>
-            {content && (
-              <BlockNoteEditor initialContent={content} onChange={setContent} />
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-medium text-[var(--color-text-secondary)]">
+                Konten Detail Proyek *
+              </label>
+              {useReadmeMode && (
+                <span className="flex items-center gap-1 text-xs text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full font-medium">
+                  <LucideIcons.FileText className="h-3 w-3" />
+                  Mode README
+                </span>
+              )}
+            </div>
+
+            {/* Info banner ketika README mode aktif */}
+            {useReadmeMode && (
+              <div className="flex items-start gap-3 p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/20">
+                <LucideIcons.Info className="h-4 w-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                <div className="text-xs text-[var(--color-text-secondary)]">
+                  <p className="font-medium text-emerald-500 mb-1">Konten dari GitHub README</p>
+                  <p>README akan menjadi konten utama halaman detail proyek. Anda dapat mengedit langsung di textarea di bawah.</p>
+                </div>
+              </div>
+            )}
+
+            {/* Conditional: README textarea OR BlockNote editor */}
+            {useReadmeMode ? (
+              <textarea
+                value={readmeContent}
+                onChange={(e) => setReadmeContent(e.target.value)}
+                rows={18}
+                className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-main)] px-4 py-3 text-[var(--color-text-primary)] font-mono text-sm leading-relaxed focus:border-[var(--color-focus-ring)] focus:outline-none resize-y"
+                placeholder="Konten README markdown..."
+              />
+            ) : (
+              content && <BlockNoteEditor initialContent={content} onChange={setContent} />
+            )}
+
+            {/* Tombol reset README jika ingin kembali ke BlockNote */}
+            {readmeContent.trim().length > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  const confirmed = window.confirm(
+                    'Apakah Anda yakin ingin menghapus konten README dan menggunakan editor BlockNote? Konten README akan hilang.'
+                  );
+                  if (confirmed) {
+                    setReadmeContent('');
+                    setFetchSuccess(false);
+                  }
+                }}
+                className="text-xs text-[var(--color-text-muted)] hover:text-red-500 transition-colors flex items-center gap-1"
+              >
+                <LucideIcons.RotateCcw className="h-3 w-3" />
+                Hapus README & gunakan BlockNote Editor
+              </button>
             )}
           </div>
 
