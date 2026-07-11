@@ -54,7 +54,7 @@ export async function PUT(request: Request, { params }: RouteParams) {
     }
 
     const body = await request.json();
-    const { title, slug, shortDescription, content, category, thumbnail, technologies, githubUrl, liveUrl, featured } = body;
+    const { title, slug, shortDescription, content, category, thumbnail, technologies, githubUrl, liveUrl, featured, readmeContent } = body;
 
     // 2. Validasi input dasar
     if (!title || !slug || !content) {
@@ -96,6 +96,7 @@ export async function PUT(request: Request, { params }: RouteParams) {
       githubUrl: githubUrl || null,
       liveUrl: liveUrl || null,
       featured: featured || false,
+      readmeContent: readmeContent || null,
       updatedAt: new Date().toISOString(),
     });
 

@@ -85,6 +85,7 @@ export interface Project {
   liveUrl?: string;
   featured: boolean;
   year?: number;
+  readmeContent?: string; // Raw markdown dari GitHub README (menggantikan BlockNote jika tersedia)
   createdAt?: string;
 }
 
