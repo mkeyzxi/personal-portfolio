@@ -16,6 +16,7 @@ export default function AdminStoryDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [view, setView] = useState<ViewState>('list');
   const [stories, setStories] = useState<import('@/types').StoryDocument[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
   const router = useRouter();
 
   // Form State
@@ -40,11 +41,22 @@ export default function AdminStoryDashboard() {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch('/api/categories');
+      const json = await res.json();
+      if (json.success) setCategories(json.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
         fetchStories(currentUser);
+        fetchCategories();
       } else {
         router.push('/admin');
       }
@@ -201,10 +213,15 @@ export default function AdminStoryDashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-[var(--color-text-secondary)]">Kategori (Opsional)</label>
-              <input 
-                type="text" placeholder="Misal: tech" value={categorySlug} onChange={(e) => setCategorySlug(e.target.value)}
+              <select 
+                value={categorySlug} onChange={(e) => setCategorySlug(e.target.value)}
                 className="w-full p-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-main)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-interactive)]" 
-              />
+              >
+                <option value="">Pilih Kategori</option>
+                {categories.map(cat => (
+                  <option key={cat.slug} value={cat.slug}>{cat.name}</option>
+                ))}
+              </select>
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-[var(--color-text-secondary)]">Status *</label>

@@ -4,41 +4,46 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import * as LucideIcons from 'lucide-react';
+import useSWR from 'swr';
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function StoryIndexPage() {
-  const [stories, setStories] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [navigatingId, setNavigatingId] = useState<string | null>(null);
 
+  // Menggunakan SWR untuk caching otomatis. 
+  // Fetcher akan mengambil data sekali, dan menyimpannya di cache.
+  // Jika pindah halaman dan kembali, data akan langsung dirender dari cache.
+  const { data: catRes, error: catError } = useSWR('/api/categories', fetcher, { revalidateOnFocus: false });
+  const { data: storyRes, error: storyError } = useSWR('/api/stories', fetcher, { revalidateOnFocus: false });
+
+  const categories = catRes?.success ? catRes.data : [];
+  const allStories = storyRes?.success ? storyRes.data : [];
+  
+  const isLoading = (!catRes && !catError) || (!storyRes && !storyError);
+
+  // 1. Dapatkan daftar slug kategori yang sudah memiliki artikel
+  const usedCategorySlugs = new Set(allStories.map((s: any) => s.categorySlug));
+  
+  // 2. Filter kategori agar HANYA menampilkan kategori yang memiliki konten
+  const availableCategories = categories.filter((cat: any) => usedCategorySlugs.has(cat.slug));
+
+  // 3. Filter story berdasarkan kategori aktif di sisi klien (karena data sudah ter-fetch semua)
+  const filteredStories = activeCategory 
+    ? allStories.filter((s: any) => s.categorySlug === activeCategory)
+    : allStories;
+
+  // Hapus state loading navigasi jika user menekan tombol Back di browser (BFCache)
   useEffect(() => {
-    fetchCategories();
-    fetchStories();
-  }, [activeCategory]);
-
-  const fetchCategories = async () => {
-    try {
-      const res = await fetch('/api/categories');
-      const data = await res.json();
-      if (data.success) setCategories(data.data);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const fetchStories = async () => {
-    setIsLoading(true);
-    try {
-      const url = activeCategory ? `/api/stories?category=${activeCategory}` : '/api/stories';
-      const res = await fetch(url);
-      const data = await res.json();
-      if (data.success) setStories(data.data);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    const handlePageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        setNavigatingId(null);
+      }
+    };
+    window.addEventListener('pageshow', handlePageShow);
+    return () => window.removeEventListener('pageshow', handlePageShow);
+  }, []);
 
   return (
     <div className="p-8 md:p-12 max-w-5xl mx-auto min-h-screen">
@@ -56,38 +61,40 @@ export default function StoryIndexPage() {
       </motion.div>
 
       {/* Category Filter */}
-      <div className="flex flex-wrap gap-2 justify-center mb-10">
-        <button
-          onClick={() => setActiveCategory('')}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-            activeCategory === '' 
-              ? 'bg-[var(--color-interactive)] text-[var(--color-interactive-text)]' 
-              : 'bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)] border border-[var(--color-border)]'
-          }`}
-        >
-          Semua
-        </button>
-        {categories.map(cat => (
+      {!isLoading && availableCategories.length > 0 && (
+        <div className="flex flex-wrap gap-2 justify-center mb-10">
           <button
-            key={cat.id}
-            onClick={() => setActiveCategory(cat.slug)}
+            onClick={() => setActiveCategory('')}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              activeCategory === cat.slug 
+              activeCategory === '' 
                 ? 'bg-[var(--color-interactive)] text-[var(--color-interactive-text)]' 
                 : 'bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)] border border-[var(--color-border)]'
             }`}
           >
-            {cat.name}
+            Semua
           </button>
-        ))}
-      </div>
+          {availableCategories.map((cat: any) => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.slug)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                activeCategory === cat.slug 
+                  ? 'bg-[var(--color-interactive)] text-[var(--color-interactive-text)]' 
+                  : 'bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)] border border-[var(--color-border)]'
+              }`}
+            >
+              {cat.name}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Story Grid */}
       {isLoading ? (
         <div className="flex justify-center py-20">
           <LucideIcons.Loader2 className="w-8 h-8 animate-spin text-[var(--color-text-muted)]" />
         </div>
-      ) : stories.length === 0 ? (
+      ) : filteredStories.length === 0 ? (
         <div className="text-center py-20 border border-[var(--color-border)] border-dashed rounded-xl">
           <LucideIcons.FileText className="w-12 h-12 text-[var(--color-text-muted)] mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">Belum ada cerita</h3>
@@ -95,17 +102,29 @@ export default function StoryIndexPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {stories.map((story, i) => (
+          {filteredStories.map((story: any, i: number) => (
             <motion.div
               key={story.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
+              className="relative h-full"
             >
-              <Link href={`/story/${story.slug}`} className="block group h-full">
+              <Link 
+                href={`/story/${story.slug}`} 
+                className="block group h-full relative"
+                onClick={() => setNavigatingId(story.id)}
+              >
+                {/* Visual Feedback saat navigasi (jaringan lag) */}
+                {navigatingId === story.id && (
+                  <div className="absolute inset-0 bg-white/40 dark:bg-black/40 z-10 rounded-2xl flex items-center justify-center backdrop-blur-[2px] transition-all">
+                    <LucideIcons.Loader2 className="w-8 h-8 animate-spin text-[var(--color-interactive)]" />
+                  </div>
+                )}
+                
                 <article className="bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-2xl p-6 h-full flex flex-col transition-all hover:shadow-lg hover:border-[var(--color-interactive)]">
                   <div className="text-xs text-[var(--color-interactive)] mb-3 font-mono bg-[var(--color-interactive)]/10 w-fit px-2 py-1 rounded">
-                    {categories.find(c => c.slug === story.categorySlug)?.name || 'Uncategorized'}
+                    {categories.find((c: any) => c.slug === story.categorySlug)?.name || 'Uncategorized'}
                   </div>
                   <h2 className="text-xl font-bold text-[var(--color-text-primary)] mb-3 group-hover:text-[var(--color-interactive)] transition-colors line-clamp-2">
                     {story.title}
