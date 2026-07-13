@@ -109,7 +109,17 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
           
           <div className="flex items-center gap-4">
             <LikeButton initialLikes={story.likeCount || 0} storyId={story.id} />
-            <ShareButton title={story.title} />
+            <ShareButton storyData={{
+              title: story.title,
+              description: story.summary || 'Baca cerita lengkapnya di portofolio saya.',
+              thumbnail: story.coverImage || undefined,
+              slug: story.slug,
+              likes: story.likeCount || 0,
+              authorName: story.authorName || 'Muhammad Makbul N',
+              authorPhoto: story.authorAvatar || '',
+              authorRole: 'Creator & Full Stack Developer',
+              publishDate: new Date(story.createdAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }),
+            }} />
           </div>
         </div>
       </header>
