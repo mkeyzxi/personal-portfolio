@@ -119,6 +119,7 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
               authorPhoto: story.authorAvatar || '',
               authorRole: 'Creator & Full Stack Developer',
               publishDate: new Date(story.createdAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }),
+              categoryName: category?.name || undefined,
             }} />
           </div>
         </div>
