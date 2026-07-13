@@ -39,10 +39,10 @@ const TestimonialsSection = dynamic(
   () => import('@/components/sections/TestimonialsSection'),
   { ssr: false }
 );
-const JourneySection = dynamic(
-  () => import('@/components/sections/JourneySection'),
-  { ssr: false }
-);
+// const JourneySection = dynamic(
+//   () => import('@/components/sections/JourneySection'),
+//   { ssr: false }
+// );
 const ContactSection = dynamic(
   () => import('@/components/sections/ContactSection'),
   { ssr: false }
@@ -58,7 +58,7 @@ const SECTION_MAP: Record<SectionKey, ComponentType> = {
   projects: ProjectsSection,
   'tech-stack': TechStackSection,
   testimonials: TestimonialsSection,
-  journey: JourneySection,
+  journey: () => null, // COMMENTED OUT: was JourneySection — dinonaktifkan sementara
   story: () => null,
   contact: ContactSection,
 };

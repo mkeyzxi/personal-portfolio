@@ -170,6 +170,12 @@ export interface StoryDocument {
   views: number;
   likeCount: number;
   commentCount: number;
+  /** Nama author dari Google OAuth profile */
+  authorName?: string;
+  /** URL avatar author dari Google OAuth profile */
+  authorAvatar?: string;
+  /** Email author */
+  authorEmail?: string;
 }
 
 export interface LikeDocument {

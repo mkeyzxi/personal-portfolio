@@ -66,8 +66,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    let decodedToken;
     try {
-      await verifyAdminToken(request);
+      decodedToken = await verifyAdminToken(request);
     } catch (e: unknown) {
       if ((e instanceof Error ? e.message : String(e)) === 'UNAUTHORIZED' || (e instanceof Error ? e.message : String(e)) === 'INVALID_TOKEN') {
         return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
@@ -101,7 +102,11 @@ export async function POST(request: Request) {
       updatedAt: now,
       views: 0,
       likeCount: 0,
-      commentCount: 0
+      commentCount: 0,
+      // Author info dari Google OAuth profile
+      authorName: decodedToken.name || '',
+      authorAvatar: decodedToken.picture || '',
+      authorEmail: decodedToken.email || '',
     };
 
     const docRef = await db.collection('stories').add(newStory);
