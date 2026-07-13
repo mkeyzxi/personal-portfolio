@@ -316,6 +316,52 @@ body {
  ---break---
  */
 
+/*
+ * ============================================================
+ * STORY READER — BlockNote Read-only Styling
+ * ============================================================
+ * Menghilangkan chrome editor BlockNote saat mode read-only
+ * agar tampil layaknya artikel/blog yang bersih.
+ * ============================================================
+ */
+
+.story-reader-content .bn-editor {
+  padding: 0 !important;
+  border: none !important;
+}
+
+.story-reader-content .bn-container {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.story-reader-content [data-content-type="paragraph"] {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-bottom: 0.75em;
+}
+
+.story-reader-content [data-content-type="heading"][data-level="1"] {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.story-reader-content [data-content-type="heading"][data-level="2"] {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+}
+
+.story-reader-content [data-content-type="heading"][data-level="3"] {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useCreateBlockNote } from '@blocknote/react';
 import { BlockNoteView } from '@blocknote/mantine';
 import '@blocknote/mantine/style.css';
@@ -11,6 +12,22 @@ interface BlockNoteEditorProps {
 }
 
 export default function BlockNoteEditor({ initialContent, onChange, editable = true }: BlockNoteEditorProps) {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+
+  // Deteksi dark mode secara reaktif
+  useEffect(() => {
+    const html = document.documentElement;
+    const updateTheme = () => {
+      setTheme(html.classList.contains('dark') ? 'dark' : 'light');
+    };
+    updateTheme();
+
+    // Observasi perubahan class di <html> (untuk theme toggle)
+    const observer = new MutationObserver(updateTheme);
+    observer.observe(html, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
+
   const initialBlocks = initialContent ? JSON.parse(initialContent) : undefined;
   
   const editor = useCreateBlockNote({
@@ -26,7 +43,7 @@ export default function BlockNoteEditor({ initialContent, onChange, editable = t
       <BlockNoteView
         editor={editor}
         editable={editable}
-        theme="light"
+        theme={theme}
         onChange={() => {
           onChange(JSON.stringify(editor.document));
         }}
@@ -34,3 +51,4 @@ export default function BlockNoteEditor({ initialContent, onChange, editable = t
     </div>
   );
 }
+

@@ -2,8 +2,9 @@ import { getAdminDb } from '@/lib/firebase-admin-db';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import * as LucideIcons from 'lucide-react';
-import StoryReader from '@/components/public/StoryReader';
+import BlockNoteRenderer from '@/components/public/BlockNoteRenderer';
 import LikeButton from '@/components/public/LikeButton';
+import ShareButton from '@/components/public/ShareButton';
 import CommentSection from '@/components/public/CommentSection';
 import { Metadata } from 'next';
 
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   
   return {
     title: `${story.title} | Portofolio`,
-    description: `Cerita mengenai ${story.title}`,
+    description: story.summary || `Cerita mengenai ${story.title}`,
     openGraph: {
       images: ['/og-image.jpeg'],
     },
@@ -86,23 +87,36 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
         <div className="flex items-center justify-between py-4 border-y border-[var(--color-border)]">
           <div className="flex items-center gap-3">
              <div className="w-10 h-10 rounded-full bg-[var(--color-bg-elevated)] flex items-center justify-center overflow-hidden">
-                <LucideIcons.User className="w-5 h-5 text-[var(--color-text-muted)]" />
+                {story.authorAvatar ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img 
+                    src={story.authorAvatar} 
+                    alt={story.authorName || 'Author'} 
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <LucideIcons.User className="w-5 h-5 text-[var(--color-text-muted)]" />
+                )}
              </div>
              <div>
-               <p className="text-sm font-medium text-[var(--color-text-primary)]">Admin</p>
+               <p className="text-sm font-medium text-[var(--color-text-primary)]">
+                 {story.authorName || 'Muhammad Makbul N'}
+               </p>
                <p className="text-xs text-[var(--color-text-muted)]">Author</p>
              </div>
           </div>
           
           <div className="flex items-center gap-4">
             <LikeButton initialLikes={story.likeCount || 0} storyId={story.id} />
+            <ShareButton title={story.title} />
           </div>
         </div>
       </header>
 
       {/* Konten Artikel */}
-      <div className="bg-[var(--color-bg-surface)] rounded-2xl p-6 md:p-8 border border-[var(--color-border)] shadow-sm mb-12">
-        <StoryReader jsonContentString={story.content} />
+      <div className="prose prose-neutral dark:prose-invert max-w-none text-[var(--color-text-secondary)] prose-img:rounded-2xl prose-img:border prose-img:border-[var(--color-border)] mb-12">
+        <BlockNoteRenderer content={story.content} />
       </div>
 
       <hr className="my-10 border-[var(--color-border)]" />

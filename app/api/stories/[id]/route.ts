@@ -31,8 +31,9 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   try {
     const resolvedParams = await params;
     const { id: slug } = resolvedParams;
+    let decodedToken;
     try {
-      await verifyAdminToken(request);
+      decodedToken = await verifyAdminToken(request);
     } catch (e: unknown) {
       if ((e instanceof Error ? e.message : String(e)) === 'UNAUTHORIZED' || (e instanceof Error ? e.message : String(e)) === 'INVALID_TOKEN') {
         return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
@@ -52,7 +53,11 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     
     const updateData = {
       ...body,
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
+      // Selalu update author info dari Google OAuth profile terbaru
+      authorName: decodedToken.name || '',
+      authorAvatar: decodedToken.picture || '',
+      authorEmail: decodedToken.email || '',
     };
     
     // Remove fields that shouldn't be updated directly via PUT like counters
