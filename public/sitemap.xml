@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://domainanda.com/</loc>
-    <lastmod>2025-06-01</lastmod>
+    <loc>https://www.makbuln.web.id/</loc>
+    <lastmod>2026-07-18</lastmod>
     <priority>1.0</priority>
+    <changefreq>daily</changefreq>
   </url>
+
   <url>
-    <loc>https://domainanda.com/story</loc>
-    <lastmod>2025-06-01</lastmod>
+    <loc>https://www.makbuln.web.id/story</loc>
+    <lastmod>2026-07-18</lastmod>
     <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
   </url>
 </urlset>
