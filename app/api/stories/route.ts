@@ -40,7 +40,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ success: true, data: stories });
   } catch (error: unknown) {
     console.error('Error fetching stories:', error);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     if ((error as any).code === 9) {
       // Fallback for index error
       const db = getAdminDb();
