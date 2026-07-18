@@ -25,7 +25,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   } catch (error: unknown) {
     console.error('Error fetching comments:', error);
     
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     if ((error as any).code === 9) { // FAILED_PRECONDITION: Index required
       const resolvedParams = await params;
       const { id: storyId } = resolvedParams;
