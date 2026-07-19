@@ -576,7 +576,7 @@ export default function ShareButton({ storyData }: ShareButtonProps) {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${storyData.title} | Portofolio`,
+          title: `${storyData.title} | Makbul N`,
           url: url,
         });
         setIsOpen(false);

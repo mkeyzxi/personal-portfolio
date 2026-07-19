@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
  * Placeholder values — ganti sebelum production deployment.
  */
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://www.makbuln.web.id'),
   title: 'Makbul N | Full Stack Developer',
   description:
     'Personal Portfolio — Full Stack Developer spesialisasi Next.js, React, TypeScript, Laravel, PHP, dan Firebase. Lihat proyek, pengalaman, dan hubungi saya.',
@@ -119,16 +119,16 @@ export default function RootLayout({
               '@graph': [
                 {
                   '@type': 'Person',
-                  name: 'Portfolio Owner',
+                  name: 'Muhammad Makbul N',
                   jobTitle: 'Full Stack Developer',
-                  url: 'https://domainanda.com',
-                  sameAs: ['https://github.com/username', 'https://linkedin.com/in/username'],
-                  knowsAbout: ['Next.js', 'React', 'TypeScript', 'Firebase', 'Web Accessibility'],
+                  url: 'https://www.makbuln.web.id',
+                  sameAs: ['https://github.com/makbuln', 'https://linkedin.com/in/makbuln'],
+                  knowsAbout: ['Next.js', 'React', 'TypeScript', 'Firebase', 'Laravel', 'PHP'],
                 },
                 {
                   '@type': 'WebSite',
-                  name: 'Portfolio Owner Portfolio',
-                  url: 'https://domainanda.com',
+                  name: 'Makbul N Portfolio',
+                  url: 'https://www.makbuln.web.id',
                 },
               ],
             }),
