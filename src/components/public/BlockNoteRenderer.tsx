@@ -79,6 +79,15 @@ export default function BlockNoteRenderer({ content }: { content: string | any[]
               {childrenBlocks}
             </div>
           );
+        case 'blockquote':
+          return (
+            <blockquote key={block.id || index} className="pl-4 border-l-4 border-[var(--color-interactive)] italic text-[var(--color-text-secondary)] my-4 bg-[var(--color-bg-elevated)] py-2 rounded-r">
+              <div className="leading-relaxed">
+                {renderTextContent(block.content)}
+              </div>
+              {childrenBlocks}
+            </blockquote>
+          );
         case 'divider':
           return <hr key={block.id || index} className="my-8 border-[var(--color-border)]" />;
         default:
