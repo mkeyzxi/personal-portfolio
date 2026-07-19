@@ -3,7 +3,7 @@
 import {useEffect} from 'react'
 
 const sectionTitles: Record<string, string> = {
-  home: 'Makbul N | Portofolio',
+  home: 'Makbul N',
   about: 'Tentang Saya | Makbul N',
   experience: 'Pengalaman | Makbul N',
   projects: 'Proyek | Makbul N',
