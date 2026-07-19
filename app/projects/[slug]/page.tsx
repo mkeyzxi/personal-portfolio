@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   
   const project = snapshot.docs[0].data();
   return {
-    title: `${project.title} | Portofolio`,
+    title: `${project.title} | Makbul N`,
     description: project.shortDescription || project.description,
     openGraph: {
       images: [project.thumbnail || '/og-image.jpeg'],

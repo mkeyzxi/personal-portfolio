@@ -15,7 +15,7 @@ describe('useSectionTitle', () => {
 
   it('sets document.title to home if section is invalid', () => {
     renderHook(() => useSectionTitle('nonexistent'));
-    expect(document.title).toBe('Makbul N | Portofolio');
+    expect(document.title).toBe('Makbul N');
   });
 
   it('updates document.title when section changes', () => {
@@ -23,7 +23,7 @@ describe('useSectionTitle', () => {
       initialProps: { section: 'home' },
     });
     
-    expect(document.title).toBe('Makbul N | Portofolio');
+    expect(document.title).toBe('Makbul N');
 
     rerender({ section: 'projects' });
     
