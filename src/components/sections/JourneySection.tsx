@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useSWR from 'swr';
-import { TerminalSquare, Code, MonitorSmartphone, Rocket, BookOpen, Loader2 } from 'lucide-react';
+import { TerminalSquare, Code, MonitorSmartphone, Rocket, BookOpen } from 'lucide-react';
 import { getJourneys } from '@/lib/firebase/journey';
 import type { Journey } from '@/types';
+import JourneySkeleton from '@/components/skeletons/JourneySkeleton';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -22,22 +23,76 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 200, damping: 20 } },
 };
 
-export default function JourneySection() {
-  const { data: journeys = [], isLoading } = useSWR<Journey[]>(
+const getIcon = (title?: string) => {
+  const t = title?.toLowerCase() || '';
+  if (t.includes('awal') || t.includes('terminal')) return <TerminalSquare className="h-5 w-5" />;
+  if (t.includes('kode') || t.includes('code')) return <Code className="h-5 w-5" />;
+  if (t.includes('mobile') || t.includes('app')) return <MonitorSmartphone className="h-5 w-5" />;
+  if (t.includes('launch') || t.includes('rocket')) return <Rocket className="h-5 w-5" />;
+  return <BookOpen className="h-5 w-5" />;
+};
+
+function JourneyContent() {
+  const { data: journeys = [] } = useSWR<Journey[]>(
     'journeys-asc', 
     () => getJourneys('asc'),
-    { revalidateOnFocus: false, dedupingInterval: 60000 * 5 } // cache for 5 minutes since journey rarely changes
+    { revalidateOnFocus: false, dedupingInterval: 60000 * 5, suspense: true } // suspense: true
   );
 
-  const getIcon = (title?: string) => {
-    const t = title?.toLowerCase() || '';
-    if (t.includes('awal') || t.includes('terminal')) return <TerminalSquare className="h-5 w-5" />;
-    if (t.includes('kode') || t.includes('code')) return <Code className="h-5 w-5" />;
-    if (t.includes('mobile') || t.includes('app')) return <MonitorSmartphone className="h-5 w-5" />;
-    if (t.includes('launch') || t.includes('rocket')) return <Rocket className="h-5 w-5" />;
-    return <BookOpen className="h-5 w-5" />;
-  };
+  return (
+    <AnimatePresence mode="wait">
+      {journeys.length > 0 ? (
+        <motion.div
+          key="content"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-100px" }}
+          className="relative"
+        >
+          {/* Garis Vertikal */}
+          <div className="absolute left-6 md:left-8 top-0 bottom-0 w-0.5 bg-[var(--color-border)]"></div>
 
+          <div className="flex flex-col gap-12">
+            {journeys.map((item) => (
+              <motion.div key={item.id} variants={itemVariants} className="relative flex gap-6 md:gap-8">
+                {/* Ikon Lingkaran */}
+                <div className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-4 border-[var(--color-bg-main)] shadow-sm bg-[var(--color-bg-elevated)] text-[var(--color-text-primary)]">
+                  {getIcon(item.title)}
+                </div>
+
+                {/* Konten Teks */}
+                <div className="flex flex-col pt-1">
+                  <span className="text-sm font-bold text-[var(--color-text-muted)] mb-1">
+                    {item.year}
+                  </span>
+                  <h3 className="text-xl font-bold mb-2 text-[var(--color-text-primary)]">
+                    {item.title}
+                  </h3>
+                  <p className="text-base leading-relaxed text-[var(--color-text-secondary)]">
+                    {item.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      ) : (
+        <motion.div
+          key="empty"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="text-center py-12 text-[var(--color-text-muted)]"
+        >
+          Belum ada jejak langkah yang ditambahkan.
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+export default function JourneySection() {
   return (
     <section aria-labelledby="journey-heading" className="flex min-h-screen w-full flex-col items-center justify-center py-24 px-6 md:px-10">
       <div className="w-full max-w-5xl">
@@ -53,65 +108,9 @@ export default function JourneySection() {
         </div>
 
         {/* ── Timeline Naratif ────────────────────────────────── */}
-        <AnimatePresence mode="wait">
-          {isLoading ? (
-            <motion.div
-              key="loader"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="flex justify-center py-12"
-            >
-              <Loader2 className="h-8 w-8 animate-spin text-[var(--color-text-muted)]" />
-            </motion.div>
-          ) : journeys.length > 0 ? (
-            <motion.div
-              key="content"
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-100px" }}
-              className="relative"
-            >
-              {/* Garis Vertikal */}
-              <div className="absolute left-6 md:left-8 top-0 bottom-0 w-0.5 bg-[var(--color-border)]"></div>
-
-              <div className="flex flex-col gap-12">
-                {journeys.map((item) => (
-                  <motion.div key={item.id} variants={itemVariants} className="relative flex gap-6 md:gap-8">
-                    {/* Ikon Lingkaran */}
-                    <div className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-4 border-[var(--color-bg-main)] shadow-sm bg-[var(--color-bg-elevated)] text-[var(--color-text-primary)]">
-                      {getIcon(item.title)}
-                    </div>
-
-                    {/* Konten Teks */}
-                    <div className="flex flex-col pt-1">
-                      <span className="text-sm font-bold text-[var(--color-text-muted)] mb-1">
-                        {item.year}
-                      </span>
-                      <h3 className="text-xl font-bold mb-2 text-[var(--color-text-primary)]">
-                        {item.title}
-                      </h3>
-                      <p className="text-base leading-relaxed text-[var(--color-text-secondary)]">
-                        {item.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="empty"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="text-center py-12 text-[var(--color-text-muted)]"
-            >
-              Belum ada jejak langkah yang ditambahkan.
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <Suspense fallback={<JourneySkeleton />}>
+          <JourneyContent />
+        </Suspense>
       </div>
     </section>
   );
