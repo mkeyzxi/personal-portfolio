@@ -80,6 +80,8 @@ export default function BlockNoteRenderer({ content }: { content: string | any[]
             </div>
           );
         case 'blockquote':
+        case 'quote':
+        case 'blockQuote':
           return (
             <blockquote key={block.id || index} className="pl-4 border-l-4 border-[var(--color-interactive)] italic text-[var(--color-text-secondary)] my-4 bg-[var(--color-bg-elevated)] py-2 rounded-r">
               <div className="leading-relaxed">
@@ -92,7 +94,8 @@ export default function BlockNoteRenderer({ content }: { content: string | any[]
           return <hr key={block.id || index} className="my-8 border-[var(--color-border)]" />;
         default:
           return (
-            <div key={block.id || index}>
+            <div key={block.id || index} className="my-2 text-[var(--color-text-secondary)]">
+              {renderTextContent(block.content)}
               {childrenBlocks}
             </div>
           );
