@@ -15,9 +15,17 @@ import { VALID_SECTION_KEYS, STORAGE_KEY_ACTIVE_SECTION } from '@/lib/constants'
 // Setiap section hanya dimuat saat pertama kali diaktifkan.
 // ============================================================
 
+import HomeSkeleton from '@/components/skeletons/HomeSkeleton';
+import AboutSkeleton from '@/components/skeletons/AboutSkeleton';
+import ExperienceSkeleton from '@/components/skeletons/ExperienceSkeleton';
+import ProjectsSkeleton from '@/components/skeletons/ProjectsSkeleton';
+// (TechStack uses default loading or no skeleton if none exists, I'll just leave it default for now or create a quick one if needed. Let's just use a simple spinner or null for TechStack)
+import TestimonialsSkeleton from '@/components/skeletons/TestimonialsSkeleton';
+import JourneySkeleton from '@/components/skeletons/JourneySkeleton';
+
 const HomeSection = dynamic(
   () => import('@/components/sections/HomeSection'),
-  { ssr: false }
+  { ssr: false, loading: () => <HomeSkeleton /> }
 );
 const AboutSection = dynamic(
   () => import('@/components/sections/AboutSection'),
@@ -39,10 +47,10 @@ const TestimonialsSection = dynamic(
   () => import('@/components/sections/TestimonialsSection'),
   { ssr: false }
 );
-// const JourneySection = dynamic(
-//   () => import('@/components/sections/JourneySection'),
-//   { ssr: false }
-// );
+const JourneySection = dynamic(
+  () => import('@/components/sections/JourneySection'),
+  { ssr: false }
+);
 const ContactSection = dynamic(
   () => import('@/components/sections/ContactSection'),
   { ssr: false }
@@ -58,8 +66,8 @@ const SECTION_MAP: Record<SectionKey, ComponentType> = {
   projects: ProjectsSection,
   'tech-stack': TechStackSection,
   testimonials: TestimonialsSection,
-  journey: () => null, // COMMENTED OUT: was JourneySection — dinonaktifkan sementara
-  story: () => null,
+  journey: JourneySection,
+  story: JourneySection, // Di map ke story sesuai AGENTS.md
   contact: ContactSection,
 };
 

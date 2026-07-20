@@ -76,7 +76,13 @@ function AboutContent() {
       ]
 
   return (
-    <div className="flex flex-col lg:flex-row gap-16 items-start ">
+    <motion.div 
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="show"
+      viewport={{once: true, margin: '-100px'}}
+      className="flex flex-col lg:flex-row gap-16 items-start"
+    >
       {/* ── Kiri: Foto Profil & Fakta Singkat ──────────────── */}
       <motion.div
         variants={leftSlideVariants}
@@ -183,7 +189,7 @@ function AboutContent() {
           </motion.div>
         </div>
       </motion.div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -193,16 +199,13 @@ export default function AboutSection() {
       aria-labelledby="about-heading"
       className="flex min-h-screen w-full flex-col items-center justify-center py-24 px-6 md:px-10"
     >
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="show"
-        viewport={{once: true, margin: '-100px'}}
-        className="w-full max-w-5xl"
-      >
+      <div className="w-full max-w-5xl">
         {/* Section Header */}
         <motion.div
           variants={rightSlideVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{once: true, margin: '-100px'}}
           className="mb-12 md:mb-16 text-center md:text-left"
         >
           <h1
@@ -218,7 +221,7 @@ export default function AboutSection() {
         <Suspense fallback={<AboutSkeleton />}>
           <AboutContent />
         </Suspense>
-      </motion.div>
+      </div>
     </section>
   )
 }
