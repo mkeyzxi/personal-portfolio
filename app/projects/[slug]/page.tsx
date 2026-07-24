@@ -1,29 +1,29 @@
-import { notFound } from 'next/navigation';
-import { getAdminDb } from '@/lib/firebase-admin-db';
-import { Metadata } from 'next';
-import Link from 'next/link';
-import { ArrowLeft, ExternalLink } from 'lucide-react';
-import { Icon } from '@iconify/react';
-import { format } from 'date-fns';
-import { id } from 'date-fns/locale';
-import ReadmeRenderer from '@/components/public/ReadmeRenderer';
-import BlockNoteRenderer from '@/components/public/BlockNoteRenderer';
+import {notFound} from 'next/navigation'
+import {getAdminDb} from '@/lib/firebase-admin-db'
+import {Metadata} from 'next'
+import Link from 'next/link'
+import {ArrowLeft, ExternalLink} from 'lucide-react'
+import {Icon} from '@iconify/react'
+import {format} from 'date-fns'
+import {id} from 'date-fns/locale'
+import ReadmeRenderer from '@/components/public/ReadmeRenderer'
+import BlockNoteRenderer from '@/components/public/BlockNoteRenderer'
 
-export const revalidate = 3600; // ISR 1 jam
+export const revalidate = 3600 // ISR 1 jam
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{slug: string}>
 }
 
 // 1. Generate Metadata untuk SEO
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const adminDb = getAdminDb();
-  const snapshot = await adminDb.collection('projects').where('slug', '==', slug).limit(1).get();
-  
-  if (snapshot.empty) return { title: 'Proyek Tidak Ditemukan' };
-  
-  const project = snapshot.docs[0].data();
+export async function generateMetadata({params}: PageProps): Promise<Metadata> {
+  const {slug} = await params
+  const adminDb = getAdminDb()
+  const snapshot = await adminDb.collection('projects').where('slug', '==', slug).limit(1).get()
+
+  if (snapshot.empty) return {title: 'Proyek Tidak Ditemukan'}
+
+  const project = snapshot.docs[0].data()
   return {
     title: `${project.title} | Makbul N`,
     description: project.shortDescription || project.description,
@@ -33,47 +33,51 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     twitter: {
       card: 'summary_large_image',
       images: [project.thumbnail || '/og-image.jpeg'],
-    }
-  };
+    },
+  }
 }
 
-
-
 // 2. Main Page Render
-export default async function ProjectDetailPage({ params }: PageProps) {
-  const { slug } = await params;
-  const adminDb = getAdminDb();
-  const snapshot = await adminDb.collection('projects').where('slug', '==', slug).limit(1).get();
-  
+export default async function ProjectDetailPage({params}: PageProps) {
+  const {slug} = await params
+  const adminDb = getAdminDb()
+  const snapshot = await adminDb.collection('projects').where('slug', '==', slug).limit(1).get()
+
   if (snapshot.empty) {
-    notFound();
+    notFound()
   }
 
-  const project = snapshot.docs[0].data();
+  const project = snapshot.docs[0].data()
 
   // Tentukan apakah konten menggunakan README atau BlockNote
-  const hasReadmeContent = project.readmeContent && typeof project.readmeContent === 'string' && project.readmeContent.trim().length > 0;
+  const hasReadmeContent =
+    project.readmeContent &&
+    typeof project.readmeContent === 'string' &&
+    project.readmeContent.trim().length > 0
 
-  let parsedContent = project.content;
+  let parsedContent = project.content
   if (!hasReadmeContent) {
     if (typeof parsedContent === 'string') {
       try {
-        parsedContent = JSON.parse(parsedContent);
+        parsedContent = JSON.parse(parsedContent)
       } catch (e) {
-        console.error("Gagal mem-parsing konten proyek", e);
-        parsedContent = [];
+        console.error('Gagal mem-parsing konten proyek', e)
+        parsedContent = []
       }
     }
   }
 
   // Cek apakah BlockNote content bermakna (bukan array kosong)
-  const hasBlockNoteContent = !hasReadmeContent && Array.isArray(parsedContent) && parsedContent.length > 0 && 
+  const hasBlockNoteContent =
+    !hasReadmeContent &&
+    Array.isArray(parsedContent) &&
+    parsedContent.length > 0 &&
     parsedContent.some((block: any) => {
       if (block.type === 'paragraph' && block.content) {
-        return block.content.some((c: any) => c.text && c.text.trim().length > 0);
+        return block.content.some((c: any) => c.text && c.text.trim().length > 0)
       }
-      return block.type !== 'paragraph';
-    });
+      return block.type !== 'paragraph'
+    })
 
   return (
     <div className="min-h-screen bg-[var(--color-bg-main)]">
@@ -81,18 +85,21 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       <div className="w-full h-[40vh] md:h-[55vh] relative overflow-hidden bg-[var(--color-bg-elevated)] border-b border-[var(--color-border)]">
         {project.thumbnail && (
           /* eslint-disable-next-line @next/next/no-img-element */
-          <img 
-            src={project.thumbnail} 
-            alt={`Cover ${project.title}`} 
+          <img
+            src={project.thumbnail}
+            alt={`Cover ${project.title}`}
             className="absolute inset-0 w-full h-full object-cover opacity-80 md:opacity-90 transition-opacity duration-500"
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-main)] via-[var(--color-bg-main)/60] to-transparent/10" />
-        
+
         <div className="absolute bottom-0 left-0 w-full p-6 md:p-10">
           <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-end gap-6">
             <div className="flex-1">
-              <Link href="/" className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-text-primary)] opacity-80 hover:opacity-100 transition-opacity mb-6 bg-[var(--color-bg-surface)]/50 backdrop-blur-md px-4 py-2 rounded-full border border-[var(--color-border)] shadow-sm">
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-text-primary)] opacity-80 hover:opacity-100 transition-opacity mb-6 bg-[var(--color-bg-surface)]/50 backdrop-blur-md px-4 py-2 rounded-full border border-[var(--color-border)] shadow-sm"
+              >
                 <ArrowLeft className="h-4 w-4" /> Kembali ke Beranda
               </Link>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-geist-sans text-[var(--color-text-primary)] mb-4 leading-tight">
@@ -137,32 +144,43 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         </aside>
       </article>
     </div>
-  );
+  )
 }
 
 // Helper component untuk Sidebar & Mobile info
-function ProjectMetaInfo({ project }: { project: any }) {
+function ProjectMetaInfo({project}: {project: any}) {
   return (
     <>
       <div className="flex flex-col gap-1">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)]">Kategori</h3>
-        <p className="font-medium text-[var(--color-text-primary)] capitalize">{project.category}</p>
+        <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)]">
+          Kategori
+        </h3>
+        <p className="font-medium text-[var(--color-text-primary)] capitalize">
+          {project.category}
+        </p>
       </div>
 
       {project.createdAt && (
         <div className="flex flex-col gap-1">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)]">Dipublikasikan</h3>
+          <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)]">
+            Dipublikasikan
+          </h3>
           <p className="font-medium text-[var(--color-text-primary)]">
-            {format(new Date(project.createdAt), 'dd MMMM yyyy', { locale: id })}
+            {format(new Date(project.createdAt), 'dd MMMM yyyy', {locale: id})}
           </p>
         </div>
       )}
 
       <div className="flex flex-col gap-2 mt-2">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)]">Teknologi</h3>
+        <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)]">
+          Teknologi
+        </h3>
         <div className="flex flex-wrap gap-2">
           {project.technologies?.map((tech: string) => (
-            <span key={tech} className="font-mono text-xs font-medium px-3 py-1.5 bg-[var(--color-bg-elevated)] border border-[var(--color-border)] text-[var(--color-text-secondary)] rounded-lg hover:text-[var(--color-text-primary)] transition-colors">
+            <span
+              key={tech}
+              className="font-mono text-xs font-medium px-3 py-1.5 bg-[var(--color-bg-elevated)] border border-[var(--color-border)] text-[var(--color-text-secondary)] rounded-lg hover:text-[var(--color-text-primary)] transition-colors"
+            >
               {tech}
             </span>
           ))}
@@ -172,17 +190,27 @@ function ProjectMetaInfo({ project }: { project: any }) {
       {(project.liveUrl || project.githubUrl) && (
         <div className="pt-6 border-t border-[var(--color-border)] flex flex-col gap-3 mt-2">
           {project.liveUrl && (
-            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[var(--color-interactive)] text-[var(--color-interactive-text)] font-semibold hover:bg-[var(--color-interactive-hover)] transition-all hover:-translate-y-0.5 active:translate-y-0 shadow-sm">
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[var(--color-interactive)] text-[var(--color-interactive-text)] font-semibold hover:bg-[var(--color-interactive-hover)] transition-all hover:-translate-y-0.5 active:translate-y-0 shadow-sm"
+            >
               <ExternalLink className="h-4 w-4" /> Kunjungi Situs
             </a>
           )}
           {project.githubUrl && (
-            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-main)] text-[var(--color-text-primary)] font-semibold hover:bg-[var(--color-bg-elevated)] transition-all hover:-translate-y-0.5 active:translate-y-0 shadow-sm">
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-main)] text-[var(--color-text-primary)] font-semibold hover:bg-[var(--color-bg-elevated)] transition-all hover:-translate-y-0.5 active:translate-y-0 shadow-sm"
+            >
               <Icon icon="mdi:github" className="h-5 w-5" /> Repositori Kode
             </a>
           )}
         </div>
       )}
     </>
-  );
+  )
 }
