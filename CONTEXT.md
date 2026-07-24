@@ -103,4 +103,4 @@ Desain website ini mengusung tema **Modern, Clean, & Premium** dengan sentuhan a
 ---
 
 > **PENTING UNTUK AI:**
-> Gunakan dokumen ini sebagai referensi utama Anda. Jika Anda melihat kode tidak mematuhi panduan ini (misalnya menggunakan hardcoded `bg-slate-900`), perbaikilah ke versi semantic property (`bg-[var(--color-bg-...)]`) secara proaktif!
+> Gunakan dokumen ini sebagai referensi utama Anda. Jika Anda melihat kode tidak mematuhi panduan ini (misalnya menggunakan hardcoded `bg-slate-900`), perbaikilah ke versi semantic property yang valid secara proaktif!
