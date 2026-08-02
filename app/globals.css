@@ -21,9 +21,14 @@
  */
 
 @theme {
-  /* ── Font Family (SDD §4.2) ────────────────────────────── */
-  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, "Cascadia Code", monospace;
+  /* ── 3-Tier Luxury Typographic System (Plus Jakarta Sans, Outfit, JetBrains Mono) ── */
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-heading: "Outfit", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), var(--font-sans);
 }
 
 /*
