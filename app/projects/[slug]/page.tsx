@@ -27,6 +27,9 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   return {
     title: `${project.title} | Makbul N`,
     description: project.shortDescription || project.description,
+    alternates: {
+      canonical: `/projects/${project.slug || slug}`,
+    },
     openGraph: {
       images: [project.thumbnail || '/og-image.jpeg'],
     },

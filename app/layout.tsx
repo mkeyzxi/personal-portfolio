@@ -55,6 +55,9 @@ export const metadata: Metadata = {
   ],
   authors: [{name: 'Muhammad Makbul N'}],
   robots: 'index, follow',
+  alternates: {
+    canonical: '/',
+  },
   icons: {
     icon: '/icon.png',
     shortcut: '/icon.png',
