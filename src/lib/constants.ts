@@ -12,7 +12,6 @@ export const NAV_ITEMS: NavItem[] = [
   { key: 'projects', label: 'Projects', icon: 'FolderOpen', bottomNav: true },
   { key: 'tech-stack', label: 'Tech Stack', icon: 'Layers', bottomNav: false },
   { key: 'testimonials', label: 'Testimonials', icon: 'MessageSquare', bottomNav: false },
-  // { key: 'journey', label: 'Journey', icon: 'Route', bottomNav: false },
   { key: 'story', label: 'Story', icon: 'FileText', bottomNav: false },
   { key: 'contact', label: 'Contact', icon: 'Mail', bottomNav: true },
 ];
@@ -27,7 +26,6 @@ export const ADMIN_NAV_ITEMS = [
   { key: 'admin-projects', label: 'Projects', icon: 'FolderGit2', href: '/admin/projects' },
   { key: 'admin-testimonials', label: 'Testimonials', icon: 'MessageSquare', href: '/admin/testimonials' },
   { key: 'admin-experiences', label: 'Experiences', icon: 'Briefcase', href: '/admin/experiences' },
-  { key: 'admin-journey', label: 'Journey', icon: 'Route', href: '/admin/journey' },
   { key: 'admin-stories', label: 'Stories', icon: 'FileText', href: '/admin/story' },
 ];
 

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { User, FolderGit2, Briefcase, Route, MessageSquare, FileText } from 'lucide-react';
+import { User, FolderGit2, Briefcase, MessageSquare, FileText } from 'lucide-react';
 
 export default function AdminDashboardPage() {
   return (
@@ -37,14 +37,6 @@ export default function AdminDashboardPage() {
             <Briefcase className="w-8 h-8 text-[var(--color-interactive)] mb-4 group-hover:scale-110 transition-transform" />
             <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Pengalaman</h3>
             <p className="text-sm text-[var(--color-text-secondary)]">Perbarui riwayat pekerjaan, organisasi, dan pendidikan.</p>
-          </div>
-        </Link>
-
-        <Link href="/admin/journey" className="group">
-          <div className="bg-[var(--color-bg-surface)] p-6 rounded-xl border border-[var(--color-border)] shadow-sm h-full transition-all hover:border-[var(--color-interactive)] hover:shadow-md">
-            <Route className="w-8 h-8 text-[var(--color-interactive)] mb-4 group-hover:scale-110 transition-transform" />
-            <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Perjalanan (Journey)</h3>
-            <p className="text-sm text-[var(--color-text-secondary)]">Catat peristiwa atau pencapaian penting dari waktu ke waktu.</p>
           </div>
         </Link>
 

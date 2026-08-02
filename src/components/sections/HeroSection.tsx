@@ -2,7 +2,7 @@
 
 import {useState, useEffect} from 'react'
 import {motion} from 'framer-motion'
-import {ArrowRight, Mail} from 'lucide-react'
+import {ArrowRight, Mail, ChevronDown} from 'lucide-react'
 import {OWNER_INFO} from '@/lib/constants'
 import ShinyText from '@/components/ShinyText'
 
@@ -95,13 +95,13 @@ export default function HeroSection() {
         <motion.div
           variants={particleVariants}
           animate="animate"
-          className="absolute -left-1/4 -top-1/4 h-[50vw] w-[50vw] rounded-full bg-[var(--color-text-muted)] blur-[120px] mix-blend-multiply opacity-20 dark:opacity-10"
+          className="absolute -left-1/4 -top-1/4 h-[50vw] w-[50vw] rounded-full bg-[var(--color-text-muted)] blur-[120px] mix-blend-multiply opacity-20 dark:opacity-10 will-change-transform transform-gpu"
         />
         {/* Blob 2 */}
         <motion.div
           variants={particleVariants}
           animate="animate"
-          className="absolute -bottom-1/4 -right-1/4 h-[60vw] w-[60vw] rounded-full bg-[var(--color-border)] blur-[150px] mix-blend-multiply opacity-20 dark:opacity-10"
+          className="absolute -bottom-1/4 -right-1/4 h-[60vw] w-[60vw] rounded-full bg-[var(--color-border)] blur-[150px] mix-blend-multiply opacity-20 dark:opacity-10 will-change-transform transform-gpu"
           style={{animationDelay: '-5s'}} // Offset animasi manual
         />
       </div>
@@ -176,6 +176,29 @@ export default function HeroSection() {
             <Mail className="h-5 w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
             Hubungi Saya
           </button>
+        </motion.div>
+      </motion.div>
+
+      {/* ── Scroll to Explore Indicator ───────────────────────── */}
+      <motion.div
+        initial={{opacity: 0}}
+        animate={{opacity: 1}}
+        transition={{delay: 0.8, duration: 0.8}}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors z-20"
+        onClick={() => {
+          const el = document.getElementById('home-overview')
+          el?.scrollIntoView({behavior: 'smooth'})
+        }}
+      >
+        <span className="text-[11px] font-mono uppercase tracking-widest font-semibold">
+          Jelajahi Ringkasan
+        </span>
+        <motion.div
+          animate={{y: [0, 6, 0]}}
+          transition={{duration: 1.5, repeat: Infinity, ease: 'easeInOut'}}
+          className="will-change-transform transform-gpu"
+        >
+          <ChevronDown className="h-5 w-5 text-[var(--color-text-primary)]" />
         </motion.div>
       </motion.div>
     </section>

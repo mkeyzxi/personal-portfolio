@@ -3,6 +3,7 @@ import {Plus_Jakarta_Sans, Outfit, JetBrains_Mono} from 'next/font/google'
 import './globals.css'
 import {cn} from '@/lib/utils'
 import GlobalLayout from '@/components/global/GlobalLayout'
+import {SWRProvider} from '@/components/providers/SWRProvider'
 /**
  * Font Primary (UI & Body): Plus Jakarta Sans — Paragraf, deskripsi, tombol CTA, dan elemen antarmuka.
  * Memberikan kesan editorial tech modern yang elegan dan sangat bersih.
@@ -150,7 +151,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-[var(--color-bg-main)] text-[var(--color-text-primary)] font-sans antialiased">
-        <GlobalLayout>{children}</GlobalLayout>
+        <SWRProvider>
+          <GlobalLayout>{children}</GlobalLayout>
+        </SWRProvider>
       </body>
     </html>
   )
