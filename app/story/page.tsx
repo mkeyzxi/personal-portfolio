@@ -5,21 +5,18 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import * as LucideIcons from 'lucide-react';
 import useSWR from 'swr';
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+import { fetcher } from '@/lib/fetcher';
 
 export default function StoryIndexPage() {
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [navigatingId, setNavigatingId] = useState<string | null>(null);
 
-  // Menggunakan SWR untuk caching otomatis. 
-  // Fetcher akan mengambil data sekali, dan menyimpannya di cache.
-  // Jika pindah halaman dan kembali, data akan langsung dirender dari cache.
+  // Menggunakan SWR untuk caching otomatis dengan fetcher terstandarisasi.
   const { data: catRes, error: catError } = useSWR('/api/categories', fetcher, { revalidateOnFocus: false });
   const { data: storyRes, error: storyError } = useSWR('/api/stories', fetcher, { revalidateOnFocus: false });
 
-  const categories = catRes?.success ? catRes.data : [];
-  const allStories = storyRes?.success ? storyRes.data : [];
+  const categories: any[] = Array.isArray(catRes) ? catRes : (catRes?.success ? catRes.data : (catRes?.data || []));
+  const allStories: any[] = Array.isArray(storyRes) ? storyRes : (storyRes?.success ? storyRes.data : (storyRes?.data || []));
   
   const isLoading = (!catRes && !catError) || (!storyRes && !storyError);
 

@@ -1,21 +1,36 @@
 import type {Metadata, Viewport} from 'next'
-import {Geist, Geist_Mono} from 'next/font/google'
+import {Plus_Jakarta_Sans, Outfit, JetBrains_Mono} from 'next/font/google'
 import './globals.css'
 import {cn} from '@/lib/utils'
 import GlobalLayout from '@/components/global/GlobalLayout'
+import {SWRProvider} from '@/components/providers/SWRProvider'
 /**
- * Font: Geist Sans — Main text, headings, body paragraphs.
- * SDD §4.2: tracking-tight digunakan pada heading.
+ * Font Primary (UI & Body): Plus Jakarta Sans — Paragraf, deskripsi, tombol CTA, dan elemen antarmuka.
+ * Memberikan kesan editorial tech modern yang elegan dan sangat bersih.
  */
-const geist = Geist({subsets: ['latin'], variable: '--font-sans'})
+const jakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+})
 
 /**
- * Font: Geist Mono — Badge angka, tag tech stack, elemen mirip kode.
- * SDD §4.2: Wajib untuk data/metrics display.
+ * Font Headings (Display & Titles): Outfit — Judul H1-H6, Hero Section, dan header proyek.
+ * Membawa estetika geometri modern yang mewah dan prestise tinggi.
  */
-const geistMono = Geist_Mono({
-  variable: '--font-mono',
+const outfit = Outfit({
   subsets: ['latin'],
+  variable: '--font-heading',
+  display: 'swap',
+})
+
+/**
+ * Font Monospace (Code & Tech Badges): JetBrains Mono — Badge angka, tag tech stack, dan timeline years.
+ * Font standar emas developer profesional yang tegas dan berkelas.
+ */
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
   display: 'swap',
 })
 
@@ -79,7 +94,7 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={cn(geistMono.variable, 'font-sans', geist.variable)}
+      className={cn(jakartaSans.variable, outfit.variable, jetbrainsMono.variable, 'font-sans')}
       suppressHydrationWarning
     >
       <head>
@@ -136,7 +151,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-[var(--color-bg-main)] text-[var(--color-text-primary)] font-sans antialiased">
-        <GlobalLayout>{children}</GlobalLayout>
+        <SWRProvider>
+          <GlobalLayout>{children}</GlobalLayout>
+        </SWRProvider>
       </body>
     </html>
   )

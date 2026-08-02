@@ -9,7 +9,6 @@ export type SectionKey =
   | 'projects'
   | 'tech-stack'
   | 'testimonials'
-  | 'journey'
   | 'story'
   | 'contact';
 
@@ -96,14 +95,6 @@ export interface TechItem {
   level?: 'beginner' | 'intermediate' | 'advanced';
 }
 
-export interface StoryMilestone {
-  id: string;
-  year: string;
-  title: string;
-  description: string;
-  icon?: string;
-  highlight?: boolean;
-}
 
 export interface Testimonial {
   id: string;
@@ -142,13 +133,6 @@ export interface AboutData {
 }
 
 
-export interface Journey {
-  id?: string;
-  year: number;
-  title: string;
-  description: string;
-  createdAt: string;
-}
 
 export interface CategoryDocument {
   id: string;

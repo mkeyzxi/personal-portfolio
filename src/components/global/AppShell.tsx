@@ -19,9 +19,14 @@ import HomeSkeleton from '@/components/skeletons/HomeSkeleton';
 import AboutSkeleton from '@/components/skeletons/AboutSkeleton';
 import ExperienceSkeleton from '@/components/skeletons/ExperienceSkeleton';
 import ProjectsSkeleton from '@/components/skeletons/ProjectsSkeleton';
-// (TechStack uses default loading or no skeleton if none exists, I'll just leave it default for now or create a quick one if needed. Let's just use a simple spinner or null for TechStack)
 import TestimonialsSkeleton from '@/components/skeletons/TestimonialsSkeleton';
-import JourneySkeleton from '@/components/skeletons/JourneySkeleton';
+
+const RedirectToStory = () => {
+  useEffect(() => {
+    window.location.href = '/story';
+  }, []);
+  return null;
+};
 
 const HomeSection = dynamic(
   () => import('@/components/sections/HomeSection'),
@@ -29,31 +34,27 @@ const HomeSection = dynamic(
 );
 const AboutSection = dynamic(
   () => import('@/components/sections/AboutSection'),
-  { ssr: false }
+  { ssr: false, loading: () => <AboutSkeleton /> }
 );
 const ExperienceSection = dynamic(
   () => import('@/components/sections/ExperienceSection'),
-  { ssr: false }
+  { ssr: false, loading: () => <ExperienceSkeleton /> }
 );
 const ProjectsSection = dynamic(
   () => import('@/components/sections/ProjectsSection'),
-  { ssr: false }
+  { ssr: false, loading: () => <ProjectsSkeleton /> }
 );
 const TechStackSection = dynamic(
   () => import('@/components/sections/TechStackSection'),
-  { ssr: false }
+  { ssr: false, loading: () => <div className="w-full min-h-[600px] animate-pulse rounded-[24px] border border-[var(--color-border)]/40 bg-[var(--color-bg-surface)]/50 my-8" /> }
 );
 const TestimonialsSection = dynamic(
   () => import('@/components/sections/TestimonialsSection'),
-  { ssr: false }
-);
-const JourneySection = dynamic(
-  () => import('@/components/sections/JourneySection'),
-  { ssr: false }
+  { ssr: false, loading: () => <TestimonialsSkeleton /> }
 );
 const ContactSection = dynamic(
   () => import('@/components/sections/ContactSection'),
-  { ssr: false }
+  { ssr: false, loading: () => <div className="w-full min-h-[600px] animate-pulse rounded-[24px] border border-[var(--color-border)]/40 bg-[var(--color-bg-surface)]/50 my-8" /> }
 );
 
 /**
@@ -66,8 +67,7 @@ const SECTION_MAP: Record<SectionKey, ComponentType> = {
   projects: ProjectsSection,
   'tech-stack': TechStackSection,
   testimonials: TestimonialsSection,
-  journey: JourneySection,
-  story: JourneySection, // Di map ke story sesuai AGENTS.md
+  story: RedirectToStory,
   contact: ContactSection,
 };
 
