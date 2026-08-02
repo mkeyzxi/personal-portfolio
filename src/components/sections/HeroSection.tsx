@@ -190,9 +190,9 @@ export default function HeroSection() {
           el?.scrollIntoView({behavior: 'smooth'})
         }}
       >
-        <span className="text-[11px] font-mono uppercase tracking-widest font-semibold">
+        {/* <span className="text-[11px] font-mono uppercase tracking-widest font-semibold">
           Jelajahi Ringkasan
-        </span>
+        </span> */}
         <motion.div
           animate={{y: [0, 6, 0]}}
           transition={{duration: 1.5, repeat: Infinity, ease: 'easeInOut'}}

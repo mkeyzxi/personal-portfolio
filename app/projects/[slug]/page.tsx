@@ -102,7 +102,7 @@ export default async function ProjectDetailPage({params}: PageProps) {
               >
                 <ArrowLeft className="h-4 w-4" /> Kembali ke Beranda
               </Link>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-geist-sans text-[var(--color-text-primary)] mb-4 leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-geist-sans text-[var(--color-text-primary)] mb-4 leading-tight drop-shadow-xl">
                 {project.title}
               </h1>
               <p className="text-lg md:text-xl text-[var(--color-text-secondary)] max-w-2xl">
