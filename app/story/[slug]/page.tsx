@@ -21,6 +21,9 @@ export async function generateMetadata({
   return {
     title: `${story.title} | Makbul N`,
     description: story.summary || `Cerita mengenai ${story.title}`,
+    alternates: {
+      canonical: `/story/${story.slug || resolvedParams.slug}`,
+    },
     openGraph: {
       images: ['/og-image.jpeg'],
     },
