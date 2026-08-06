@@ -53,10 +53,10 @@ function CardContent({ experience, isCertificate, alignRight = false }: { experi
         </div>
       )}
 
-      {isCertificate && experience.credentialUrl && (
+      {experience.credentialUrl && (
         <div className={cn("mt-3 flex", alignRight ? "md:justify-end" : "justify-start")}>
           <a 
-            href={experience.credentialUrl} 
+            href={experience.credentialUrl.startsWith('http') ? experience.credentialUrl : `https://${experience.credentialUrl}`} 
             target="_blank" 
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-interactive)] hover:underline"
