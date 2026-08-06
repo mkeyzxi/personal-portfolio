@@ -21,6 +21,25 @@ import ExperienceSkeleton from '@/components/skeletons/ExperienceSkeleton';
 import ProjectsSkeleton from '@/components/skeletons/ProjectsSkeleton';
 import TestimonialsSkeleton from '@/components/skeletons/TestimonialsSkeleton';
 
+const SectionFallback = ({ title, subtitle, children }: { title: string, subtitle?: string, children: React.ReactNode }) => (
+  <section className="flex min-h-screen w-full flex-col items-center justify-center py-24 px-6 md:px-10">
+    <div className="w-full max-w-5xl flex flex-col justify-center h-full flex-1">
+      <div className="mb-12 md:mb-16 text-center md:text-left">
+        <h1 className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl">
+          {title}
+        </h1>
+        <div className="mt-2 h-1 w-20 bg-[var(--color-text-primary)] mx-auto md:mx-0"></div>
+        {subtitle && (
+          <p className="mt-4 text-[var(--color-text-secondary)] max-w-2xl">
+            {subtitle}
+          </p>
+        )}
+      </div>
+      {children}
+    </div>
+  </section>
+);
+
 const RedirectToStory = () => {
   useEffect(() => {
     window.location.href = '/story';
@@ -34,27 +53,27 @@ const HomeSection = dynamic(
 );
 const AboutSection = dynamic(
   () => import('@/components/sections/AboutSection'),
-  { ssr: false, loading: () => <AboutSkeleton /> }
+  { ssr: false, loading: () => <SectionFallback title="Tentang Saya"><AboutSkeleton /></SectionFallback> }
 );
 const ExperienceSection = dynamic(
   () => import('@/components/sections/ExperienceSection'),
-  { ssr: false, loading: () => <ExperienceSkeleton /> }
+  { ssr: false, loading: () => <SectionFallback title="Pengalaman & Kredensial" subtitle="Jejak karir, pendidikan, organisasi, serta sertifikasi profesional saya."><ExperienceSkeleton /></SectionFallback> }
 );
 const ProjectsSection = dynamic(
   () => import('@/components/sections/ProjectsSection'),
-  { ssr: false, loading: () => <ProjectsSkeleton /> }
+  { ssr: false, loading: () => <SectionFallback title="Proyek" subtitle="Koleksi portofolio dan proyek terbaik yang pernah saya kerjakan."><ProjectsSkeleton /></SectionFallback> }
 );
 const TechStackSection = dynamic(
   () => import('@/components/sections/TechStackSection'),
-  { ssr: false, loading: () => <div className="w-full min-h-[600px] animate-pulse rounded-[24px] border border-[var(--color-border)]/40 bg-[var(--color-bg-surface)]/50 my-8" /> }
+  { ssr: false, loading: () => <SectionFallback title="Teknologi & Perangkat" subtitle="Alat dan teknologi yang saya gunakan untuk membangun solusi digital."><div className="w-full min-h-[400px] animate-pulse rounded-[24px] border border-[var(--color-border)]/40 bg-[var(--color-bg-surface)]/50 my-8" /></SectionFallback> }
 );
 const TestimonialsSection = dynamic(
   () => import('@/components/sections/TestimonialsSection'),
-  { ssr: false, loading: () => <TestimonialsSkeleton /> }
+  { ssr: false, loading: () => <SectionFallback title="Testimoni & Komentar" subtitle="Tinggalkan masukan Anda menggunakan akun sosial."><TestimonialsSkeleton /></SectionFallback> }
 );
 const ContactSection = dynamic(
   () => import('@/components/sections/ContactSection'),
-  { ssr: false, loading: () => <div className="w-full min-h-[600px] animate-pulse rounded-[24px] border border-[var(--color-border)]/40 bg-[var(--color-bg-surface)]/50 my-8" /> }
+  { ssr: false, loading: () => <SectionFallback title="Hubungi Saya" subtitle="Ada pertanyaan, tawaran kerja, atau sekadar ingin menyapa? Jangan ragu untuk mengirim pesan melalui form di bawah atau via media sosial."><div className="w-full min-h-[400px] animate-pulse rounded-[24px] border border-[var(--color-border)]/40 bg-[var(--color-bg-surface)]/50 my-8" /></SectionFallback> }
 );
 
 /**
