@@ -157,10 +157,15 @@ const sectionTransition = {
  * - Navigation Event: setState + pushState + sessionStorage
  * - Browser Back/Forward: popstate → hash → setState
  */
+import { useSyncOfflineData } from '@/hooks/useSyncOfflineData';
+
 export default function AppShell() {
   const [activeSection, setActiveSection] = useState<SectionKey>('home');
   const [isInitialized, setIsInitialized] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // Initialize offline sync
+  useSyncOfflineData();
 
   // ── Initial Load Resolution ─────────────────────────────
   // Prioritas: URL hash > sessionStorage > default 'home'

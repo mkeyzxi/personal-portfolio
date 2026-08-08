@@ -39,6 +39,32 @@ export default function TestimonialForm({onSuccess, onLoginRequest}: Testimonial
 
     setIsSubmitting(true)
     try {
+      const payload = {
+        message: message.trim(),
+        name: user.displayName,
+        email: user.email,
+        avatar: user.photoURL,
+        provider: user.providerData[0]?.providerId || 'unknown',
+      };
+
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        const { db } = await import('@/lib/db');
+        await db.pendingRequests.add({
+          url: '/api/testimonials',
+          method: 'POST',
+          payload,
+          type: 'testimonial',
+          status: 'pending',
+          createdAt: Date.now(),
+        });
+        toast.info('Anda sedang offline', {
+          description: 'Testimoni disimpan lokal dan otomatis dikirim saat online.',
+        });
+        setMessage('');
+        setIsSubmitting(false);
+        return;
+      }
+
       const token = await user.getIdToken()
       const response = await fetch('/api/testimonials', {
         method: 'POST',
@@ -46,13 +72,7 @@ export default function TestimonialForm({onSuccess, onLoginRequest}: Testimonial
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          message: message.trim(),
-          name: user.displayName,
-          email: user.email,
-          avatar: user.photoURL,
-          provider: user.providerData[0]?.providerId || 'unknown',
-        }),
+        body: JSON.stringify(payload),
       })
 
       const data = await response.json()

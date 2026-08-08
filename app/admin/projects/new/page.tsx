@@ -110,8 +110,6 @@ export default function NewProjectPage() {
     setIsLoading(true);
 
     try {
-      const token = await user?.getIdToken();
-
       const payload = {
         ...formData,
         technologies: formData.technologies.split(',').map(t => t.trim()).filter(Boolean),
@@ -119,6 +117,24 @@ export default function NewProjectPage() {
         readmeContent: readmeContent || null,
       };
 
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        const { db } = await import('@/lib/db');
+        await db.pendingRequests.add({
+          url: '/api/projects',
+          method: 'POST',
+          payload,
+          type: 'project',
+          status: 'pending',
+          createdAt: Date.now(),
+        });
+        toast.info('Anda sedang offline', {
+          description: 'Proyek disimpan lokal dan akan otomatis dikirim saat online.',
+        });
+        router.push('/admin/projects');
+        return;
+      }
+
+      const token = await user?.getIdToken();
       const res = await fetch('/api/projects', {
         method: 'POST',
         headers: {
