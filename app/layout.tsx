@@ -58,6 +58,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
+  manifest: '/manifest.json',
   icons: {
     icon: '/icon.png',
     shortcut: '/icon.png',

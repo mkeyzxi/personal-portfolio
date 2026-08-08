@@ -27,6 +27,24 @@ export default function ContactForm() {
     setSubmitStatus(null);
 
     try {
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        const { db } = await import('@/lib/db');
+        await db.pendingRequests.add({
+          url: '/api/contact',
+          method: 'POST',
+          payload: formData,
+          type: 'contact',
+          status: 'pending',
+          createdAt: Date.now(),
+        });
+        toast.info('Anda sedang offline', {
+          description: 'Pesan disimpan lokal dan akan otomatis dikirim saat online.',
+        });
+        setSubmitStatus('Pesan disimpan lokal. Akan dikirim saat online kembali.');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        return;
+      }
+
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

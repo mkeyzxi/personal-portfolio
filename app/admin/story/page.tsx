@@ -107,11 +107,30 @@ export default function AdminStoryDashboard() {
 
   const handleSave = async () => {
     try {
-      const token = await user?.getIdToken();
       const payload = { title, slug, categorySlug, summary, content, status };
       const url = view === 'edit' ? `/api/stories/${slug}` : '/api/stories';
       const method = view === 'edit' ? 'PUT' : 'POST';
 
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        const { db } = await import('@/lib/db');
+        await db.pendingRequests.add({
+          url,
+          method,
+          payload,
+          type: 'story',
+          status: 'pending',
+          createdAt: Date.now(),
+        });
+        alert('Anda sedang offline. Cerita disimpan lokal dan akan otomatis dikirim saat online.');
+        setView('list');
+        // Add to local state optimistically
+        if (view === 'create') {
+          setStories(prev => [{...payload, id: Date.now().toString(), createdAt: new Date().toISOString()} as any, ...prev]);
+        }
+        return;
+      }
+
+      const token = await user?.getIdToken();
       const res = await fetch(url, {
         method,
         headers: {
