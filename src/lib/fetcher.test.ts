@@ -43,11 +43,12 @@ describe('fetcher', () => {
 
     try {
       await fetcher('/api/test');
-    } catch (e: any) {
-      expect(e).toBeInstanceOf(FetchError);
-      expect(e.message).toBe('An error occurred while fetching the data.');
-      expect(e.status).toBe(404);
-      expect(e.info).toEqual({ error: 'Not found' });
+    } catch (e) {
+      const err = e as FetchError;
+      expect(err).toBeInstanceOf(FetchError);
+      expect(err.message).toBe('An error occurred while fetching the data.');
+      expect(err.status).toBe(404);
+      expect(err.info).toEqual({ error: 'Not found' });
     }
   });
 });

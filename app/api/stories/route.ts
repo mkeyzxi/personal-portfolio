@@ -9,13 +9,12 @@ export async function GET(request: Request) {
   const category = searchParams.get('category');
 
   try {
-    const authHeader = request.headers.get('authorization');
-    
+
     let isAdmin = false;
     try {
       await verifyAdminToken(request);
       isAdmin = true;
-    } catch (e) {
+    } catch {
       // ignore invalid token for GET
     }
     
@@ -41,17 +40,17 @@ export async function GET(request: Request) {
   } catch (error: unknown) {
     console.error('Error fetching stories:', error);
      
-    if ((error as any).code === 9) {
+    if (error && typeof error === 'object' && 'code' in error && (error as { code: number }).code === 9) {
       // Fallback for index error
       const db = getAdminDb();
       const storiesSnapshot = await db.collection('stories').get();
-      const allStories = storiesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() as any }));
+      const allStories = storiesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() as { status: string, createdAt: string, categorySlug: string } }));
       
       let isAdmin = false;
       try {
         await verifyAdminToken(request);
         isAdmin = true;
-      } catch (e) {}
+      } catch {}
 
       const filtered = allStories
         .filter(s => isAdmin || s.status === 'published')

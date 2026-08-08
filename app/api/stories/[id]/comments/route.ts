@@ -26,7 +26,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     console.error('Error fetching comments:', error);
     
      
-    if ((error as any).code === 9) { // FAILED_PRECONDITION: Index required
+    if (error && typeof error === 'object' && 'code' in error && (error as { code: number }).code === 9) { // FAILED_PRECONDITION: Index required
       const resolvedParams = await params;
       const { id: storyId } = resolvedParams;
       const db = getAdminDb();
@@ -34,7 +34,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         .where('storyId', '==', storyId)
         .get();
         
-      const allComments = commentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() as any }));
+      const allComments = commentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() as { createdAt: string } }));
       const sorted = allComments.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       
       return NextResponse.json({ success: true, data: sorted });

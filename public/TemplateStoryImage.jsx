@@ -84,6 +84,7 @@ const WriteMbulCard = () => {
 
         {/* Author Info */}
         <div className="flex items-center mb-6">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/api/placeholder/100/100"
             alt="Muhammad Makbul N"
@@ -99,6 +100,7 @@ const WriteMbulCard = () => {
         <div className="bg-gray-50 rounded-2xl border border-gray-100 p-4 flex items-center">
           <div className="w-20 h-20 bg-white rounded-xl border border-gray-200 flex-shrink-0 mr-4 p-1">
             {/* Ganti dengan komponen QR Code sesungguhnya */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/api/placeholder/80/80"
               alt="QR Code"

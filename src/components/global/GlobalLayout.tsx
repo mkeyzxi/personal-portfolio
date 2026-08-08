@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import type { SectionKey } from '@/types';
 import { VALID_SECTION_KEYS, STORAGE_KEY_ACTIVE_SECTION } from '@/lib/constants';
@@ -41,17 +41,20 @@ export default function GlobalLayout({ children }: { children: React.ReactNode }
   const [activeSection, setActiveSection] = useState<SectionKey>('home');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('sidebar-collapsed');
+    if (stored === 'true') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsSidebarCollapsed(true);
+    }
+  }, []);
   
   const isAdmin = useAdminAuthLazy();
 
   useSectionTitle(activeSection);
 
-  useEffect(() => {
-    const stored = localStorage.getItem('sidebar-collapsed');
-    if (stored === 'true') {
-      setIsSidebarCollapsed(true);
-    }
-  }, []);
+
 
   const handleToggleSidebar = useCallback(() => {
     setIsSidebarCollapsed(prev => {

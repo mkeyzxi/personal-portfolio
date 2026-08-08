@@ -17,7 +17,7 @@ export async function verifyAdminToken(request: Request) {
   let decodedToken;
   try {
     decodedToken = await adminAuth.verifyIdToken(token);
-  } catch (error) {
+  } catch {
     throw new Error('INVALID_TOKEN');
   }
 

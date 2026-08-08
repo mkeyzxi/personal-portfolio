@@ -4,7 +4,7 @@ export interface PendingRequest {
   id?: number;
   url: string;
   method: string;
-  payload: any;
+  payload: unknown;
   type: 'story' | 'project' | 'contact' | 'testimonial';
   status: 'pending' | 'failed';
   createdAt: number;

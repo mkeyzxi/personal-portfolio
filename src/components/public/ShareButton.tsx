@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Share2, Link as LinkIcon, Download, Copy, Loader2, Image as ImageIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import QRCode from 'qrcode';
@@ -555,10 +555,10 @@ export default function ShareButton({ storyData }: ShareButtonProps) {
     setOrigin(window.location.origin);
   }, []);
 
-  const fullStoryData: StoryCardData = {
+  const fullStoryData: StoryCardData = useMemo(() => ({
     ...storyData,
     websiteUrl: origin || 'https://writembul.com',
-  };
+  }), [storyData, origin]);
 
   const url = `${fullStoryData.websiteUrl}/story/${storyData.slug}`;
 
@@ -567,7 +567,7 @@ export default function ShareButton({ storyData }: ShareButtonProps) {
       await navigator.clipboard.writeText(url);
       toast.success('Tautan berhasil disalin ke clipboard');
       setIsOpen(false);
-    } catch (err) {
+    } catch {
       toast.error('Gagal menyalin tautan');
     }
   };
@@ -580,7 +580,7 @@ export default function ShareButton({ storyData }: ShareButtonProps) {
           url: url,
         });
         setIsOpen(false);
-      } catch (err) {
+      } catch {
         // User cancelled
       }
     } else {

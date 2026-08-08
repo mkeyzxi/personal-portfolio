@@ -8,6 +8,20 @@ import ShareButton from '@/components/public/ShareButton'
 import CommentSection from '@/components/public/CommentSection'
 import {Metadata} from 'next'
 
+interface StoryData {
+  id: string;
+  title: string;
+  slug: string;
+  summary?: string;
+  categorySlug: string;
+  createdAt: string;
+  content: unknown[];
+  authorName?: string;
+  authorAvatar?: string;
+  likeCount?: number;
+  coverImage?: string;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -48,7 +62,7 @@ async function getStory(slug: string) {
     if (snapshot.empty) return null
 
     const doc = snapshot.docs[0]
-    return {id: doc.id, ...doc.data()} as any
+    return {id: doc.id, ...doc.data()} as StoryData
   } catch (e) {
     console.error(e)
     return null
@@ -152,7 +166,7 @@ export default async function StoryDetailPage({params}: {params: Promise<{slug: 
 
       {/* Konten Artikel */}
       <div className="prose prose-neutral dark:prose-invert max-w-none text-[var(--color-text-secondary)] prose-img:rounded-2xl prose-img:border prose-img:border-[var(--color-border)] mb-12">
-        <BlockNoteRenderer content={story.content} />
+        <BlockNoteRenderer content={story.content as never[]} />
       </div>
 
       <hr className="my-10 border-[var(--color-border)]" />

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, type ComponentType } from 'react';
+import { useState, useEffect, type ComponentType } from 'react';
 import dynamic from 'next/dynamic';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { SectionKey } from '@/types';
@@ -160,9 +160,12 @@ const sectionTransition = {
 import { useSyncOfflineData } from '@/hooks/useSyncOfflineData';
 
 export default function AppShell() {
-  const [activeSection, setActiveSection] = useState<SectionKey>('home');
+  const [activeSection, setActiveSection] = useState<SectionKey>(() => {
+    const hashSection = getHashSection();
+    const storedSection = getStoredSection();
+    return hashSection ?? storedSection ?? 'home';
+  });
   const [isInitialized, setIsInitialized] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Initialize offline sync
   useSyncOfflineData();
@@ -170,25 +173,20 @@ export default function AppShell() {
   // ── Initial Load Resolution ─────────────────────────────
   // Prioritas: URL hash > sessionStorage > default 'home'
   useEffect(() => {
-    const hashSection = getHashSection();
-    const storedSection = getStoredSection();
-
-    const resolvedSection = hashSection ?? storedSection ?? 'home';
-
-    setActiveSection(resolvedSection);
-
     // Sinkronkan hash ke URL jika belum ada
-    if (window.location.hash !== `#${resolvedSection}`) {
-      window.history.replaceState(null, '', `#${resolvedSection}`);
+    if (window.location.hash !== `#${activeSection}`) {
+      window.history.replaceState(null, '', `#${activeSection}`);
     }
 
-    // Simpan ke sessionStorage
     try {
-      sessionStorage.setItem(STORAGE_KEY_ACTIVE_SECTION, resolvedSection);
+      sessionStorage.setItem(STORAGE_KEY_ACTIVE_SECTION, activeSection);
     } catch {
       // Gagal menyimpan — tidak fatal
     }
+  }, [activeSection]);
 
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsInitialized(true);
   }, []);
 
@@ -213,21 +211,7 @@ export default function AppShell() {
     };
   }, []);
 
-  // ── Navigation Handler ──────────────────────────────────
-  // Dipanggil oleh SidebarNav, BottomNav, dan MobileDrawer.
-  const handleNavigate = useCallback((key: SectionKey) => {
-    setActiveSection(key);
 
-    // Update URL hash tanpa reload (SDD §1.2)
-    window.history.pushState(null, '', `#${key}`);
-
-    // Simpan ke sessionStorage (SDD §1.2)
-    try {
-      sessionStorage.setItem(STORAGE_KEY_ACTIVE_SECTION, key);
-    } catch {
-      // Gagal menyimpan — tidak fatal
-    }
-  }, []);
 
   // ── Render ──────────────────────────────────────────────
   const ActiveComponent = SECTION_MAP[activeSection];

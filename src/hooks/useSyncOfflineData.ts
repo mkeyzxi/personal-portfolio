@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { db, PendingRequest } from '@/lib/db';
+import { db } from '@/lib/db';
 import { auth } from '@/lib/firebase';
 import { toast } from 'sonner';
 

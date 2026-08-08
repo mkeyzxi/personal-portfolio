@@ -1,4 +1,5 @@
 import {sortProjectsByFeatured} from './sortProjects'
+import type {Project} from '@/types'
 
 describe('sortProjectsByFeatured', () => {
   it('harus menempatkan proyek featured di atas proyek non-featured', () => {
@@ -9,7 +10,7 @@ describe('sortProjectsByFeatured', () => {
     ]
 
     // Act
-    const result = sortProjectsByFeatured(mockProjects as any)
+    const result = sortProjectsByFeatured(mockProjects as unknown as Project[])
     // Catatan: Gunakan 'as any' hanya jika tipe Project Anda butuh properti lain
     // yang tidak relevan dengan test ini. Jika tidak, definisikan objek secara utuh.
 
@@ -27,7 +28,7 @@ describe('sortProjectsByFeatured', () => {
     ]
 
     // Act
-    const result = sortProjectsByFeatured(mockProjects as any)
+    const result = sortProjectsByFeatured(mockProjects as unknown as Project[])
 
     // Assert
     expect(result[0].id).toBe('2') // Paling baru (20 Jan)
@@ -43,7 +44,7 @@ describe('sortProjectsByFeatured', () => {
     ]
 
     // Act
-    const result = sortProjectsByFeatured(mockProjects as any)
+    const result = sortProjectsByFeatured(mockProjects as unknown as Project[])
 
     // Assert
     expect(result[0].id).toBe('2') // Punya tanggal valid

@@ -1,6 +1,9 @@
 import React from 'react';
 
-export default function BlockNoteRenderer({ content }: { content: string | any[] }) {
+type TextNode = { type?: string; text?: string; href?: string; styles?: Record<string, boolean> };
+type BlockNode = { id?: string; type?: string; props?: Record<string, unknown>; content?: TextNode[]; children?: BlockNode[] };
+
+export default function BlockNoteRenderer({ content }: { content: string | BlockNode[] }) {
   let parsedContent = content;
   
   if (typeof parsedContent === 'string') {
@@ -12,7 +15,7 @@ export default function BlockNoteRenderer({ content }: { content: string | any[]
     }
   }
 
-  function renderBlockNoteJSON(blocks: any[]): React.ReactNode {
+  function renderBlockNoteJSON(blocks: BlockNode[]): React.ReactNode {
     if (!blocks || !Array.isArray(blocks)) return null;
 
     return blocks.map((block, index) => {
@@ -21,8 +24,8 @@ export default function BlockNoteRenderer({ content }: { content: string | any[]
         ? <div className="pl-4 mt-2">{renderBlockNoteJSON(block.children)}</div> 
         : null;
 
-      const renderTextContent = (contentArr: any[]) => {
-        return contentArr?.map((textNode: any, i: number) => {
+      const renderTextContent = (contentArr?: TextNode[]) => {
+        return contentArr?.map((textNode: TextNode, i: number) => {
           let className = "";
           if (textNode.styles?.bold) className += "font-bold ";
           if (textNode.styles?.italic) className += "italic ";
@@ -47,17 +50,19 @@ export default function BlockNoteRenderer({ content }: { content: string | any[]
               {childrenBlocks}
             </div>
           );
-        case 'heading':
-          const HeadingTag = `h${block.props.level}` as any;
-          const text = block.content?.map((c: any) => c.text).join('') || '';
+        case 'heading': {
+          const level = (block.props?.level as number) || 1;
+          const HeadingTag = `h${level}` as React.ElementType;
+          const text = block.content?.map((c: TextNode) => c.text).join('') || '';
           const baseClasses = "font-bold text-[var(--color-text-primary)] mt-8 mb-4";
-          const sizeClass = block.props.level === 1 ? "text-3xl" : block.props.level === 2 ? "text-2xl" : "text-xl";
+          const sizeClass = level === 1 ? "text-3xl" : level === 2 ? "text-2xl" : "text-xl";
           return (
             <div key={block.id || index}>
               <HeadingTag className={`${baseClasses} ${sizeClass}`}>{text}</HeadingTag>
               {childrenBlocks}
             </div>
           );
+        }
         case 'bulletListItem':
         case 'numberedListItem':
           return (
@@ -68,17 +73,20 @@ export default function BlockNoteRenderer({ content }: { content: string | any[]
               {childrenBlocks}
             </div>
           );
-        case 'image':
+        case 'image': {
+          const url = block.props?.url as string;
+          const caption = block.props?.caption as string;
           return (
             <div key={block.id || index} className="my-8">
               <div className="rounded-2xl overflow-hidden border border-[var(--color-border)]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={block.props.url} alt={block.props.caption || "Image"} className="w-full object-cover" />
-                {block.props.caption && <p className="text-center text-sm text-[var(--color-text-muted)] mt-2 pb-2">{block.props.caption}</p>}
+                <img src={url} alt={caption || "Image"} className="w-full object-cover" />
+                {caption && <p className="text-center text-sm text-[var(--color-text-muted)] mt-2 pb-2">{caption}</p>}
               </div>
               {childrenBlocks}
             </div>
           );
+        }
         case 'blockquote':
         case 'quote':
         case 'blockQuote':
@@ -103,5 +111,5 @@ export default function BlockNoteRenderer({ content }: { content: string | any[]
     });
   }
 
-  return <>{renderBlockNoteJSON(parsedContent as any[])}</>;
+  return <>{renderBlockNoteJSON(parsedContent as BlockNode[])}</>;
 }

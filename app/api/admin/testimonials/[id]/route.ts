@@ -10,7 +10,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   try {
     try {
       await verifyAdminToken(request);
-    } catch (e: unknown) {
+    } catch {
       return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
     }
 
@@ -46,7 +46,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
   try {
     try {
       await verifyAdminToken(request);
-    } catch (e: unknown) {
+    } catch {
       return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
     }
 

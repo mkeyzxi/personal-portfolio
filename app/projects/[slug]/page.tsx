@@ -75,9 +75,9 @@ export default async function ProjectDetailPage({params}: PageProps) {
     !hasReadmeContent &&
     Array.isArray(parsedContent) &&
     parsedContent.length > 0 &&
-    parsedContent.some((block: any) => {
+    parsedContent.some((block: { type?: string; content?: { text?: string }[] }) => {
       if (block.type === 'paragraph' && block.content) {
-        return block.content.some((c: any) => c.text && c.text.trim().length > 0)
+        return block.content.some((c) => c.text && c.text.trim().length > 0)
       }
       return block.type !== 'paragraph'
     })
@@ -150,8 +150,16 @@ export default async function ProjectDetailPage({params}: PageProps) {
   )
 }
 
+interface ProjectData {
+  category?: string;
+  createdAt?: string;
+  technologies?: string[];
+  liveUrl?: string;
+  githubUrl?: string;
+}
+
 // Helper component untuk Sidebar & Mobile info
-function ProjectMetaInfo({project}: {project: any}) {
+function ProjectMetaInfo({project}: {project: ProjectData}) {
   return (
     <>
       <div className="flex flex-col gap-1">
