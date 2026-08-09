@@ -1,34 +1,34 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { toast } from 'sonner';
-import { Loader2, Send } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import {useState} from 'react'
+import {toast} from 'sonner'
+import {Loader2, Send} from 'lucide-react'
+import {Input} from '@/components/ui/input'
+import {Textarea} from '@/components/ui/textarea'
 
 export default function ContactForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: '',
-  });
+  })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+    setFormData((prev) => ({...prev, [e.target.name]: e.target.value}))
+  }
 
-  const [submitStatus, setSubmitStatus] = useState<string | null>(null);
+  const [submitStatus, setSubmitStatus] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus(null)
 
     try {
       if (typeof navigator !== 'undefined' && !navigator.onLine) {
-        const { db } = await import('@/lib/db');
+        const {db} = await import('@/lib/db')
         await db.pendingRequests.add({
           url: '/api/contact',
           method: 'POST',
@@ -36,44 +36,46 @@ export default function ContactForm() {
           type: 'contact',
           status: 'pending',
           createdAt: Date.now(),
-        });
+        })
         toast.info('Anda sedang offline', {
           description: 'Pesan disimpan lokal dan akan otomatis dikirim saat online.',
-        });
-        setSubmitStatus('Pesan disimpan lokal. Akan dikirim saat online kembali.');
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        return;
+        })
+        setSubmitStatus('Pesan disimpan lokal. Akan dikirim saat online kembali.')
+        setFormData({name: '', email: '', subject: '', message: ''})
+        return
       }
 
       const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(formData),
-      });
+      })
 
-      const json = await res.json();
+      const json = await res.json()
 
       if (res.ok && json.success) {
         toast.success('Pesan Terkirim!', {
           description: 'Terima kasih telah menghubungi. Saya akan membalas secepatnya.',
-        });
-        setSubmitStatus('Pesan berhasil dikirim! Saya akan membalas dalam 1-2 hari kerja.');
-        setFormData({ name: '', email: '', subject: '', message: '' });
+        })
+        setSubmitStatus('Pesan berhasil dikirim! Saya akan membalas dalam 1-2 hari kerja.')
+        setFormData({name: '', email: '', subject: '', message: ''})
       } else {
         toast.error('Gagal mengirim pesan', {
           description: json.message || 'Coba lagi beberapa saat.',
-        });
-        setSubmitStatus('Gagal mengirim pesan. Coba lagi atau hubungi via email langsung.');
+        })
+        setSubmitStatus('Gagal mengirim pesan. Coba lagi atau hubungi via email langsung.')
       }
     } catch {
       toast.error('Terjadi kesalahan', {
         description: 'Tidak dapat terhubung ke server.',
-      });
-      setSubmitStatus('Gagal mengirim pesan karena terjadi kesalahan. Coba lagi atau hubungi via email langsung.');
+      })
+      setSubmitStatus(
+        'Gagal mengirim pesan karena terjadi kesalahan. Coba lagi atau hubungi via email langsung.',
+      )
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full" noValidate>
@@ -85,7 +87,10 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col gap-2">
           <label htmlFor="name" className="text-sm font-medium text-[var(--color-text-secondary)]">
-            Nama Lengkap <span aria-hidden="true" className="text-red-500">*</span>
+            Nama Lengkap{' '}
+            <span aria-hidden="true" className="text-red-500">
+              *
+            </span>
           </label>
           <Input
             id="name"
@@ -93,7 +98,7 @@ export default function ContactForm() {
             required
             aria-required="true"
             autoComplete="name"
-            placeholder="John Doe"
+            placeholder="Muhammad Makbul N"
             value={formData.name}
             onChange={handleChange}
             className="border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] focus-visible:ring-[var(--color-focus-ring)]"
@@ -101,7 +106,10 @@ export default function ContactForm() {
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="email" className="text-sm font-medium text-[var(--color-text-secondary)]">
-            Email <span aria-hidden="true" className="text-red-500">*</span>
+            Email{' '}
+            <span aria-hidden="true" className="text-red-500">
+              *
+            </span>
           </label>
           <Input
             id="email"
@@ -111,18 +119,23 @@ export default function ContactForm() {
             aria-required="true"
             autoComplete="email"
             aria-describedby="email-hint"
-            placeholder="john@example.com"
+            placeholder="muhmakbul6@gmail.com"
             value={formData.email}
             onChange={handleChange}
             className="border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] focus-visible:ring-[var(--color-focus-ring)]"
           />
-          <p id="email-hint" className="sr-only">Format: nama@domain.com</p>
+          <p id="email-hint" className="sr-only">
+            Format: nama@domain.com
+          </p>
         </div>
       </div>
 
       <div className="flex flex-col gap-2">
         <label htmlFor="subject" className="text-sm font-medium text-[var(--color-text-secondary)]">
-          Subjek <span aria-hidden="true" className="text-red-500">*</span>
+          Subjek{' '}
+          <span aria-hidden="true" className="text-red-500">
+            *
+          </span>
         </label>
         <Input
           id="subject"
@@ -138,7 +151,10 @@ export default function ContactForm() {
 
       <div className="flex flex-col gap-2">
         <label htmlFor="message" className="text-sm font-medium text-[var(--color-text-secondary)]">
-          Pesan <span aria-hidden="true" className="text-red-500">*</span>
+          Pesan{' '}
+          <span aria-hidden="true" className="text-red-500">
+            *
+          </span>
         </label>
         <Textarea
           id="message"
@@ -167,10 +183,13 @@ export default function ContactForm() {
         ) : (
           <>
             Kirim Pesan
-            <Send className="h-5 w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" aria-hidden="true" />
+            <Send
+              className="h-5 w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
+              aria-hidden="true"
+            />
           </>
         )}
       </button>
     </form>
-  );
+  )
 }

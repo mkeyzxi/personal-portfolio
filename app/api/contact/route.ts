@@ -4,6 +4,15 @@ import nodemailer from 'nodemailer'
 
 export const runtime = 'nodejs';
 
+const escapeHtml = (unsafe: string) => {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+};
+
 export async function POST(request: Request) {
   try {
     const body = await request.json()
@@ -49,9 +58,9 @@ export async function POST(request: Request) {
           replyTo: email,
           subject: `Pesan Portofolio: ${subject}`,
           text: `Nama: ${name}\nEmail: ${email}\n\nPesan:\n${message}`,
-          html: `<p><strong>Nama:</strong> ${name}</p>
-                 <p><strong>Email:</strong> ${email}</p>
-                 <p><strong>Pesan:</strong><br/>${message.replace(/\n/g, '<br/>')}</p>`,
+          html: `<p><strong>Nama:</strong> ${escapeHtml(name)}</p>
+                 <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+                 <p><strong>Pesan:</strong><br/>${escapeHtml(message).replace(/\n/g, '<br/>')}</p>`,
         };
 
         await transporter.sendMail(mailOptions);
