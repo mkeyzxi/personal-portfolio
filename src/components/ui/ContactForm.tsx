@@ -65,7 +65,7 @@ export default function ContactForm() {
         });
         setSubmitStatus('Gagal mengirim pesan. Coba lagi atau hubungi via email langsung.');
       }
-    } catch (error) {
+    } catch {
       toast.error('Terjadi kesalahan', {
         description: 'Tidak dapat terhubung ke server.',
       });

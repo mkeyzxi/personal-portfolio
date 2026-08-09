@@ -22,74 +22,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   other: 'Lainnya',
 }
 
-function ProjectsContent({
-  activeCategory,
-  onCategoriesLoaded,
-}: {
-  activeCategory: ProjectCategory
-  onCategoriesLoaded: (categories: {label: string; value: ProjectCategory}[]) => void
-}) {
-  const {data: projects = []} = useSWR<Project[]>('/api/projects', fetcher, {
-    revalidateOnFocus: false,
-    dedupingInterval: 60000 * 5,
-    suspense: true,
-  })
 
-  // Sorting: featured projects tampil paling atas
-  const sortedProjects = sortProjectsByFeatured(projects)
-
-  // Dynamic categories: hanya tampilkan kategori yang punya proyek
-  const availableCategories: {label: string; value: ProjectCategory}[] = (() => {
-    const categorySet = new Set(projects.map((p) => p.category))
-    const dynamicCats: {label: string; value: ProjectCategory}[] = [{label: 'Semua', value: 'all'}]
-    // Tambahkan hanya kategori yang memiliki minimal 1 proyek
-    const orderedCategories: Project['category'][] = ['web', 'mobile', 'api', 'other']
-    for (const cat of orderedCategories) {
-      if (categorySet.has(cat)) {
-        dynamicCats.push({
-          label: CATEGORY_LABELS[cat] || cat,
-          value: cat,
-        })
-      }
-    }
-    return dynamicCats
-  })()
-
-  // Notifikasi parent tentang kategori yang tersedia (hanya ketika data berubah)
-  // Menghindari setState di dalam render kita panggil callback di useEffect jika perlu
-  // Namun cara yang lebih aman adalah membiarkan filter menjadi bagian internal Content,
-  // tapi requirementnya filter ditaruh di luar Content.
-  // Jika filter di luar Content, Parent harus tahu availableCategories.
-  // Opsi paling sederhana: Memindahkan Filter Tabs ke DALAM ProjectsContent.
-
-  const filteredProjects = sortedProjects.filter((proj) =>
-    activeCategory === 'all' ? true : proj.category === activeCategory,
-  )
-
-  return (
-    <motion.div
-      layout
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full mt-12"
-    >
-      <AnimatePresence mode="popLayout">
-        {filteredProjects.length > 0 ? (
-          filteredProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))
-        ) : (
-          <motion.div
-            initial={{opacity: 0}}
-            animate={{opacity: 1}}
-            exit={{opacity: 0}}
-            className="col-span-full py-12 text-center text-[var(--color-text-muted)]"
-          >
-            Belum ada proyek untuk kategori ini.
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  )
-}
 
 // Karena filter membutuhkan data category dari response fetch, kita gabungkan fetch dan filter ke dalam satu Content Component.
 function ProjectsDataContent() {

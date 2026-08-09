@@ -1,11 +1,11 @@
 'use client'
 
-import {useMemo} from 'react'
+
 import {
   House, User, Briefcase, FolderOpen, Layers, MessageSquare, Route, Mail, 
   LayoutDashboard, FolderGit2, FileText, PanelLeftOpen, PanelLeftClose, Moon, Sun, LogOut 
 } from 'lucide-react'
-import {motion} from 'framer-motion'
+
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'

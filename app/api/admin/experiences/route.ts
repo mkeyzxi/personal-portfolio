@@ -23,9 +23,9 @@ export async function GET(request: Request) {
     const experiencesData = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
-    }));
+    })) as Array<{ id: string; createdAt?: string; [key: string]: unknown }>;
 
-    experiencesData.sort((a: any, b: any) => {
+    experiencesData.sort((a, b) => {
       const dateA = new Date(a.createdAt || 0).getTime();
       const dateB = new Date(b.createdAt || 0).getTime();
       return dateA - dateB; // ascending
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
   try {
     try {
       await verifyAdminToken(request);
-    } catch (e: unknown) {
+    } catch {
       return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
     }
 

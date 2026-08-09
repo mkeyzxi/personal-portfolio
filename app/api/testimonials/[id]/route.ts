@@ -26,7 +26,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     let decodedToken;
     try {
       decodedToken = await adminAuth.verifyIdToken(token);
-    } catch (err) {
+    } catch {
       return NextResponse.json({ success: false, message: 'Unauthorized: Sesi tidak valid' }, { status: 401 });
     }
 
@@ -83,7 +83,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     let decodedToken;
     try {
       decodedToken = await adminAuth.verifyIdToken(token);
-    } catch (err) {
+    } catch {
       return NextResponse.json({ success: false, message: 'Unauthorized: Sesi tidak valid' }, { status: 401 });
     }
 

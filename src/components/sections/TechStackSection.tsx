@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
 import { techStack } from '@/data/techstack';
-import { cn } from '@/lib/utils';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -37,7 +36,7 @@ export default function TechStackSection() {
 
         {/* ── Kategori Tech Stack ──────────────────────────────── */}
         <div className="flex flex-col gap-12">
-          {Object.entries(techStack).map(([category, items], catIndex) => (
+          {Object.entries(techStack).map(([category, items]) => (
             <div key={category} className="flex flex-col gap-6">
               <h3 className="text-xl font-bold text-[var(--color-text-primary)] border-b border-[var(--color-border)] pb-2">
                 {category}

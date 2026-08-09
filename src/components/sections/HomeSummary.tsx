@@ -22,19 +22,13 @@ import {
   MessageSquare,
   Mail,
   ExternalLink,
-  Calendar,
-  CheckCircle2,
-  Star,
-  Sparkles,
-  Database,
-  FileText,
   Heart,
-  Download,
+  Star,
+  FileText,
+  Sparkles,
+  CheckCircle2,
   Building2,
   GraduationCap,
-  Activity,
-  Workflow,
-  Compass,
 } from 'lucide-react'
 import {Icon} from '@iconify/react'
 import ProjectCard from '@/components/ui/ProjectCard'
@@ -160,12 +154,12 @@ function StoriesPreviewContent() {
     suspense: true,
   })
 
-  const categories: any[] = Array.isArray(catRes)
+  const categories: {slug: string; name: string}[] = Array.isArray(catRes)
     ? catRes
     : catRes?.success
       ? catRes.data
       : catRes?.data || []
-  const allStories: any[] = Array.isArray(storyRes)
+  const allStories: {id: string; categorySlug: string; createdAt: string; title: string; summary: string; slug: string; likeCount: number; commentCount: number}[] = Array.isArray(storyRes)
     ? storyRes
     : storyRes?.success
       ? storyRes.data
@@ -182,9 +176,9 @@ function StoriesPreviewContent() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-      {latestStories.map((story: any, i: number) => {
+      {latestStories.map((story, i: number) => {
         const categoryName =
-          categories.find((c: any) => c.slug === story.categorySlug)?.name || 'Editorial'
+          categories.find((c) => c.slug === story.categorySlug)?.name || 'Editorial'
         return (
           <motion.div
             key={story.id || i}

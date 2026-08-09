@@ -16,11 +16,10 @@ export default function AdminStoryDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [view, setView] = useState<ViewState>('list');
   const [stories, setStories] = useState<import('@/types').StoryDocument[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<{slug: string, name: string}[]>([]);
   const router = useRouter();
 
   // Form State
-  const [currentId, setCurrentId] = useState('');
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
   const [categorySlug, setCategorySlug] = useState('');
@@ -68,7 +67,6 @@ export default function AdminStoryDashboard() {
 
 
   const handleCreate = () => {
-    setCurrentId('');
     setTitle('');
     setSlug('');
     setCategorySlug('');
@@ -79,7 +77,6 @@ export default function AdminStoryDashboard() {
   };
 
   const handleEdit = (story: import('@/types').StoryDocument) => {
-    setCurrentId(story.id);
     setTitle(story.title);
     setSlug(story.slug);
     setCategorySlug(story.categorySlug);
@@ -125,7 +122,7 @@ export default function AdminStoryDashboard() {
         setView('list');
         // Add to local state optimistically
         if (view === 'create') {
-          setStories(prev => [{...payload, id: Date.now().toString(), createdAt: new Date().toISOString()} as any, ...prev]);
+          setStories(prev => [{...payload, id: Date.now().toString(), createdAt: new Date().toISOString()} as unknown as import('@/types').StoryDocument, ...prev]);
         }
         return;
       }

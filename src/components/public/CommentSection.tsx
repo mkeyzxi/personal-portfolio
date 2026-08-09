@@ -72,7 +72,7 @@ export default function CommentSection({ storyId }: { storyId: string }) {
       } else {
         toast.error(data.message || 'Gagal menambahkan komentar');
       }
-    } catch (e) {
+    } catch {
       toast.error('Terjadi kesalahan sistem');
     } finally {
       setIsSubmitting(false);

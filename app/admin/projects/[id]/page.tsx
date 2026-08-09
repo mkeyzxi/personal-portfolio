@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
@@ -47,19 +47,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
   // Menentukan apakah menggunakan README atau BlockNote
   const useReadmeMode = formData.githubUrl.trim().length > 0 && readmeContent.trim().length > 0;
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (!currentUser) {
-        router.push('/admin');
-      } else {
-        setUser(currentUser);
-        fetchProjectData(currentUser);
-      }
-    });
-    return () => unsubscribe();
-  }, [router, id]);
-
-  const fetchProjectData = async (currentUser: import('firebase/auth').User) => {
+  const fetchProjectData = useCallback(async (currentUser: import('firebase/auth').User) => {
     setIsFetching(true);
     try {
       const token = await currentUser.getIdToken();
@@ -105,7 +93,21 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
     } finally {
       setIsFetching(false);
     }
-  };
+  }, [id, router]);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (!currentUser) {
+        router.push('/admin');
+      } else {
+        setUser(currentUser);
+        fetchProjectData(currentUser);
+      }
+    });
+    return () => unsubscribe();
+  }, [router, fetchProjectData]);
+
+
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;

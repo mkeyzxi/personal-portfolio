@@ -2,7 +2,7 @@
 
 import {motion} from 'framer-motion'
 import type {Project} from '@/types'
-import {Badge} from '@/components/ui/badge'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import {ArrowUpRight} from 'lucide-react'

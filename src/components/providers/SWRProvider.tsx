@@ -19,7 +19,7 @@ function localStorageProvider() {
   const CACHE_KEY = 'portfolio_swr_cache_v1';
   
   // Ambil cache yang ada di localStorage saat pertama kali inisiasi provider
-  const map = new Map<string, any>(
+  const map = new Map<string, unknown>(
     (() => {
       try {
         const item = localStorage.getItem(CACHE_KEY);
@@ -35,7 +35,7 @@ function localStorageProvider() {
     const saveCache = () => {
       try {
         // Hanya simpan item berukuran wajar untuk menghindari batas localStorage (5MB)
-        const entries = Array.from(map.entries()).filter(([_, value]) => {
+        const entries = Array.from(map.entries()).filter(([, value]) => {
           try {
             const str = JSON.stringify(value);
             return str.length < 500000; // batasi < 500KB per item
@@ -44,7 +44,7 @@ function localStorageProvider() {
           }
         });
         localStorage.setItem(CACHE_KEY, JSON.stringify(entries));
-      } catch (e) {
+      } catch {
         // Abaikan jika quota terlampaui (storage full)
       }
     };

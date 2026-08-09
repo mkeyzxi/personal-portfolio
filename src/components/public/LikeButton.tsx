@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLazyAuthState } from '@/hooks/useLazyAuthState';
 import { Heart } from 'lucide-react';
 import { toast } from 'sonner';
@@ -40,7 +40,7 @@ export default function LikeButton({ initialLikes, storyId }: { initialLikes: nu
       } else {
         toast.error(data.message);
       }
-    } catch (e) {
+    } catch {
       toast.error('Gagal menyukai cerita');
     } finally {
       // Debounce delay

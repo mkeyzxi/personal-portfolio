@@ -23,11 +23,11 @@ export async function GET(request: Request) {
     const testimonialsData = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
-    }));
+    })) as Array<{ id: string; createdAt?: string; [key: string]: unknown }>;
 
-    testimonialsData.sort((a: any, b: any) => {
-      const dateA = new Date(a.createdAt).getTime();
-      const dateB = new Date(b.createdAt).getTime();
+    testimonialsData.sort((a, b) => {
+      const dateA = new Date(a.createdAt || 0).getTime();
+      const dateB = new Date(b.createdAt || 0).getTime();
       return dateB - dateA; // descending
     });
 

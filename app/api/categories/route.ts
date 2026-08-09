@@ -23,9 +23,8 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    let decodedToken;
     try {
-      decodedToken = await verifyAdminToken(request);
+      await verifyAdminToken(request);
     } catch (e: unknown) {
       if ((e instanceof Error ? e.message : String(e)) === 'UNAUTHORIZED' || (e instanceof Error ? e.message : String(e)) === 'INVALID_TOKEN') {
         return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });

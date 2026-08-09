@@ -10,7 +10,7 @@ import LoginModal from './LoginModal';
 import { useLazyAuthState } from '@/hooks/useLazyAuthState';
 import TestimonialsSkeleton from '@/components/skeletons/TestimonialsSkeleton';
 
-function TestimonialContent({ user }: { user: any }) {
+function TestimonialContent({ user }: { user: {uid?: string} | null }) {
   const { data: testimonials = [], mutate: fetchTestimonials } = useSWR<Testimonial[]>(
     '/api/testimonials', 
     fetcher,

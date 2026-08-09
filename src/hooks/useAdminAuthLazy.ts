@@ -22,7 +22,7 @@ export function useAdminAuthLazy() {
         if (!isAuthLoaded) {
           import('@/lib/firebase').then(({ auth }) => {
             import('firebase/auth').then(({ onAuthStateChanged }) => {
-              const unsubscribe = onAuthStateChanged(auth, (user) => {
+              onAuthStateChanged(auth, (user) => {
                 if (user) {
                   setIsAdmin(true);
                 } else {

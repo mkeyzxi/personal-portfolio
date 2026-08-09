@@ -30,12 +30,12 @@ export async function GET() {
     const testimonialsData = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
-    }));
+    })) as Array<{ id: string; createdAt?: string; [key: string]: unknown }>;
 
     // Sorting berdasarkan 'createdAt' (descending) dilakukan di memory (JS)
-    testimonialsData.sort((a: any, b: any) => {
-      const dateA = new Date(a.createdAt).getTime();
-      const dateB = new Date(b.createdAt).getTime();
+    testimonialsData.sort((a, b) => {
+      const dateA = new Date(a.createdAt || 0).getTime();
+      const dateB = new Date(b.createdAt || 0).getTime();
       return dateB - dateA; // descending
     });
 
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
     let decodedToken;
     try {
       decodedToken = await adminAuth.verifyIdToken(token);
-    } catch (err) {
+    } catch {
       return NextResponse.json({ success: false, message: 'Unauthorized: Sesi tidak valid' }, { status: 401 });
     }
 

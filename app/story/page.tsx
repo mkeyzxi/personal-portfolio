@@ -7,6 +7,23 @@ import * as LucideIcons from 'lucide-react';
 import useSWR from 'swr';
 import { fetcher } from '@/lib/fetcher';
 
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+interface StoryItem {
+  id: string;
+  title: string;
+  slug: string;
+  summary?: string;
+  categorySlug: string;
+  createdAt: string;
+  likeCount?: number;
+  commentCount?: number;
+}
+
 export default function StoryIndexPage() {
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [navigatingId, setNavigatingId] = useState<string | null>(null);
@@ -15,20 +32,20 @@ export default function StoryIndexPage() {
   const { data: catRes, error: catError } = useSWR('/api/categories', fetcher, { revalidateOnFocus: false });
   const { data: storyRes, error: storyError } = useSWR('/api/stories', fetcher, { revalidateOnFocus: false });
 
-  const categories: any[] = Array.isArray(catRes) ? catRes : (catRes?.success ? catRes.data : (catRes?.data || []));
-  const allStories: any[] = Array.isArray(storyRes) ? storyRes : (storyRes?.success ? storyRes.data : (storyRes?.data || []));
+  const categories: Category[] = Array.isArray(catRes) ? catRes : (catRes?.success ? catRes.data : (catRes?.data || []));
+  const allStories: StoryItem[] = Array.isArray(storyRes) ? storyRes : (storyRes?.success ? storyRes.data : (storyRes?.data || []));
   
   const isLoading = (!catRes && !catError) || (!storyRes && !storyError);
 
   // 1. Dapatkan daftar slug kategori yang sudah memiliki artikel
-  const usedCategorySlugs = new Set(allStories.map((s: any) => s.categorySlug));
+  const usedCategorySlugs = new Set(allStories.map((s: StoryItem) => s.categorySlug));
   
   // 2. Filter kategori agar HANYA menampilkan kategori yang memiliki konten
-  const availableCategories = categories.filter((cat: any) => usedCategorySlugs.has(cat.slug));
+  const availableCategories = categories.filter((cat: Category) => usedCategorySlugs.has(cat.slug));
 
   // 3. Filter story berdasarkan kategori aktif di sisi klien (karena data sudah ter-fetch semua)
   const filteredStories = activeCategory 
-    ? allStories.filter((s: any) => s.categorySlug === activeCategory)
+    ? allStories.filter((s: StoryItem) => s.categorySlug === activeCategory)
     : allStories;
 
   // Hapus state loading navigasi jika user menekan tombol Back di browser (BFCache)
@@ -70,7 +87,7 @@ export default function StoryIndexPage() {
           >
             Semua
           </button>
-          {availableCategories.map((cat: any) => (
+          {availableCategories.map((cat: Category) => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.slug)}
@@ -99,7 +116,7 @@ export default function StoryIndexPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredStories.map((story: any, i: number) => (
+          {filteredStories.map((story: StoryItem, i: number) => (
             <motion.div
               key={story.id}
               initial={{ opacity: 0, y: 20 }}
@@ -121,7 +138,7 @@ export default function StoryIndexPage() {
                 
                 <article className="bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-2xl p-6 h-full flex flex-col transition-all hover:shadow-lg hover:border-[var(--color-interactive)]">
                   <div className="text-xs text-[var(--color-interactive)] mb-3 font-mono bg-[var(--color-interactive)]/10 w-fit px-2 py-1 rounded">
-                    {categories.find((c: any) => c.slug === story.categorySlug)?.name || 'Uncategorized'}
+                    {categories.find((c: Category) => c.slug === story.categorySlug)?.name || 'Uncategorized'}
                   </div>
                   <h2 className="text-xl font-bold text-[var(--color-text-primary)] mb-3 group-hover:text-[var(--color-interactive)] transition-colors line-clamp-2">
                     {story.title}
