@@ -9,6 +9,7 @@ import {fetcher} from '@/lib/fetcher'
 import type {AboutData} from '@/types'
 import Image from 'next/image'
 import AboutSkeleton from '@/components/skeletons/AboutSkeleton'
+import {GithubActivity} from './home/GithubActivity'
 
 // ============================================================
 // ANIMASI FRAMER MOTION
@@ -76,7 +77,7 @@ function AboutContent() {
       ]
 
   return (
-    <motion.div 
+    <motion.div
       variants={containerVariants}
       initial="hidden"
       whileInView="show"
@@ -221,6 +222,9 @@ export default function AboutSection() {
         <Suspense fallback={<AboutSkeleton />}>
           <AboutContent />
         </Suspense>
+      </div>
+      <div className="w-full max-w-5xl mt-16">
+        <GithubActivity />
       </div>
     </section>
   )
