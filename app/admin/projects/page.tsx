@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { collection, query, orderBy, getDocs, deleteDoc, doc } from 'firebase/firestore';
-import * as LucideIcons from 'lucide-react';
+import { Icon } from '@iconify/react';
 import type { Project } from '@/types';
 import Link from 'next/link';
 import { format } from 'date-fns';
@@ -80,7 +80,7 @@ export default function AdminProjectsPage() {
               href="/admin/projects/new"
               className="flex items-center gap-2 bg-[var(--color-interactive)] text-[var(--color-interactive-text)] px-4 py-2 rounded-xl font-medium hover:bg-[var(--color-interactive-hover)] transition-colors"
             >
-              <LucideIcons.Plus className="h-5 w-5" />
+              <Icon icon="lucide:plus" className="h-5 w-5" />
               Tambah Baru
             </Link>
           </div>
@@ -90,11 +90,11 @@ export default function AdminProjectsPage() {
         <div className="bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-xl overflow-hidden">
           {isLoading ? (
             <div className="flex flex-1 items-center justify-center py-20">
-              <LucideIcons.Loader2 className="h-8 w-8 animate-spin text-[var(--color-text-muted)]" />
+              <Icon icon="lucide:loader2" className="h-8 w-8 animate-spin text-[var(--color-text-muted)]" />
             </div>
           ) : projects.length === 0 ? (
             <div className="flex flex-1 flex-col items-center justify-center py-20 text-[var(--color-text-muted)] gap-4">
-              <LucideIcons.FolderOpen className="h-12 w-12 opacity-50" />
+              <Icon icon="lucide:folder-open" className="h-12 w-12 opacity-50" />
               <p>Belum ada proyek yang ditambahkan.</p>
             </div>
           ) : (
@@ -123,7 +123,7 @@ export default function AdminProjectsPage() {
                       <td className="p-4">
                         {project.featured ? (
                           <span className="inline-flex items-center gap-1 rounded-full bg-[var(--color-interactive)]/10 px-2 py-1 text-xs font-semibold text-[var(--color-interactive)]">
-                            <LucideIcons.Star className="h-3 w-3 fill-current" /> Ya
+                            <Icon icon="lucide:star" className="h-3 w-3 fill-current" /> Ya
                           </span>
                         ) : (
                           <span className="text-[var(--color-text-muted)]">-</span>
@@ -137,21 +137,21 @@ export default function AdminProjectsPage() {
                             className="text-blue-500 hover:text-blue-700 text-sm font-medium transition-colors"
                             title="Lihat Proyek"
                           >
-                            <LucideIcons.ExternalLink className="h-5 w-5" />
+                            <Icon icon="lucide:external-link" className="h-5 w-5" />
                           </Link>
                           <Link
                             href={`/admin/projects/${project.id}`}
                             className="text-amber-500 hover:text-amber-700 text-sm font-medium transition-colors"
                             title="Edit Proyek"
                           >
-                            <LucideIcons.Edit className="h-5 w-5" />
+                            <Icon icon="lucide:edit" className="h-5 w-5" />
                           </Link>
                           <button
                             onClick={() => handleDelete(project.id)}
                             className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors"
                             title="Hapus Proyek"
                           >
-                            <LucideIcons.Trash2 className="h-5 w-5" />
+                            <Icon icon="lucide:trash2" className="h-5 w-5" />
                           </button>
                         </div>
                       </td>

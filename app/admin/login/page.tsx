@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
-import * as LucideIcons from 'lucide-react';
+import { Icon } from '@iconify/react';
 import { toast } from 'sonner';
 
 export default function AdminLoginPage() {
@@ -58,7 +58,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-sm rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] p-8 shadow-xl text-center">
         <div className="mb-8 flex flex-col items-center">
           <div className="mb-4 rounded-full bg-[var(--color-interactive)] p-4 text-[var(--color-interactive-text)] shadow-lg shadow-blue-500/20">
-            <LucideIcons.ShieldCheck className="h-8 w-8" />
+            <Icon icon="lucide:shield-check" className="h-8 w-8" />
           </div>
           <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Admin Portal</h1>
           <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
@@ -72,7 +72,7 @@ export default function AdminLoginPage() {
           className="flex w-full items-center justify-center gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-main)] px-4 py-3 font-semibold text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] hover:border-[var(--color-interactive)] disabled:opacity-70 disabled:cursor-not-allowed group"
         >
           {isLoading ? (
-            <LucideIcons.Loader2 className="h-5 w-5 animate-spin text-[var(--color-text-secondary)]" />
+            <Icon icon="lucide:loader2" className="h-5 w-5 animate-spin text-[var(--color-text-secondary)]" />
           ) : (
             <>
               <svg className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
@@ -102,7 +102,7 @@ export default function AdminLoginPage() {
           onClick={() => router.push('/')}
           className="mt-6 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors inline-flex items-center gap-2"
         >
-          <LucideIcons.ArrowLeft className="w-4 h-4" />
+          <Icon icon="lucide:arrow-left" className="w-4 h-4" />
           Kembali ke Beranda
         </button>
       </div>

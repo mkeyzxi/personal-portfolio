@@ -1,7 +1,7 @@
 'use client'
 
 import {motion} from 'framer-motion'
-import {Mail, ArrowRight, ExternalLink} from 'lucide-react'
+import { Icon } from '@iconify/react'
 import ShinyText from '@/components/ShinyText'
 import {sectionVariants} from './shared'
 import {SOCIAL_LINKS} from '@/lib/constants'
@@ -25,7 +25,7 @@ export function ContactCTA({navigateTo}: {navigateTo: (section: string) => void}
 
         <div className="relative z-10 max-w-xl space-y-5">
           <span className="inline-flex items-center gap-2.5 rounded-full bg-[var(--color-bg-surface)] border border-[var(--color-border)] px-4 py-1.5 shadow-sm">
-            <Mail className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
+            <Icon icon="lucide:mail" className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
             <ShinyText
               text="Get In Touch"
               disabled={false}
@@ -48,7 +48,7 @@ export function ContactCTA({navigateTo}: {navigateTo: (section: string) => void}
             className="group flex items-center justify-center gap-3 rounded-full bg-[var(--color-interactive)] px-9 py-4 font-bold text-[var(--color-interactive-text)] shadow-md transition-all duration-300 hover:scale-[1.03] hover:bg-[var(--color-interactive-hover)]"
           >
             Hubungi Saya Sekarang
-            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            <Icon icon="lucide:arrow-right" className="h-5 w-5 transition-transform group-hover:translate-x-1" />
           </button>
 
           <a
@@ -58,7 +58,7 @@ export function ContactCTA({navigateTo}: {navigateTo: (section: string) => void}
             className="group flex items-center justify-center gap-3 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-8 py-4 font-bold text-[var(--color-text-primary)] shadow-sm transition-all hover:bg-[var(--color-bg-main)] hover:border-[var(--color-text-muted)]"
           >
             WhatsApp
-            <ExternalLink className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <Icon icon="lucide:external-link" className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </a>
         </div>
       </div>

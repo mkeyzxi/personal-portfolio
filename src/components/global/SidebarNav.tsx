@@ -1,30 +1,13 @@
 'use client'
 
+import {Icon} from '@iconify/react'
 
-import {
-  House, User, Briefcase, FolderOpen, Layers, MessageSquare, Route, Mail, 
-  LayoutDashboard, FolderGit2, FileText, PanelLeftOpen, PanelLeftClose, Moon, Sun, LogOut 
-} from 'lucide-react'
-
-import { usePathname, useRouter } from 'next/navigation'
+import {usePathname, useRouter} from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import {cn} from '@/lib/utils'
 import {NAV_ITEMS, ADMIN_NAV_ITEMS, OWNER_INFO} from '@/lib/constants'
 import type {SectionKey} from '@/types'
-
-// ============================================================
-// Ikon Pemetaan Dinamis dari Lucide
-// ============================================================
-const iconMap: Record<string, React.ElementType> = {
-  House, User, Briefcase, FolderOpen, Layers, MessageSquare, Route, Mail,
-  LayoutDashboard, FolderGit2, FileText
-}
-
-const getIcon = (iconName: string) => {
-  const Icon = iconMap[iconName]
-  return Icon ? <Icon className="h-5 w-5" /> : null
-}
 
 // ============================================================
 // PROPS
@@ -67,13 +50,13 @@ export default function SidebarNav({
 
   const handleLogout = async () => {
     try {
-      const { auth } = await import('@/lib/firebase');
-      await auth.signOut();
-      localStorage.removeItem('admin-auth');
-      window.dispatchEvent(new Event('admin-auth-changed'));
-      router.push('/');
+      const {auth} = await import('@/lib/firebase')
+      await auth.signOut()
+      localStorage.removeItem('admin-auth')
+      window.dispatchEvent(new Event('admin-auth-changed'))
+      router.push('/')
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   }
 
@@ -140,7 +123,7 @@ export default function SidebarNav({
                   'group flex items-center rounded-md text-sm font-medium transition-all duration-300',
                   isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-3',
                   isActive
-                    ? 'bg-[var(--color-interactive)] text-[var(--color-interactive-text)]'
+                    ? 'bg-[var(--color-interactive)] text-[var(--color-interactive-text)] rounded-tl-xl rounded-br-2xl'
                     : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)]',
                 )}
                 title={isCollapsed ? item.label : undefined}
@@ -152,7 +135,7 @@ export default function SidebarNav({
                     isActive ? 'scale-110 -rotate-14 delay-200' : '',
                   )}
                 >
-                  {getIcon(item.icon)}
+                  <Icon icon={item.icon} className="h-5 w-5" />
                 </span>
                 <span
                   className={cn(
@@ -168,9 +151,12 @@ export default function SidebarNav({
 
           {isAdmin && (
             <>
-              <div className={cn("my-2 h-px bg-[var(--color-border)]", isCollapsed ? "mx-2" : "mx-4")} />
+              <div
+                className={cn('my-2 h-px bg-[var(--color-border)]', isCollapsed ? 'mx-2' : 'mx-4')}
+              />
               {ADMIN_NAV_ITEMS.map((item) => {
-                const isActive = item.href === '/admin' ? pathname === item.href : pathname.startsWith(item.href)
+                const isActive =
+                  item.href === '/admin' ? pathname === item.href : pathname.startsWith(item.href)
 
                 return (
                   <Link
@@ -192,7 +178,7 @@ export default function SidebarNav({
                         isActive ? 'scale-110 -rotate-14 delay-200' : '',
                       )}
                     >
-                      {getIcon(item.icon)}
+                      <Icon icon={item.icon} className="h-5 w-5" />
                     </span>
                     <span
                       className={cn(
@@ -221,9 +207,9 @@ export default function SidebarNav({
           title={isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
         >
           {isCollapsed ? (
-            <PanelLeftOpen className="h-5 w-5 shrink-0" />
+            <Icon icon="lucide:panel-left-open" className="h-5 w-5 shrink-0" />
           ) : (
-            <PanelLeftClose className="h-5 w-5 shrink-0" />
+            <Icon icon="lucide:panel-left-close" className="h-5 w-5 shrink-0" />
           )}
           <span
             className={cn(
@@ -255,8 +241,8 @@ export default function SidebarNav({
             aria-label="Toggle Dark Mode"
             title="Toggle Dark Mode"
           >
-            <Moon className="h-4 w-4 hidden dark:block" />
-            <Sun className="h-4 w-4 block dark:hidden" />
+            <Icon icon="lucide:moon" className="h-4 w-4 hidden dark:block" />
+            <Icon icon="lucide:sun" className="h-4 w-4 block dark:hidden" />
           </button>
         </div>
 
@@ -269,7 +255,7 @@ export default function SidebarNav({
             )}
             title="Logout"
           >
-            <LogOut className="h-5 w-5 shrink-0" />
+            <Icon icon="lucide:log-out" className="h-5 w-5 shrink-0" />
             <span
               className={cn(
                 'font-medium text-sm overflow-hidden whitespace-nowrap transition-all duration-300',

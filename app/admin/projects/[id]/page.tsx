@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { fetchReadmeWithFallback } from '@/lib/github';
-import * as LucideIcons from 'lucide-react';
+import { Icon } from '@iconify/react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { toast } from 'sonner';
@@ -205,7 +205,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
   if (!user || isFetching) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[var(--color-bg-main)]">
-        <LucideIcons.Loader2 className="h-8 w-8 animate-spin text-[var(--color-text-muted)]" />
+        <Icon icon="lucide:loader2" className="h-8 w-8 animate-spin text-[var(--color-text-muted)]" />
       </div>
     );
   }
@@ -320,9 +320,9 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
                   className="flex items-center gap-2 whitespace-nowrap rounded-xl bg-[var(--color-bg-elevated)] border border-[var(--color-border)] px-4 py-3 text-sm font-medium text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-border)] hover:border-[var(--color-focus-ring)] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isFetchingReadme ? (
-                    <LucideIcons.Loader2 className="h-4 w-4 animate-spin" />
+                    <Icon icon="lucide:loader2" className="h-4 w-4 animate-spin" />
                   ) : (
-                    <LucideIcons.FileDown className="h-4 w-4" />
+                    <Icon icon="lucide:file-down" className="h-4 w-4" />
                   )}
                   {isFetchingReadme ? 'Mengambil...' : 'Ambil README'}
                 </button>
@@ -331,19 +331,19 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
               {/* Feedback messages */}
               {isFetchingReadme && (
                 <p role="status" className="text-xs text-[var(--color-text-muted)] mt-1 flex items-center gap-1">
-                  <LucideIcons.Loader2 className="h-3 w-3 animate-spin" />
+                  <Icon icon="lucide:loader2" className="h-3 w-3 animate-spin" />
                   Sedang mengambil README dari GitHub, mohon tunggu...
                 </p>
               )}
               {fetchError && (
                 <p role="alert" className="text-xs text-red-500 mt-1 flex items-center gap-1">
-                  <LucideIcons.AlertCircle className="h-3 w-3 flex-shrink-0" />
+                  <Icon icon="lucide:alert-circle" className="h-3 w-3 flex-shrink-0" />
                   {fetchError}
                 </p>
               )}
               {fetchSuccess && !fetchError && (
                 <p className="text-xs text-emerald-500 mt-1 flex items-center gap-1">
-                  <LucideIcons.CheckCircle2 className="h-3 w-3 flex-shrink-0" />
+                  <Icon icon="lucide:check-circle2" className="h-3 w-3 flex-shrink-0" />
                   README berhasil diambil! Tinjau/edit di bagian konten bawah.
                 </p>
               )}
@@ -381,7 +381,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
               </label>
               {useReadmeMode && (
                 <span className="flex items-center gap-1 text-xs text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full font-medium">
-                  <LucideIcons.FileText className="h-3 w-3" />
+                  <Icon icon="lucide:file-text" className="h-3 w-3" />
                   Mode README
                 </span>
               )}
@@ -390,7 +390,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
             {/* Info banner ketika README mode aktif */}
             {useReadmeMode && (
               <div className="flex items-start gap-3 p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/20">
-                <LucideIcons.Info className="h-4 w-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                <Icon icon="lucide:info" className="h-4 w-4 text-emerald-500 mt-0.5 flex-shrink-0" />
                 <div className="text-xs text-[var(--color-text-secondary)]">
                   <p className="font-medium text-emerald-500 mb-1">Konten dari GitHub README</p>
                   <p>README akan menjadi konten utama halaman detail proyek. Anda dapat mengedit langsung di textarea di bawah.</p>
@@ -426,7 +426,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
                 }}
                 className="text-xs text-[var(--color-text-muted)] hover:text-red-500 transition-colors flex items-center gap-1"
               >
-                <LucideIcons.RotateCcw className="h-3 w-3" />
+                <Icon icon="lucide:rotate-ccw" className="h-3 w-3" />
                 Hapus README & gunakan BlockNote Editor
               </button>
             )}
@@ -438,7 +438,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
               disabled={isLoading}
               className="flex items-center gap-2 rounded-xl bg-[var(--color-interactive)] px-8 py-3 font-bold text-[var(--color-interactive-text)] transition-colors hover:bg-[var(--color-interactive-hover)] disabled:opacity-70"
             >
-              {isLoading ? <LucideIcons.Loader2 className="h-5 w-5 animate-spin" /> : <LucideIcons.Save className="h-5 w-5" />}
+              {isLoading ? <Icon icon="lucide:loader2" className="h-5 w-5 animate-spin" /> : <Icon icon="lucide:save" className="h-5 w-5" />}
               {isLoading ? 'Menyimpan...' : 'Perbarui Proyek'}
             </button>
           </div>

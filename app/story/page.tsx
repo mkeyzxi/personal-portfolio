@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import * as LucideIcons from 'lucide-react';
+import { Icon } from '@iconify/react';
 import useSWR from 'swr';
 import { fetcher } from '@/lib/fetcher';
 
@@ -60,7 +60,7 @@ export default function StoryIndexPage() {
   }, []);
 
   return (
-    <div className="p-8 md:p-12 max-w-5xl mx-auto min-h-screen">
+    <div className="py-24 px-6 md:px-10 max-w-5xl mx-auto min-h-screen w-full">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -106,11 +106,11 @@ export default function StoryIndexPage() {
       {/* Story Grid */}
       {isLoading ? (
         <div className="flex justify-center py-20">
-          <LucideIcons.Loader2 className="w-8 h-8 animate-spin text-[var(--color-text-muted)]" />
+          <Icon icon="lucide:loader2" className="w-8 h-8 animate-spin text-[var(--color-text-muted)]" />
         </div>
       ) : filteredStories.length === 0 ? (
         <div className="text-center py-20 border border-[var(--color-border)] border-dashed rounded-xl">
-          <LucideIcons.FileText className="w-12 h-12 text-[var(--color-text-muted)] mx-auto mb-4" />
+          <Icon icon="lucide:file-text" className="w-12 h-12 text-[var(--color-text-muted)] mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">Belum ada cerita</h3>
           <p className="text-[var(--color-text-secondary)]">Cerita untuk kategori ini belum tersedia.</p>
         </div>
@@ -132,7 +132,7 @@ export default function StoryIndexPage() {
                 {/* Visual Feedback saat navigasi (jaringan lag) */}
                 {navigatingId === story.id && (
                   <div className="absolute inset-0 bg-white/40 dark:bg-black/40 z-10 rounded-2xl flex items-center justify-center backdrop-blur-[2px] transition-all">
-                    <LucideIcons.Loader2 className="w-8 h-8 animate-spin text-[var(--color-interactive)]" />
+                    <Icon icon="lucide:loader2" className="w-8 h-8 animate-spin text-[var(--color-interactive)]" />
                   </div>
                 )}
                 
@@ -149,8 +149,8 @@ export default function StoryIndexPage() {
                   <div className="flex items-center justify-between text-xs text-[var(--color-text-muted)] pt-4 border-t border-[var(--color-border)]">
                     <span>{new Date(story.createdAt).toLocaleDateString()}</span>
                     <div className="flex items-center gap-3">
-                      <span className="flex items-center gap-1"><LucideIcons.Heart className="w-3 h-3" /> {story.likeCount || 0}</span>
-                      <span className="flex items-center gap-1"><LucideIcons.MessageSquare className="w-3 h-3" /> {story.commentCount || 0}</span>
+                      <span className="flex items-center gap-1"><Icon icon="lucide:heart" className="w-3 h-3" /> {story.likeCount || 0}</span>
+                      <span className="flex items-center gap-1"><Icon icon="lucide:message-square" className="w-3 h-3" /> {story.commentCount || 0}</span>
                     </div>
                   </div>
                 </article>

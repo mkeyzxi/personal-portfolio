@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useLazyAuthState } from '@/hooks/useLazyAuthState';
-import { Heart } from 'lucide-react';
+import { Icon } from '@iconify/react';
 import { toast } from 'sonner';
 import LoginModal from '@/components/testimonials/LoginModal';
 
@@ -59,7 +59,7 @@ export default function LikeButton({ initialLikes, storyId }: { initialLikes: nu
             : 'bg-[var(--color-bg-surface)] border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)]'
         } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
-        <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
+        <Icon icon="lucide:heart" className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
         <span className="font-mono text-sm">{likes}</span>
       </button>
 

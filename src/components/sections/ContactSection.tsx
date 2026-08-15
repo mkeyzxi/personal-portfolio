@@ -1,7 +1,7 @@
 'use client'
 
 import {motion} from 'framer-motion'
-import {Mail, MapPin, FileText} from 'lucide-react'
+
 import {Icon} from '@iconify/react'
 import ContactForm from '@/components/ui/ContactForm'
 import {OWNER_INFO, SOCIAL_LINKS} from '@/lib/constants'
@@ -56,7 +56,7 @@ export default function ContactSection() {
               </h3>
               <div className="flex items-start gap-4">
                 <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-bg-elevated)]">
-                  <FileText className="h-5 w-5 text-[var(--color-text-primary)]" />
+                  <Icon icon="lucide:file-text" className="h-5 w-5 text-[var(--color-text-primary)]" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm font-medium text-[var(--color-text-muted)]">CV</span>
@@ -71,7 +71,7 @@ export default function ContactSection() {
               </div>
               <div className="flex items-start gap-4">
                 <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-bg-elevated)]">
-                  <Mail className="h-5 w-5 text-[var(--color-text-primary)]" />
+                  <Icon icon="lucide:mail" className="h-5 w-5 text-[var(--color-text-primary)]" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm font-medium text-[var(--color-text-muted)]">Email</span>
@@ -87,7 +87,7 @@ export default function ContactSection() {
 
               <div className="flex items-start gap-4">
                 <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-bg-elevated)]">
-                  <MapPin className="h-5 w-5 text-[var(--color-text-primary)]" />
+                  <Icon icon="lucide:map-pin" className="h-5 w-5 text-[var(--color-text-primary)]" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm font-medium text-[var(--color-text-muted)]">Lokasi</span>

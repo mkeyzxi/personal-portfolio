@@ -1,7 +1,7 @@
 'use client'
 
 import {motion} from 'framer-motion'
-import {CheckCircle2, ExternalLink} from 'lucide-react'
+
 import {Icon} from '@iconify/react'
 import ShinyText from '@/components/ShinyText'
 import {sectionVariants} from './shared'
@@ -44,7 +44,7 @@ export function GithubActivity() {
           className="group hidden sm:inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-6 py-3.5 font-semibold text-sm text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] hover:border-[var(--color-text-muted)] shadow-sm"
         >
           Kunjungi Repositori GitHub
-          <ExternalLink className="w-4 h-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          <Icon icon="lucide:external-link" className="w-4 h-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
         </a>
       </div>
 
@@ -77,7 +77,7 @@ export function GithubActivity() {
             </span>
             <span className="font-mono text-lg font-extrabold text-[var(--color-text-primary)] flex items-center gap-2">
               @mkeyzxi
-              <CheckCircle2 className="w-4 h-4 text-[var(--color-text-primary)] shrink-0" />
+              <Icon icon="lucide:check-circle2" className="w-4 h-4 text-[var(--color-text-primary)] shrink-0" />
             </span>
           </div>
 

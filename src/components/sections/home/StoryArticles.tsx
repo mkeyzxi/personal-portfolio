@@ -4,7 +4,7 @@ import {Suspense} from 'react'
 import {motion} from 'framer-motion'
 import useSWR from 'swr'
 import Link from 'next/link'
-import {BookOpen, ArrowRight, Heart, MessageSquare, ChevronRight} from 'lucide-react'
+import { Icon } from '@iconify/react'
 import ShinyText from '@/components/ShinyText'
 import {fetcher} from '@/lib/fetcher'
 import {sectionVariants, itemVariants} from './shared'
@@ -81,11 +81,11 @@ function StoriesPreviewContent() {
             <div className="flex items-center justify-between pt-4 border-t border-[var(--color-border)]/40 mt-auto text-xs text-[var(--color-text-muted)]">
               <div className="flex items-center gap-3.5">
                 <span className="flex items-center gap-1">
-                  <Heart className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
+                  <Icon icon="lucide:heart" className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
                   {story.likeCount || 0}
                 </span>
                 <span className="flex items-center gap-1">
-                  <MessageSquare className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
+                  <Icon icon="lucide:message-square" className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
                   {story.commentCount || 0}
                 </span>
               </div>
@@ -94,7 +94,7 @@ function StoriesPreviewContent() {
                 className="inline-flex items-center font-semibold text-[var(--color-text-primary)] group-hover:underline"
               >
                 Baca Artikel
-                <ChevronRight className="w-4 h-4 ml-0.5 transition-transform group-hover:translate-x-0.5" />
+                <Icon icon="lucide:chevron-right" className="w-4 h-4 ml-0.5 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </div>
           </motion.div>
@@ -130,7 +130,7 @@ export function StoryArticles() {
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-2.5 rounded-full bg-[var(--color-bg-surface)] border border-[var(--color-border)] px-4 py-1.5 shadow-sm">
-              <BookOpen className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
+              <Icon icon="lucide:book-open" className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
               <ShinyText
                 text="Story & Articles"
                 disabled={false}
@@ -153,7 +153,7 @@ export function StoryArticles() {
           className="group hidden sm:inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-6 py-3.5 font-semibold text-sm text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] hover:border-[var(--color-text-muted)] shadow-sm"
         >
           Baca Seluruh Artikel
-          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          <Icon icon="lucide:arrow-right" className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>
 
@@ -167,7 +167,7 @@ export function StoryArticles() {
           className="w-full justify-center group inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-6 py-3.5 font-semibold text-sm text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] shadow-sm"
         >
           Baca Seluruh Artikel
-          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          <Icon icon="lucide:arrow-right" className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>
     </motion.section>

@@ -2,7 +2,7 @@
 
 import {useState} from 'react'
 import {toast} from 'sonner'
-import {Loader2, Send} from 'lucide-react'
+import { Icon } from '@iconify/react'
 import {Input} from '@/components/ui/input'
 import {Textarea} from '@/components/ui/textarea'
 
@@ -177,13 +177,13 @@ export default function ContactForm() {
       >
         {isSubmitting ? (
           <>
-            <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
+            <Icon icon="lucide:loader2" className="h-5 w-5 animate-spin" aria-hidden="true" />
             Mengirim...
           </>
         ) : (
           <>
             Kirim Pesan
-            <Send
+            <Icon icon="lucide:send"
               className="h-5 w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
               aria-hidden="true"
             />

@@ -1,7 +1,7 @@
 import {getAdminDb} from '@/lib/firebase-admin-db'
 import {notFound} from 'next/navigation'
 import Link from 'next/link'
-import * as LucideIcons from 'lucide-react'
+import { Icon } from '@iconify/react';
 import BlockNoteRenderer from '@/components/public/BlockNoteRenderer'
 import LikeButton from '@/components/public/LikeButton'
 import ShareButton from '@/components/public/ShareButton'
@@ -96,7 +96,7 @@ export default async function StoryDetailPage({params}: {params: Promise<{slug: 
         href="/story"
         className="inline-flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-interactive)] transition-colors mb-8"
       >
-        <LucideIcons.ArrowLeft className="w-4 h-4" /> Kembali ke Daftar Cerita
+        <Icon icon="lucide:arrow-left" className="w-4 h-4" /> Kembali ke Daftar Cerita
       </Link>
 
       <header className="mb-10">
@@ -129,7 +129,7 @@ export default async function StoryDetailPage({params}: {params: Promise<{slug: 
                   referrerPolicy="no-referrer"
                 />
               ) : (
-                <LucideIcons.User className="w-5 h-5 text-[var(--color-text-muted)]" />
+                <Icon icon="lucide:user" className="w-5 h-5 text-[var(--color-text-muted)]" />
               )}
             </div>
             <div>

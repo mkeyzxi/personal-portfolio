@@ -1,18 +1,7 @@
 'use client'
 
 import {motion} from 'framer-motion'
-import {
-  Cpu,
-  MonitorSmartphone,
-  Sparkles,
-  CheckCircle2,
-  Cloud,
-  Users,
-  Building2,
-  GraduationCap,
-  Award,
-  ChevronRight,
-} from 'lucide-react'
+import { Icon } from '@iconify/react'
 import ShinyText from '@/components/ShinyText'
 import {sectionVariants, itemVariants} from './shared'
 
@@ -28,7 +17,7 @@ export function WhatIDo({navigateTo}: {navigateTo: (section: string) => void}) {
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-2">
           <span className="inline-flex items-center gap-2.5 rounded-full bg-[var(--color-bg-surface)] border border-[var(--color-border)] px-4 py-1.5 shadow-sm">
-            <Cpu className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
+            <Icon icon="lucide:cpu" className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
             <ShinyText
               text="Core Capabilities"
               disabled={false}
@@ -58,7 +47,7 @@ export function WhatIDo({navigateTo}: {navigateTo: (section: string) => void}) {
           <div className="relative z-10">
             <div className="flex items-center justify-between gap-4 mb-6">
               <div className="inline-flex p-4 rounded-2xl bg-[var(--color-bg-elevated)] border border-[var(--color-border)] text-[var(--color-text-primary)] shadow-sm">
-                <MonitorSmartphone className="w-7 h-7" />
+                <Icon icon="lucide:monitor-smartphone" className="w-7 h-7" />
               </div>
               <span className="font-mono text-xs font-bold uppercase tracking-widest text-[var(--color-text-muted)] border border-[var(--color-border)] px-3 py-1 rounded-full">
                 Architecture &amp; Core
@@ -101,7 +90,7 @@ export function WhatIDo({navigateTo}: {navigateTo: (section: string) => void}) {
         >
           <div>
             <div className="mb-6 inline-flex p-4 rounded-2xl bg-[var(--color-bg-elevated)] border border-[var(--color-border)] text-[var(--color-text-primary)] shadow-sm">
-              <Sparkles className="w-7 h-7" />
+              <Icon icon="lucide:sparkles" className="w-7 h-7" />
             </div>
             <h4 className="text-xl md:text-2xl font-bold text-[var(--color-text-primary)] mb-3 font-heading leading-tight">
               AI &amp; Machine Learning Integration
@@ -113,15 +102,15 @@ export function WhatIDo({navigateTo}: {navigateTo: (section: string) => void}) {
 
             <div className="space-y-2 mb-6 text-xs text-[var(--color-text-secondary)] font-medium">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[var(--color-text-primary)] shrink-0" />
+                <Icon icon="lucide:check-circle2" className="w-4 h-4 text-[var(--color-text-primary)] shrink-0" />
                 <span>Arsitektur RAG &amp; Vector Search</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[var(--color-text-primary)] shrink-0" />
+                <Icon icon="lucide:check-circle2" className="w-4 h-4 text-[var(--color-text-primary)] shrink-0" />
                 <span>Gemini AI &amp; LangChain Pipeline</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[var(--color-text-primary)] shrink-0" />
+                <Icon icon="lucide:check-circle2" className="w-4 h-4 text-[var(--color-text-primary)] shrink-0" />
                 <span>Model ML Python API (Cek Jerawat)</span>
               </div>
             </div>
@@ -146,7 +135,7 @@ export function WhatIDo({navigateTo}: {navigateTo: (section: string) => void}) {
         >
           <div>
             <div className="mb-6 inline-flex p-4 rounded-2xl bg-[var(--color-bg-elevated)] border border-[var(--color-border)] text-[var(--color-text-primary)] shadow-sm">
-              <Cloud className="w-7 h-7" />
+              <Icon icon="lucide:cloud" className="w-7 h-7" />
             </div>
             <h4 className="text-xl md:text-2xl font-bold text-[var(--color-text-primary)] mb-3 font-heading leading-tight">
               Cloud Architecture &amp; Database Design
@@ -177,7 +166,7 @@ export function WhatIDo({navigateTo}: {navigateTo: (section: string) => void}) {
           <div>
             <div className="flex items-center justify-between gap-4 mb-6">
               <div className="inline-flex p-4 rounded-2xl bg-[var(--color-bg-elevated)] border border-[var(--color-border)] text-[var(--color-text-primary)] shadow-sm">
-                <Users className="w-7 h-7" />
+                <Icon icon="lucide:users" className="w-7 h-7" />
               </div>
               <span className="font-mono text-xs font-bold uppercase tracking-widest text-[var(--color-text-muted)] border border-[var(--color-border)] px-3 py-1 rounded-full">
                 Mentorship &amp; Impact
@@ -195,19 +184,19 @@ export function WhatIDo({navigateTo}: {navigateTo: (section: string) => void}) {
             {/* Achievement Matrix */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
               <div className="p-3.5 rounded-xl bg-[var(--color-bg-elevated)] border border-[var(--color-border)]/60 flex items-center gap-3">
-                <Building2 className="w-5 h-5 text-[var(--color-text-primary)] shrink-0" />
+                <Icon icon="lucide:building2" className="w-5 h-5 text-[var(--color-text-primary)] shrink-0" />
                 <span className="text-xs font-bold text-[var(--color-text-primary)]">
                   GDG Core Team
                 </span>
               </div>
               <div className="p-3.5 rounded-xl bg-[var(--color-bg-elevated)] border border-[var(--color-border)]/60 flex items-center gap-3">
-                <GraduationCap className="w-5 h-5 text-[var(--color-text-primary)] shrink-0" />
+                <Icon icon="lucide:graduation-cap" className="w-5 h-5 text-[var(--color-text-primary)] shrink-0" />
                 <span className="text-xs font-bold text-[var(--color-text-primary)]">
                   Teaching Assistant
                 </span>
               </div>
               <div className="p-3.5 rounded-xl bg-[var(--color-bg-elevated)] border border-[var(--color-border)]/60 flex items-center gap-3">
-                <Award className="w-5 h-5 text-[var(--color-text-primary)] shrink-0" />
+                <Icon icon="lucide:award" className="w-5 h-5 text-[var(--color-text-primary)] shrink-0" />
                 <span className="text-xs font-bold text-[var(--color-text-primary)]">
                   DBS Coding Camp
                 </span>
@@ -224,7 +213,7 @@ export function WhatIDo({navigateTo}: {navigateTo: (section: string) => void}) {
               className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-[var(--color-text-primary)] hover:underline"
             >
               Lihat Rekam Jejak
-              <ChevronRight className="w-4 h-4 ml-1" />
+              <Icon icon="lucide:chevron-right" className="w-4 h-4 ml-1" />
             </button>
           </div>
         </motion.div>

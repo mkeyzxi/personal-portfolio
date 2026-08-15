@@ -165,7 +165,6 @@ export default function AppShell() {
     const storedSection = getStoredSection();
     return hashSection ?? storedSection ?? 'home';
   });
-  const [isInitialized, setIsInitialized] = useState(false);
 
   // Initialize offline sync
   useSyncOfflineData();
@@ -184,11 +183,6 @@ export default function AppShell() {
       // Gagal menyimpan — tidak fatal
     }
   }, [activeSection]);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsInitialized(true);
-  }, []);
 
   useEffect(() => {
     function handleLocationChange() {
@@ -216,17 +210,8 @@ export default function AppShell() {
   // ── Render ──────────────────────────────────────────────
   const ActiveComponent = SECTION_MAP[activeSection];
 
-  // Tampilkan kosong selama inisialisasi untuk menghindari flash
-  if (!isInitialized) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-[var(--color-bg-main)]">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-[var(--color-text-muted)] border-t-[var(--color-text-primary)]" />
-      </div>
-    );
-  }
-
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={activeSection}
         initial={sectionTransition.initial}

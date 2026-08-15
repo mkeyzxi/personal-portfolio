@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react'
 import {useRouter} from 'next/navigation'
 import {onAuthStateChanged} from 'firebase/auth'
 import {auth} from '@/lib/firebase'
-import * as LucideIcons from 'lucide-react'
+import { Icon } from '@iconify/react';
 import {AboutData} from '@/types'
 
 export default function AdminAboutDashboard() {
@@ -107,9 +107,9 @@ export default function AdminAboutDashboard() {
           className="flex items-center gap-2 bg-[var(--color-interactive)] text-[var(--color-interactive-text)] px-4 py-2 rounded-xl font-medium hover:bg-[var(--color-interactive-hover)] transition-colors disabled:opacity-50"
         >
           {isSaving ? (
-            <LucideIcons.Loader2 className="w-5 h-5 animate-spin" />
+            <Icon icon="lucide:loader2" className="w-5 h-5 animate-spin" />
           ) : (
-            <LucideIcons.Save className="w-5 h-5" />
+            <Icon icon="lucide:save" className="w-5 h-5" />
           )}
           {isSaving ? 'Menyimpan...' : 'Simpan Perubahan'}
         </button>

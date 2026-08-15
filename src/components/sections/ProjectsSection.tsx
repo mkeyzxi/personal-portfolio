@@ -3,7 +3,7 @@
 import {useState, Suspense} from 'react'
 import {motion, AnimatePresence} from 'framer-motion'
 import useSWR from 'swr'
-import {ChevronLeft, ChevronRight} from 'lucide-react'
+import { Icon } from '@iconify/react'
 import ProjectCard from '@/components/ui/ProjectCard'
 import {cn} from '@/lib/utils'
 import {fetcher} from '@/lib/fetcher'
@@ -134,7 +134,7 @@ function ProjectsDataContent() {
             className="p-2 rounded-full text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             aria-label="Halaman Sebelumnya"
           >
-            <ChevronLeft className="w-5 h-5" />
+            <Icon icon="lucide:chevron-left" className="w-5 h-5" />
           </button>
 
           <div className="flex gap-1 mx-2">
@@ -160,7 +160,7 @@ function ProjectsDataContent() {
             className="p-2 rounded-full text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             aria-label="Halaman Selanjutnya"
           >
-            <ChevronRight className="w-5 h-5" />
+            <Icon icon="lucide:chevron-right" className="w-5 h-5" />
           </button>
         </div>
       )}
