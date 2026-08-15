@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useLazyAuthState } from '@/hooks/useLazyAuthState';
-import { MessageSquare, User } from 'lucide-react';
+import { Icon } from '@iconify/react';
 import { toast } from 'sonner';
 import LoginModal from '@/components/testimonials/LoginModal';
 import { formatDistanceToNow } from 'date-fns';
@@ -86,7 +86,7 @@ export default function CommentSection({ storyId }: { storyId: string }) {
       <div className="mb-8">
         {!user ? (
           <div className="flex flex-col items-center justify-center p-6 border border-[var(--color-border)] border-dashed rounded-xl bg-[var(--color-bg-surface)] text-center">
-            <MessageSquare className="w-8 h-8 text-[var(--color-text-muted)] mb-3" />
+            <Icon icon="lucide:message-square" className="w-8 h-8 text-[var(--color-text-muted)] mb-3" />
             <p className="text-[var(--color-text-secondary)] mb-4">Login untuk ikut berdiskusi di artikel ini</p>
             <button 
               onClick={() => setIsLoginModalOpen(true)}
@@ -102,7 +102,7 @@ export default function CommentSection({ storyId }: { storyId: string }) {
                 <Image src={user.photoURL} alt="Avatar" width={40} height={40} className="w-10 h-10 rounded-full" />
               ) : (
                 <div className="w-10 h-10 rounded-full bg-[var(--color-bg-elevated)] flex items-center justify-center">
-                  <User className="w-5 h-5 text-[var(--color-text-muted)]" />
+                  <Icon icon="lucide:user" className="w-5 h-5 text-[var(--color-text-muted)]" />
                 </div>
               )}
             </div>
@@ -149,7 +149,7 @@ export default function CommentSection({ storyId }: { storyId: string }) {
                     <Image src={comment.userAvatar} alt="Avatar" width={40} height={40} className="w-10 h-10 rounded-full" />
                   ) : (
                     <div className="w-10 h-10 rounded-full bg-[var(--color-bg-elevated)] flex items-center justify-center">
-                      <User className="w-5 h-5 text-[var(--color-text-muted)]" />
+                      <Icon icon="lucide:user" className="w-5 h-5 text-[var(--color-text-muted)]" />
                     </div>
                   )}
                 </div>

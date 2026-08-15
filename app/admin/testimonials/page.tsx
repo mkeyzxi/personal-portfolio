@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
-import * as LucideIcons from 'lucide-react';
+import { Icon } from '@iconify/react';
 
 export default function AdminTestimonialsDashboard() {
   const [user, setUser] = useState<import('firebase/auth').User | null>(null);
@@ -114,7 +114,7 @@ export default function AdminTestimonialsDashboard() {
                         <img src={testimonial.avatar} alt="Avatar" className="w-8 h-8 rounded-full" />
                       ) : (
                         <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                          <LucideIcons.User className="w-4 h-4 text-gray-500" />
+                          <Icon icon="lucide:user" className="w-4 h-4 text-gray-500" />
                         </div>
                       )}
                       <div>
@@ -148,7 +148,7 @@ export default function AdminTestimonialsDashboard() {
                         className="text-green-600 hover:text-green-800 text-sm font-medium transition-colors"
                         title="Approve"
                       >
-                        <LucideIcons.CheckCircle className="w-5 h-5 inline-block" />
+                        <Icon icon="lucide:check-circle" className="w-5 h-5 inline-block" />
                       </button>
                     )}
                     {testimonial.status !== 'rejected' && (
@@ -157,7 +157,7 @@ export default function AdminTestimonialsDashboard() {
                         className="text-yellow-600 hover:text-yellow-800 text-sm font-medium transition-colors"
                         title="Reject"
                       >
-                        <LucideIcons.XCircle className="w-5 h-5 inline-block" />
+                        <Icon icon="lucide:x-circle" className="w-5 h-5 inline-block" />
                       </button>
                     )}
                     <button 
@@ -165,7 +165,7 @@ export default function AdminTestimonialsDashboard() {
                       className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors"
                       title="Delete"
                     >
-                      <LucideIcons.Trash2 className="w-5 h-5 inline-block" />
+                      <Icon icon="lucide:trash2" className="w-5 h-5 inline-block" />
                     </button>
                   </td>
                 </tr>

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { User, FolderGit2, Briefcase, MessageSquare, FileText } from 'lucide-react';
+import { Icon } from '@iconify/react';
 
 export default function AdminDashboardPage() {
   return (
@@ -18,7 +18,7 @@ export default function AdminDashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Link href="/admin/about" className="group">
           <div className="bg-[var(--color-bg-surface)] p-6 rounded-xl border border-[var(--color-border)] shadow-sm h-full transition-all hover:border-[var(--color-interactive)] hover:shadow-md">
-            <User className="w-8 h-8 text-[var(--color-interactive)] mb-4 group-hover:scale-110 transition-transform" />
+            <Icon icon="lucide:user" className="w-8 h-8 text-[var(--color-interactive)] mb-4 group-hover:scale-110 transition-transform" />
             <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Tentang Saya</h3>
             <p className="text-sm text-[var(--color-text-secondary)]">Kelola profil, lokasi, dan teks biografi Anda.</p>
           </div>
@@ -26,7 +26,7 @@ export default function AdminDashboardPage() {
 
         <Link href="/admin/projects" className="group">
           <div className="bg-[var(--color-bg-surface)] p-6 rounded-xl border border-[var(--color-border)] shadow-sm h-full transition-all hover:border-[var(--color-interactive)] hover:shadow-md">
-            <FolderGit2 className="w-8 h-8 text-[var(--color-interactive)] mb-4 group-hover:scale-110 transition-transform" />
+            <Icon icon="lucide:folder-git2" className="w-8 h-8 text-[var(--color-interactive)] mb-4 group-hover:scale-110 transition-transform" />
             <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Proyek</h3>
             <p className="text-sm text-[var(--color-text-secondary)]">Tambah, edit, atau hapus portofolio proyek Anda.</p>
           </div>
@@ -34,7 +34,7 @@ export default function AdminDashboardPage() {
 
         <Link href="/admin/experiences" className="group">
           <div className="bg-[var(--color-bg-surface)] p-6 rounded-xl border border-[var(--color-border)] shadow-sm h-full transition-all hover:border-[var(--color-interactive)] hover:shadow-md">
-            <Briefcase className="w-8 h-8 text-[var(--color-interactive)] mb-4 group-hover:scale-110 transition-transform" />
+            <Icon icon="lucide:briefcase" className="w-8 h-8 text-[var(--color-interactive)] mb-4 group-hover:scale-110 transition-transform" />
             <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Pengalaman</h3>
             <p className="text-sm text-[var(--color-text-secondary)]">Perbarui riwayat pekerjaan, organisasi, dan pendidikan.</p>
           </div>
@@ -42,7 +42,7 @@ export default function AdminDashboardPage() {
 
         <Link href="/admin/testimonials" className="group">
           <div className="bg-[var(--color-bg-surface)] p-6 rounded-xl border border-[var(--color-border)] shadow-sm h-full transition-all hover:border-[var(--color-interactive)] hover:shadow-md">
-            <MessageSquare className="w-8 h-8 text-[var(--color-interactive)] mb-4 group-hover:scale-110 transition-transform" />
+            <Icon icon="lucide:message-square" className="w-8 h-8 text-[var(--color-interactive)] mb-4 group-hover:scale-110 transition-transform" />
             <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Testimoni</h3>
             <p className="text-sm text-[var(--color-text-secondary)]">Tinjau, setujui, atau hapus testimoni dari pengunjung.</p>
           </div>
@@ -50,7 +50,7 @@ export default function AdminDashboardPage() {
 
         <Link href="/admin/story" className="group">
           <div className="bg-[var(--color-bg-surface)] p-6 rounded-xl border border-[var(--color-border)] shadow-sm h-full transition-all hover:border-[var(--color-interactive)] hover:shadow-md">
-            <FileText className="w-8 h-8 text-[var(--color-interactive)] mb-4 group-hover:scale-110 transition-transform" />
+            <Icon icon="lucide:file-text" className="w-8 h-8 text-[var(--color-interactive)] mb-4 group-hover:scale-110 transition-transform" />
             <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Cerita/Blog</h3>
             <p className="text-sm text-[var(--color-text-secondary)]">Tulis artikel atau cerita untuk dibagikan kepada audiens.</p>
           </div>

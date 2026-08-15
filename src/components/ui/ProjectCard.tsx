@@ -5,7 +5,7 @@ import type {Project} from '@/types'
 
 import Link from 'next/link'
 import Image from 'next/image'
-import {ArrowUpRight} from 'lucide-react'
+
 import {Icon} from '@iconify/react'
 
 interface ProjectCardProps {
@@ -60,7 +60,6 @@ const getTechIcon = (tech: string) => {
 export default function ProjectCard({project, index}: ProjectCardProps) {
   return (
     <motion.div
-      layout
       custom={index}
       variants={cardVariants}
       initial="hidden"
@@ -80,9 +79,10 @@ export default function ProjectCard({project, index}: ProjectCardProps) {
               src={project.thumbnail}
               alt={`Thumbnail untuk ${project.title}`}
               fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
               loading="lazy"
               className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-out group-hover:scale-110"
+              unoptimized
             />
             {project.featured && (
               <div className="absolute group-hover:backdrop-blur-md group-hover:bg-[var(--color-interactive)]/50 top-3 right-3 rounded-full bg-[var(--color-interactive)]/90 backdrop-blur-md px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--color-interactive-text)] shadow-sm">
@@ -99,7 +99,10 @@ export default function ProjectCard({project, index}: ProjectCardProps) {
               {project.title}
             </h3>
             <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--color-bg-elevated)] opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 border border-[var(--color-border)]/50 shadow-sm">
-              <ArrowUpRight className="h-4 w-4 text-[var(--color-text-primary)]" />
+              <Icon
+                icon="lucide:arrow-up-right"
+                className="h-4 w-4 text-[var(--color-text-primary)]"
+              />
             </div>
           </div>
 

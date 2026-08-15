@@ -1,7 +1,7 @@
 'use client'
 
 import {motion} from 'framer-motion'
-import {Layers, FolderOpen, Terminal, Briefcase, FileText, ExternalLink, ArrowRight} from 'lucide-react'
+import { Icon } from '@iconify/react'
 import ShinyText from '@/components/ShinyText'
 import {ParallaxLayer, sectionVariants} from './shared'
 import {OWNER_INFO} from '@/lib/constants'
@@ -25,7 +25,7 @@ export function ExecutiveSnapshot({
     >
       <div className="flex items-center gap-2 mb-1">
         <span className="inline-flex items-center gap-2.5 rounded-full bg-[var(--color-bg-surface)] border border-[var(--color-border)] px-4 py-1.5 shadow-sm">
-          <Layers className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
+          <Icon icon="lucide:layers" className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
           <ShinyText
             text="Executive Snapshot"
             disabled={false}
@@ -57,7 +57,7 @@ export function ExecutiveSnapshot({
                   Proyek Terpublikasi
                 </span>
                 <div className="p-2 rounded-xl bg-[var(--color-bg-surface)] border border-[var(--color-border)]/70 shadow-sm">
-                  <FolderOpen className="w-5 h-5 text-[var(--color-text-primary)]" />
+                  <Icon icon="lucide:folder-open" className="w-5 h-5 text-[var(--color-text-primary)]" />
                 </div>
               </div>
               <div>
@@ -78,7 +78,7 @@ export function ExecutiveSnapshot({
                   Rekam Jejak
                 </span>
                 <div className="p-2 rounded-xl bg-[var(--color-bg-surface)] border border-[var(--color-border)]/70 shadow-sm">
-                  <Terminal className="w-5 h-5 text-[var(--color-text-primary)]" />
+                  <Icon icon="lucide:terminal" className="w-5 h-5 text-[var(--color-text-primary)]" />
                 </div>
               </div>
               <div>
@@ -99,7 +99,7 @@ export function ExecutiveSnapshot({
                   Keterbukaan Kolaborasi
                 </span>
                 <div className="p-2 rounded-xl bg-[var(--color-bg-surface)] border border-[var(--color-border)]/70 shadow-sm">
-                  <Briefcase className="w-5 h-5 text-[var(--color-text-primary)]" />
+                  <Icon icon="lucide:briefcase" className="w-5 h-5 text-[var(--color-text-primary)]" />
                 </div>
               </div>
               <div>
@@ -122,9 +122,9 @@ export function ExecutiveSnapshot({
             rel="noopener noreferrer"
             className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-[var(--color-interactive)] px-7 py-3.5 font-semibold text-sm text-[var(--color-interactive-text)] shadow-md transition-all duration-300 hover:scale-[1.02] hover:bg-[var(--color-interactive-hover)]"
           >
-            <FileText className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
+            <Icon icon="lucide:file-text" className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
             <span>Unduh CV / Resume</span>
-            <ExternalLink className="w-3.5 h-3.5 ml-0.5 opacity-80" />
+            <Icon icon="lucide:external-link" className="w-3.5 h-3.5 ml-0.5 opacity-80" />
           </a>
 
           <button
@@ -132,7 +132,7 @@ export function ExecutiveSnapshot({
             className="group inline-flex items-center gap-2 font-semibold text-sm text-[var(--color-text-primary)] hover:text-[var(--color-text-secondary)] transition-colors py-2 px-2"
           >
             <span>Eksplorasi Profil &amp; Filosofi</span>
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            <Icon icon="lucide:arrow-right" className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </button>
         </div>
       </div>

@@ -6,14 +6,14 @@ import type { NavItem, SocialLink, OwnerInfo } from '@/types';
  * `bottomNav: false` → hanya tampil di sidebar (desktop) dan drawer (mobile).
  */
 export const NAV_ITEMS: NavItem[] = [
-  { key: 'home', label: 'Home', icon: 'House', bottomNav: true },
-  { key: 'about', label: 'About', icon: 'User', bottomNav: false },
-  { key: 'experience', label: 'Experience', icon: 'Briefcase', bottomNav: false },
-  { key: 'projects', label: 'Projects', icon: 'FolderOpen', bottomNav: true },
-  { key: 'tech-stack', label: 'Tech Stack', icon: 'Layers', bottomNav: false },
-  { key: 'testimonials', label: 'Testimonials', icon: 'MessageSquare', bottomNav: false },
-  { key: 'story', label: 'Story', icon: 'FileText', bottomNav: false },
-  { key: 'contact', label: 'Contact', icon: 'Mail', bottomNav: true },
+  { key: 'home', label: 'Home', icon: 'lucide:house', bottomNav: true },
+  { key: 'about', label: 'About', icon: 'lucide:user', bottomNav: false },
+  { key: 'experience', label: 'Experience', icon: 'lucide:briefcase', bottomNav: false },
+  { key: 'projects', label: 'Projects', icon: 'lucide:folder-open', bottomNav: true },
+  { key: 'tech-stack', label: 'Tech Stack', icon: 'lucide:layers', bottomNav: false },
+  { key: 'testimonials', label: 'Testimonials', icon: 'lucide:message-square', bottomNav: false },
+  { key: 'story', label: 'Story', icon: 'lucide:file-text', bottomNav: false },
+  { key: 'contact', label: 'Contact', icon: 'lucide:mail', bottomNav: true },
 ];
 
 /**
@@ -21,12 +21,12 @@ export const NAV_ITEMS: NavItem[] = [
  * Ini menggunakan struktur href karena Admin menggunakan App Router biasa (bukan Single Page scroll).
  */
 export const ADMIN_NAV_ITEMS = [
-  { key: 'admin-dashboard', label: 'Dashboard', icon: 'LayoutDashboard', href: '/admin' },
-  { key: 'admin-about', label: 'About CMS', icon: 'User', href: '/admin/about' },
-  { key: 'admin-projects', label: 'Projects', icon: 'FolderGit2', href: '/admin/projects' },
-  { key: 'admin-testimonials', label: 'Testimonials', icon: 'MessageSquare', href: '/admin/testimonials' },
-  { key: 'admin-experiences', label: 'Experiences', icon: 'Briefcase', href: '/admin/experiences' },
-  { key: 'admin-stories', label: 'Stories', icon: 'FileText', href: '/admin/story' },
+  { key: 'admin-dashboard', label: 'Dashboard', icon: 'lucide:layout-dashboard', href: '/admin' },
+  { key: 'admin-about', label: 'About CMS', icon: 'lucide:user', href: '/admin/about' },
+  { key: 'admin-projects', label: 'Projects', icon: 'lucide:folder-git-2', href: '/admin/projects' },
+  { key: 'admin-testimonials', label: 'Testimonials', icon: 'lucide:message-square', href: '/admin/testimonials' },
+  { key: 'admin-experiences', label: 'Experiences', icon: 'lucide:briefcase', href: '/admin/experiences' },
+  { key: 'admin-stories', label: 'Stories', icon: 'lucide:file-text', href: '/admin/story' },
 ];
 
 /**

@@ -1,21 +1,11 @@
 'use client';
 
-import { House, FolderOpen, Mail, Menu } from 'lucide-react';
+import { Icon } from '@iconify/react';
 import { cn } from '@/lib/utils';
 import { BOTTOM_NAV_ITEMS } from '@/lib/constants';
 import type { SectionKey } from '@/types';
 
-// ============================================================
-// Ikon Pemetaan Dinamis
-// ============================================================
-const iconMap: Record<string, React.ElementType> = {
-  House, FolderOpen, Mail
-};
 
-const getIcon = (iconName: string) => {
-  const Icon = iconMap[iconName];
-  return Icon ? <Icon className="h-5 w-5 mb-1" /> : null;
-};
 
 // ============================================================
 // PROPS
@@ -63,7 +53,7 @@ export default function BottomNav({ active, onNavigate, onOpenDrawer }: BottomNa
                 isActive ? 'scale-110' : ''
               )}
             >
-              {getIcon(item.icon)}
+              <Icon icon={item.icon} className="h-5 w-5 mb-1" />
             </span>
             <span className="text-[10px] uppercase tracking-wider">{item.label}</span>
           </button>
@@ -76,7 +66,7 @@ export default function BottomNav({ active, onNavigate, onOpenDrawer }: BottomNa
         className="flex flex-1 flex-col items-center justify-center h-full text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors"
         aria-label="Open Menu Drawer"
       >
-        <Menu className="h-5 w-5 mb-1" />
+        <Icon icon="lucide:menu" className="h-5 w-5 mb-1" />
         <span className="text-[10px] uppercase tracking-wider">More</span>
       </button>
     </nav>

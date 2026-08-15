@@ -2,7 +2,7 @@
 
 import {Suspense} from 'react'
 import {motion} from 'framer-motion'
-import {MapPin, Briefcase, GraduationCap, Code2, Terminal} from 'lucide-react'
+import { Icon } from '@iconify/react'
 import useSWR from 'swr'
 import {OWNER_INFO} from '@/lib/constants'
 import {fetcher} from '@/lib/fetcher'
@@ -110,15 +110,15 @@ function AboutContent() {
         {/* Fakta Singkat */}
         <div className="w-full space-y-4 rounded-[24px] border border-[var(--color-border)]/50 bg-[var(--color-bg-surface)] p-6 shadow-sm">
           <div className="flex items-center gap-3 text-[var(--color-text-secondary)]">
-            <MapPin className="h-5 w-5 shrink-0 text-[var(--color-text-primary)]" />
+            <Icon icon="lucide:map-pin" className="h-5 w-5 shrink-0 text-[var(--color-text-primary)]" />
             <span className="text-sm font-medium">{location}</span>
           </div>
           <div className="flex items-center gap-3 text-[var(--color-text-secondary)]">
-            <Briefcase className="h-5 w-5 shrink-0 text-[var(--color-text-primary)]" />
+            <Icon icon="lucide:briefcase" className="h-5 w-5 shrink-0 text-[var(--color-text-primary)]" />
             <span className="text-sm font-medium">{employmentStatus}</span>
           </div>
           <div className="flex items-center gap-3 text-[var(--color-text-secondary)]">
-            <GraduationCap className="h-5 w-5 shrink-0 text-[var(--color-text-primary)]" />
+            <Icon icon="lucide:graduation-cap" className="h-5 w-5 shrink-0 text-[var(--color-text-primary)]" />
             <span className="text-sm font-medium">{education}</span>
           </div>
         </div>
@@ -161,7 +161,7 @@ function AboutContent() {
           >
             <div className="flex items-center gap-3">
               <div className="rounded-full bg-[var(--color-bg-elevated)] p-2">
-                <Code2 className="h-6 w-6 text-[var(--color-text-primary)]" />
+                <Icon icon="lucide:code-2" className="h-6 w-6 text-[var(--color-text-primary)]" />
               </div>
               <h3 className="text-2xl font-bold text-[var(--color-text-primary)]">
                 {totalProjects}+
@@ -178,7 +178,7 @@ function AboutContent() {
           >
             <div className="flex items-center gap-3">
               <div className="rounded-full bg-[var(--color-bg-elevated)] p-2">
-                <Terminal className="h-6 w-6 text-[var(--color-text-primary)]" />
+                <Icon icon="lucide:terminal" className="h-6 w-6 text-[var(--color-text-primary)]" />
               </div>
               <h3 className="text-2xl font-bold text-[var(--color-text-primary)]">
                 {yearsOfExperience}+

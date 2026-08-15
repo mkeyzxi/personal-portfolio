@@ -3,7 +3,7 @@
 import {Suspense} from 'react'
 import {motion} from 'framer-motion'
 import useSWR from 'swr'
-import {FolderOpen, ArrowRight} from 'lucide-react'
+import { Icon } from '@iconify/react'
 import ShinyText from '@/components/ShinyText'
 import ProjectCard from '@/components/ui/ProjectCard'
 import {fetcher} from '@/lib/fetcher'
@@ -65,7 +65,7 @@ export function FeaturedWorks({navigateTo}: {navigateTo: (section: string) => vo
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-2.5 rounded-full bg-[var(--color-bg-surface)] border border-[var(--color-border)] px-4 py-1.5 shadow-sm">
-              <FolderOpen className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
+              <Icon icon="lucide:folder-open" className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
               <ShinyText
                 text="Featured Works"
                 disabled={false}
@@ -88,7 +88,7 @@ export function FeaturedWorks({navigateTo}: {navigateTo: (section: string) => vo
           className="group hidden sm:inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-6 py-3.5 font-semibold text-sm text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] hover:border-[var(--color-text-muted)] shadow-sm"
         >
           Lihat Semua Proyek
-          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          <Icon icon="lucide:arrow-right" className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </button>
       </div>
 
@@ -102,7 +102,7 @@ export function FeaturedWorks({navigateTo}: {navigateTo: (section: string) => vo
           className="w-full justify-center group inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-6 py-3.5 font-semibold text-sm text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] shadow-sm"
         >
           Lihat Semua Proyek
-          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          <Icon icon="lucide:arrow-right" className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </button>
       </div>
     </motion.section>

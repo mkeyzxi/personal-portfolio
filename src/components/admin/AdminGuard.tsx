@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/lib/firebase';
-import * as LucideIcons from 'lucide-react';
+import { Icon } from '@iconify/react';
 import { toast } from 'sonner';
 
 interface AdminGuardProps {
@@ -64,7 +64,7 @@ export default function AdminGuard({ children }: AdminGuardProps) {
   if (loading || isVerifying) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-[var(--color-bg-main)]">
-        <LucideIcons.Loader2 className="w-10 h-10 animate-spin text-[var(--color-interactive)]" />
+        <Icon icon="lucide:loader-2" className="w-10 h-10 animate-spin text-[var(--color-interactive)]" />
       </div>
     );
   }

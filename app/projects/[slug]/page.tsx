@@ -2,7 +2,7 @@ import {notFound} from 'next/navigation'
 import {getAdminDb} from '@/lib/firebase-admin-db'
 import {Metadata} from 'next'
 import Link from 'next/link'
-import {ArrowLeft, ExternalLink} from 'lucide-react'
+
 import {Icon} from '@iconify/react'
 import {format} from 'date-fns'
 import {id} from 'date-fns/locale'
@@ -103,7 +103,7 @@ export default async function ProjectDetailPage({params}: PageProps) {
                 href="/"
                 className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-text-primary)] opacity-80 hover:opacity-100 transition-opacity mb-6 bg-[var(--color-bg-surface)]/50 backdrop-blur-md px-4 py-2 rounded-full border border-[var(--color-border)] shadow-sm"
               >
-                <ArrowLeft className="h-4 w-4" /> Kembali ke Beranda
+                <Icon icon="lucide:arrow-left" className="h-4 w-4" /> Kembali ke Beranda
               </Link>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-geist-sans text-[var(--color-text-primary)] mb-4 leading-tight drop-shadow-xl">
                 {project.title}
@@ -207,7 +207,7 @@ function ProjectMetaInfo({project}: {project: ProjectData}) {
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[var(--color-interactive)] text-[var(--color-interactive-text)] font-semibold hover:bg-[var(--color-interactive-hover)] transition-all hover:-translate-y-0.5 active:translate-y-0 shadow-sm"
             >
-              <ExternalLink className="h-4 w-4" /> Kunjungi Situs
+              <Icon icon="lucide:external-link" className="h-4 w-4" /> Kunjungi Situs
             </a>
           )}
           {project.githubUrl && (

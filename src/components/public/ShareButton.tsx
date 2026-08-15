@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { Share2, Link as LinkIcon, Download, Copy, Loader2, Image as ImageIcon } from 'lucide-react';
+import { Icon } from '@iconify/react';
 import { toast } from 'sonner';
 import QRCode from 'qrcode';
 import {
@@ -621,7 +621,7 @@ export default function ShareButton({ storyData }: ShareButtonProps) {
           className="flex items-center gap-2 px-3 py-1 rounded-full transition-colors border bg-[var(--color-bg-surface)] border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)]"
           title="Bagikan Cerita"
         >
-          <Share2 className="w-4 h-4" />
+          <Icon icon="lucide:share2" className="w-4 h-4" />
           <span className="font-mono text-sm hidden sm:inline">Share</span>
         </button>
       } />
@@ -634,14 +634,14 @@ export default function ShareButton({ storyData }: ShareButtonProps) {
             onClick={handleCopyLink}
             className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-[var(--color-bg-elevated)] transition-colors text-left text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
           >
-            <Copy className="w-5 h-5 text-[var(--color-text-muted)]" />
+            <Icon icon="lucide:copy" className="w-5 h-5 text-[var(--color-text-muted)]" />
             <span className="font-medium">Salin Tautan</span>
           </button>
           <button
             onClick={handleShareLink}
             className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-[var(--color-bg-elevated)] transition-colors text-left text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
           >
-            <LinkIcon className="w-5 h-5 text-[var(--color-text-muted)]" />
+            <Icon icon="lucide:link" className="w-5 h-5 text-[var(--color-text-muted)]" />
             <span className="font-medium">Bagikan Tautan</span>
           </button>
           <button
@@ -650,13 +650,13 @@ export default function ShareButton({ storyData }: ShareButtonProps) {
             className="flex items-center justify-between w-full p-3 rounded-xl hover:bg-[var(--color-bg-elevated)] transition-colors text-left text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] disabled:opacity-50"
           >
             <div className="flex items-center gap-3">
-              <ImageIcon className="w-5 h-5 text-[var(--color-interactive)]" />
+              <Icon icon="lucide:image" className="w-5 h-5 text-[var(--color-interactive)]" />
               <span className="font-medium">Buat Gambar Instagram Story</span>
             </div>
             {isExporting ? (
-              <Loader2 className="w-4 h-4 animate-spin text-[var(--color-text-muted)]" />
+              <Icon icon="lucide:loader2" className="w-4 h-4 animate-spin text-[var(--color-text-muted)]" />
             ) : (
-              <Download className="w-4 h-4 text-[var(--color-text-muted)]" />
+              <Icon icon="lucide:download" className="w-4 h-4 text-[var(--color-text-muted)]" />
             )}
           </button>
         </div>

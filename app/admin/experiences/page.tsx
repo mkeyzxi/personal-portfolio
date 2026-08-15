@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
-import * as LucideIcons from 'lucide-react';
+import { Icon } from '@iconify/react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 
 export default function AdminExperiencesDashboard() {
@@ -161,7 +161,7 @@ export default function AdminExperiencesDashboard() {
           onClick={() => handleOpenModal()} 
           className="flex items-center gap-2 bg-[var(--color-interactive)] text-[var(--color-interactive-text)] px-4 py-2 rounded-xl font-medium hover:bg-[var(--color-interactive-hover)] transition-colors"
         >
-          <LucideIcons.Plus className="w-5 h-5" /> Tambah Baru
+          <Icon icon="lucide:plus" className="w-5 h-5" /> Tambah Baru
         </button>
       </div>
 
@@ -194,14 +194,14 @@ export default function AdminExperiencesDashboard() {
                       className="text-blue-500 hover:text-blue-700 text-sm font-medium transition-colors"
                       title="Edit"
                     >
-                      <LucideIcons.Edit className="w-5 h-5 inline-block" />
+                      <Icon icon="lucide:edit" className="w-5 h-5 inline-block" />
                     </button>
                     <button 
                       onClick={() => handleDelete(exp.id)} 
                       className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors"
                       title="Delete"
                     >
-                      <LucideIcons.Trash2 className="w-5 h-5 inline-block" />
+                      <Icon icon="lucide:trash2" className="w-5 h-5 inline-block" />
                     </button>
                   </td>
                 </tr>

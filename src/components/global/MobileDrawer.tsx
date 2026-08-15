@@ -1,10 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import {
-  House, User, Briefcase, FolderOpen, Layers, MessageSquare, Route, Mail, 
-  LayoutDashboard, FolderGit2, FileText, X, LogOut, Moon, Sun
-} from 'lucide-react';
+import { Icon } from '@iconify/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -12,18 +9,7 @@ import { cn } from '@/lib/utils';
 import { DRAWER_NAV_ITEMS, ADMIN_NAV_ITEMS } from '@/lib/constants';
 import type { SectionKey } from '@/types';
 
-// ============================================================
-// Ikon Pemetaan Dinamis
-// ============================================================
-const iconMap: Record<string, React.ElementType> = {
-  House, User, Briefcase, FolderOpen, Layers, MessageSquare, Route, Mail,
-  LayoutDashboard, FolderGit2, FileText
-};
 
-const getIcon = (iconName: string) => {
-  const Icon = iconMap[iconName];
-  return Icon ? <Icon className="h-5 w-5" /> : null;
-};
 
 // ============================================================
 // PROPS
@@ -142,7 +128,7 @@ export default function MobileDrawer({ isOpen, onClose, active, onNavigate, isAd
                 className="flex h-11 w-11 items-center justify-center rounded-full text-[var(--color-text-muted)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)]"
                 aria-label="Close Menu"
               >
-                <X className="h-5 w-5" />
+                <Icon icon="lucide:x" className="h-5 w-5" />
               </button>
             </div>
 
@@ -166,7 +152,7 @@ export default function MobileDrawer({ isOpen, onClose, active, onNavigate, isAd
                       )}
                       aria-current={isActive ? 'page' : undefined}
                     >
-                      {getIcon(item.icon)}
+                      <Icon icon={item.icon} className="h-5 w-5" />
                       <span className="text-lg">{item.label}</span>
                     </button>
                   );
@@ -190,7 +176,7 @@ export default function MobileDrawer({ isOpen, onClose, active, onNavigate, isAd
                           )}
                           aria-current={isActive ? 'page' : undefined}
                         >
-                          {getIcon(item.icon)}
+                          <Icon icon={item.icon} className="h-5 w-5" />
                           <span className="text-lg">{item.label}</span>
                         </Link>
                       );
@@ -202,7 +188,7 @@ export default function MobileDrawer({ isOpen, onClose, active, onNavigate, isAd
                       onClick={handleLogout}
                       className="flex items-center gap-4 rounded-xl px-4 py-4 text-left text-red-500 hover:bg-red-500/10 hover:text-red-600 transition-colors"
                     >
-                      <LogOut className="h-5 w-5" />
+                      <Icon icon="lucide:log-out" className="h-5 w-5" />
                       <span className="text-lg">Logout</span>
                     </button>
                   </>
@@ -217,8 +203,8 @@ export default function MobileDrawer({ isOpen, onClose, active, onNavigate, isAd
                   className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] border border-[var(--color-border-muted)] shadow-sm"
                   aria-label="Toggle Dark Mode"
                 >
-                  <Moon className="h-5 w-5 hidden dark:block" />
-                  <Sun className="h-5 w-5 block dark:hidden" />
+                  <Icon icon="lucide:moon" className="h-5 w-5 hidden dark:block" />
+                  <Icon icon="lucide:sun" className="h-5 w-5 block dark:hidden" />
                 </button>
               </div>
             </div>

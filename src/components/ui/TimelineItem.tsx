@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Briefcase, Users, GraduationCap, Calendar, Award, ExternalLink } from 'lucide-react';
+import { Icon } from '@iconify/react';
 import type { Experience } from '@/types';
 import { cn } from '@/lib/utils';
 
@@ -33,7 +33,7 @@ function CardContent({ experience, isCertificate, alignRight = false }: { experi
       <h3 className="text-xl font-bold text-[var(--color-text-primary)]">{experience.position}</h3>
       <span className="text-lg font-medium text-[var(--color-text-secondary)]">{experience.company}</span>
       <div className={cn("flex items-center gap-2 text-sm text-[var(--color-text-muted)] mt-1", alignRight ? "md:justify-end" : "")}>
-        <Calendar className="h-4 w-4" />
+        <Icon icon="lucide:calendar" className="h-4 w-4" />
         <span>{experience.period}</span>
       </div>
       
@@ -61,7 +61,7 @@ function CardContent({ experience, isCertificate, alignRight = false }: { experi
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-interactive)] hover:underline"
           >
-            <ExternalLink className="h-4 w-4" />
+            <Icon icon="lucide:external-link" className="h-4 w-4" />
             Lihat Kredensial
           </a>
         </div>
@@ -75,15 +75,15 @@ export default function TimelineItem({ experience, index }: TimelineItemProps) {
   const getIcon = () => {
     switch (experience.type) {
       case 'work':
-        return <Briefcase className="h-5 w-5" />;
+        return <Icon icon="lucide:briefcase" className="h-5 w-5" />;
       case 'organization':
-        return <Users className="h-5 w-5" />;
+        return <Icon icon="lucide:users" className="h-5 w-5" />;
       case 'education':
-        return <GraduationCap className="h-5 w-5" />;
+        return <Icon icon="lucide:graduation-cap" className="h-5 w-5" />;
       case 'certificate':
-        return <Award className="h-5 w-5" />;
+        return <Icon icon="lucide:award" className="h-5 w-5" />;
       default:
-        return <Briefcase className="h-5 w-5" />;
+        return <Icon icon="lucide:briefcase" className="h-5 w-5" />;
     }
   };
 

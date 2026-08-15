@@ -1,7 +1,7 @@
 'use client'
 
 import {motion} from 'framer-motion'
-import {Award, ArrowRight, ChevronRight} from 'lucide-react'
+import { Icon } from '@iconify/react'
 import ShinyText from '@/components/ShinyText'
 import {sectionVariants, itemVariants} from './shared'
 import type {Experience} from '@/types'
@@ -25,7 +25,7 @@ export function ExperienceOverview({
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-2.5 rounded-full bg-[var(--color-bg-surface)] border border-[var(--color-border)] px-4 py-1.5 shadow-sm">
-              <Award className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
+              <Icon icon="lucide:award" className="w-3.5 h-3.5 text-[var(--color-text-primary)]" />
               <ShinyText
                 text="Experience Overview"
                 disabled={false}
@@ -48,7 +48,7 @@ export function ExperienceOverview({
           className="group hidden sm:inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-6 py-3.5 font-semibold text-sm text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] hover:border-[var(--color-text-muted)] shadow-sm"
         >
           Lihat Riwayat Karir Lengkap
-          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          <Icon icon="lucide:arrow-right" className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </button>
       </div>
 
@@ -102,7 +102,7 @@ export function ExperienceOverview({
               </div>
               <span className="inline-flex items-center font-mono text-xs text-[var(--color-text-muted)] group-hover:text-[var(--color-text-primary)] transition-colors mt-1">
                 Detail Pengalaman
-                <ChevronRight className="w-4 h-4 ml-0.5 transition-transform group-hover:translate-x-1" />
+                <Icon icon="lucide:chevron-right" className="w-4 h-4 ml-0.5 transition-transform group-hover:translate-x-1" />
               </span>
             </div>
           </motion.div>
@@ -115,7 +115,7 @@ export function ExperienceOverview({
           className="w-full justify-center group inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-6 py-3.5 font-semibold text-sm text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] shadow-sm"
         >
           Lihat Riwayat Karir Lengkap
-          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          <Icon icon="lucide:arrow-right" className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </button>
       </div>
     </motion.section>

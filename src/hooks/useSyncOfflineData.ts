@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { db } from '@/lib/db';
-import { auth } from '@/lib/firebase';
 import { toast } from 'sonner';
 
 export function useSyncOfflineData() {
@@ -22,6 +21,7 @@ export function useSyncOfflineData() {
             };
 
             // Jika user sedang login, selalu lampirkan token terbaru
+            const { auth } = await import('@/lib/firebase');
             const currentUser = auth.currentUser;
             if (currentUser) {
               const token = await currentUser.getIdToken();
