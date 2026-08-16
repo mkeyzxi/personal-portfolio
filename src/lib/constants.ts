@@ -1,4 +1,4 @@
-import type { NavItem, SocialLink, OwnerInfo } from '@/types';
+import type {NavItem, SocialLink, OwnerInfo} from '@/types'
 
 /**
  * NAV_ITEMS — Daftar semua item navigasi sesuai PRD §8.5.
@@ -6,48 +6,58 @@ import type { NavItem, SocialLink, OwnerInfo } from '@/types';
  * `bottomNav: false` → hanya tampil di sidebar (desktop) dan drawer (mobile).
  */
 export const NAV_ITEMS: NavItem[] = [
-  { key: 'home', label: 'Home', icon: 'lucide:house', bottomNav: true },
-  { key: 'about', label: 'About', icon: 'lucide:user', bottomNav: false },
-  { key: 'experience', label: 'Experience', icon: 'lucide:briefcase', bottomNav: false },
-  { key: 'projects', label: 'Projects', icon: 'lucide:folder-open', bottomNav: true },
-  { key: 'tech-stack', label: 'Tech Stack', icon: 'lucide:layers', bottomNav: false },
-  { key: 'testimonials', label: 'Testimonials', icon: 'lucide:message-square', bottomNav: false },
-  { key: 'story', label: 'Story', icon: 'lucide:file-text', bottomNav: false },
-  { key: 'contact', label: 'Contact', icon: 'lucide:mail', bottomNav: true },
-];
+  {key: 'home', label: 'Home', icon: 'lucide:house', bottomNav: true},
+  {key: 'about', label: 'About', icon: 'lucide:user', bottomNav: false},
+  {key: 'experience', label: 'Experience', icon: 'lucide:briefcase', bottomNav: false},
+  {key: 'projects', label: 'Projects', icon: 'lucide:folder-open', bottomNav: true},
+  {key: 'tech-stack', label: 'Tech Stack', icon: 'lucide:layers', bottomNav: false},
+  {key: 'testimonials', label: 'Testimonials', icon: 'lucide:message-square', bottomNav: false},
+  {key: 'story', label: 'Story', icon: 'lucide:file-text', bottomNav: false},
+  {key: 'contact', label: 'Contact', icon: 'lucide:mail', bottomNav: true},
+]
 
 /**
  * ADMIN_NAV_ITEMS — Daftar item navigasi khusus Admin.
  * Ini menggunakan struktur href karena Admin menggunakan App Router biasa (bukan Single Page scroll).
  */
 export const ADMIN_NAV_ITEMS = [
-  { key: 'admin-dashboard', label: 'Dashboard', icon: 'lucide:layout-dashboard', href: '/admin' },
-  { key: 'admin-about', label: 'About CMS', icon: 'lucide:user', href: '/admin/about' },
-  { key: 'admin-projects', label: 'Projects', icon: 'lucide:folder-git-2', href: '/admin/projects' },
-  { key: 'admin-testimonials', label: 'Testimonials', icon: 'lucide:message-square', href: '/admin/testimonials' },
-  { key: 'admin-experiences', label: 'Experiences', icon: 'lucide:briefcase', href: '/admin/experiences' },
-  { key: 'admin-stories', label: 'Stories', icon: 'lucide:file-text', href: '/admin/story' },
-];
+  {key: 'admin-dashboard', label: 'Dashboard', icon: 'lucide:layout-dashboard', href: '/admin'},
+  {key: 'admin-about', label: 'About CMS', icon: 'lucide:user', href: '/admin/about'},
+  {key: 'admin-projects', label: 'Projects', icon: 'lucide:folder-git-2', href: '/admin/projects'},
+  {
+    key: 'admin-testimonials',
+    label: 'Testimonials',
+    icon: 'lucide:message-square',
+    href: '/admin/testimonials',
+  },
+  {
+    key: 'admin-experiences',
+    label: 'Experiences',
+    icon: 'lucide:briefcase',
+    href: '/admin/experiences',
+  },
+  {key: 'admin-stories', label: 'Stories', icon: 'lucide:file-text', href: '/admin/story'},
+]
 
 /**
  * BOTTOM_NAV_ITEMS — Subset item yang tampil di bottom nav mobile.
  * Derived dari NAV_ITEMS untuk menghindari duplikasi data.
  */
-export const BOTTOM_NAV_ITEMS = NAV_ITEMS.filter((item) => item.bottomNav);
+export const BOTTOM_NAV_ITEMS = NAV_ITEMS.filter((item) => item.bottomNav)
 
 /**
  * DRAWER_NAV_ITEMS — Subset item yang tampil di mobile drawer.
  * Adalah kebalikan dari BOTTOM_NAV_ITEMS.
  */
-export const DRAWER_NAV_ITEMS = NAV_ITEMS.filter((item) => !item.bottomNav);
+export const DRAWER_NAV_ITEMS = NAV_ITEMS.filter((item) => !item.bottomNav)
 
 /**
  * VALID_SECTION_KEYS — Set untuk validasi cepat apakah suatu string
  * adalah SectionKey yang valid. Digunakan saat parsing URL hash.
  */
-export const VALID_SECTION_KEYS = new Set(NAV_ITEMS.map((item) => item.key));
+export const VALID_SECTION_KEYS = new Set(NAV_ITEMS.map((item) => item.key))
 
-export const STORAGE_KEY_ACTIVE_SECTION = 'portfolio_active_section';
+export const STORAGE_KEY_ACTIVE_SECTION = 'portfolio_active_section'
 
 /**
  * SOCIAL_LINKS — Link media sosial pemilik portfolio.
@@ -89,7 +99,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
     iconify: 'logos:whatsapp-icon',
     ariaLabel: 'Hubungi via WhatsApp',
   },
-];
+]
 
 /**
  * OWNER_INFO — Informasi pemilik portfolio.
@@ -101,5 +111,5 @@ export const OWNER_INFO: OwnerInfo = {
   tagline: 'Full Stack Developer',
   email: 'muhmakbul6@gmail.com',
   location: 'Indonesia, Makassar',
-  avatarPath: '/profile.jpeg',
-};
+  avatarPath: '/profile.png',
+}

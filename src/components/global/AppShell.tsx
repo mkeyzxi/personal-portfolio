@@ -172,6 +172,9 @@ export default function AppShell() {
   // ── Initial Load Resolution ─────────────────────────────
   // Prioritas: URL hash > sessionStorage > default 'home'
   useEffect(() => {
+    // Scroll to top automatically when section changes because we now use body scroll
+    window.scrollTo({ top: 0, behavior: 'instant' });
+
     // Sinkronkan hash ke URL jika belum ada
     if (window.location.hash !== `#${activeSection}`) {
       window.history.replaceState(null, '', `#${activeSection}`);
