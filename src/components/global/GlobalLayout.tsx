@@ -131,7 +131,7 @@ export default function GlobalLayout({ children }: { children: React.ReactNode }
   // Hapus isAdminRoute return early, agar layout ini menangani semua rute.
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex min-h-[100dvh]">
       <a href="#main-content" className="skip-link">Lewati navigasi, langsung ke konten</a>
       
       <SidebarNav active={activeSection} onNavigate={handleNavigate} isCollapsed={isSidebarCollapsed} onToggleCollapse={handleToggleSidebar} isAdmin={isAdmin} />
@@ -140,7 +140,7 @@ export default function GlobalLayout({ children }: { children: React.ReactNode }
         id="main-content"
         tabIndex={-1}
         className={cn(
-          "flex-1 overflow-y-auto pb-16 lg:pb-0 transition-[margin] duration-300 ease-in-out",
+          "flex-1 w-full pb-16 lg:pb-0 transition-[margin] duration-300 ease-in-out",
           isSidebarCollapsed ? "lg:ml-20" : "lg:ml-64"
         )}
         role="main"

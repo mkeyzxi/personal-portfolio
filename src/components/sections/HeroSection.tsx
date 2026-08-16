@@ -5,7 +5,7 @@ import {motion} from 'framer-motion'
 import {Icon} from '@iconify/react'
 import {OWNER_INFO} from '@/lib/constants'
 import ShinyText from '@/components/ShinyText'
-
+import Magnet from '@/components/ui/Magnet'
 // ============================================================
 // ANIMASI FRAMER MOTION
 // ============================================================
@@ -152,16 +152,18 @@ export default function HeroSection() {
             />
           </button>
 
-          <button
-            onClick={() => navigateTo('contact')}
-            className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border-2 border-[var(--color-border)] bg-transparent px-8 py-4 font-semibold text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-surface)] hover:border-[var(--color-text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:ring-offset-2 dark:focus:ring-offset-[#0a0a0a]"
-          >
-            <Icon
-              icon="lucide:mail"
-              className="h-5 w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
-            />
-            Hubungi Saya
-          </button>
+          <Magnet padding={50} disabled={false} magnetStrength={20} className="w-full sm:w-auto">
+            <button
+              onClick={() => navigateTo('contact')}
+              className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border-2 border-[var(--color-border)] bg-transparent px-8 py-4 font-semibold text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-surface)] hover:border-[var(--color-text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:ring-offset-2 dark:focus:ring-offset-[#0a0a0a]"
+            >
+              <Icon
+                icon="lucide:mail"
+                className="h-5 w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
+              />
+              Hubungi Saya
+            </button>
+          </Magnet>
         </div>
       </div>
 

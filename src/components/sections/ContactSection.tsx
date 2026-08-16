@@ -23,9 +23,9 @@ export default function ContactSection() {
   return (
     <section
       aria-labelledby="contact-heading"
-      className="flex min-h-screen w-full flex-col items-center justify-center py-24 px-6 md:px-10"
+      className="flex min-h-[100dvh] w-full flex-col items-center py-12 md:py-24 px-6 md:px-10"
     >
-      <div className="w-full max-w-5xl">
+      <div className="w-full max-w-5xl my-auto">
         {/* Section Header */}
         <div className="mb-12 md:mb-16 text-center md:text-left">
           <h1
