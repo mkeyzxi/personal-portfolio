@@ -192,12 +192,15 @@ const GradientWaves: React.FC<GradientWavesProps> = ({
     const container = containerRef.current
     if (!container) return
 
+    const isMobile = window.innerWidth < 768
+    const targetDpr = isMobile ? 0.5 : Math.min(window.devicePixelRatio || 1, 1.5)
+
     const renderer = new Renderer({
       webgl: 2,
       alpha: true,
       premultipliedAlpha: true,
       antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 1.5),
+      dpr: targetDpr,
     })
 
     const gl = renderer.gl
