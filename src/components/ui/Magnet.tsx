@@ -33,7 +33,8 @@ export default function Magnet({
   }, [])
 
   useEffect(() => {
-    if (disabled || !ref.current) return
+    const isTouchDevice = typeof window !== 'undefined' && window.matchMedia('(hover: none) and (pointer: coarse)').matches
+    if (disabled || !ref.current || isTouchDevice) return
 
     updateRect()
 
