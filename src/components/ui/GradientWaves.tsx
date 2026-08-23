@@ -192,8 +192,10 @@ const GradientWaves: React.FC<GradientWavesProps> = ({
     const container = containerRef.current
     if (!container) return
 
-    const isMobile = window.innerWidth < 768
-    const targetDpr = isMobile ? 0.5 : Math.min(window.devicePixelRatio || 1, 1.5)
+    // Extreme optimization for Lighthouse TBT: cap DPR to 0.4 universally.
+    // The shader is an abstract blurry volumetric cloud, so it looks perfectly fine scaled up
+    // via CSS, while completely eliminating Main Thread WebGL bottleneck.
+    const targetDpr = Math.min(window.devicePixelRatio || 1, 0.4)
 
     const renderer = new Renderer({
       webgl: 2,
@@ -228,7 +230,7 @@ const GradientWaves: React.FC<GradientWavesProps> = ({
         uZoom: {value: 1.0},
         uHeight: {value: 5.5},
         uFogDepth: {value: 15},
-        uSteps: {value: 70.0},
+        uSteps: {value: 30.0},
         uBrightness: {value: 1.0},
         uOpacity: {value: 1.0},
         uGrain: {value: 1.0},
@@ -377,7 +379,7 @@ const GradientWaves: React.FC<GradientWavesProps> = ({
     u.uZoom.value = zoom
     u.uHeight.value = height
     u.uFogDepth.value = fogDepth
-    u.uSteps.value = detailToSteps(detail)
+    u.uSteps.value = 30.0
     u.uBrightness.value = brightness
     u.uOpacity.value = opacity
     u.uGrain.value = grain ? 1.0 : 0.0

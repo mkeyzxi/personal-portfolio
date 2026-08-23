@@ -102,7 +102,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <link rel="preconnect" href="https://api.iconify.design" />
+        <link rel="preconnect" href="https://api.iconify.design" crossOrigin="anonymous" />
         {/*
          * Dark Mode Anti-FOUC Script — PRD §9.9, SDD §4.1
          *
