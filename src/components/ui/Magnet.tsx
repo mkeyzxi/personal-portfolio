@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 
 interface MagnetProps {
@@ -22,42 +22,67 @@ export default function Magnet({
 }: MagnetProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState({ x: 0, y: 0 })
+  // Cache rect to avoid forced reflow on every mouse event
+  const cachedRect = useRef<DOMRect | null>(null)
+  const rafId = useRef<number>(0)
+
+  const updateRect = useCallback(() => {
+    if (ref.current) {
+      cachedRect.current = ref.current.getBoundingClientRect()
+    }
+  }, [])
 
   useEffect(() => {
+    if (disabled || !ref.current) return
+
+    updateRect()
+
+    // Update cached rect on resize and scroll
+    const ro = new ResizeObserver(updateRect)
+    ro.observe(ref.current)
+    window.addEventListener('scroll', updateRect, { passive: true })
+
     const handleMouseMove = (e: MouseEvent) => {
-      if (disabled || !ref.current) return
+      if (!cachedRect.current) return
 
-      const { clientX, clientY } = e
-      const { top, left, width, height } = ref.current.getBoundingClientRect()
+      // Throttle via RAF — only one position update per frame
+      if (rafId.current) return
+      rafId.current = requestAnimationFrame(() => {
+        rafId.current = 0
+        const rect = cachedRect.current!
+        const { clientX, clientY } = e
 
-      const centerX = left + width / 2
-      const centerY = top + height / 2
+        const centerX = rect.left + rect.width / 2
+        const centerY = rect.top + rect.height / 2
 
-      const distanceX = Math.abs(clientX - centerX)
-      const distanceY = Math.abs(clientY - centerY)
+        const distanceX = Math.abs(clientX - centerX)
+        const distanceY = Math.abs(clientY - centerY)
 
-      if (distanceX < width / 2 + padding && distanceY < height / 2 + padding) {
-        // Calculate offset based on distance from center
-        const offsetX = ((clientX - centerX) / (width / 2)) * magnetStrength
-        const offsetY = ((clientY - centerY) / (height / 2)) * magnetStrength
-        setPosition({ x: offsetX, y: offsetY })
-      } else {
-        setPosition({ x: 0, y: 0 })
-      }
+        if (distanceX < rect.width / 2 + padding && distanceY < rect.height / 2 + padding) {
+          const offsetX = ((clientX - centerX) / (rect.width / 2)) * magnetStrength
+          const offsetY = ((clientY - centerY) / (rect.height / 2)) * magnetStrength
+          setPosition({ x: offsetX, y: offsetY })
+        } else {
+          setPosition(prev => (prev.x === 0 && prev.y === 0) ? prev : { x: 0, y: 0 })
+        }
+      })
     }
 
     const handleMouseLeave = () => {
       setPosition({ x: 0, y: 0 })
     }
 
-    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
     window.addEventListener('mouseout', handleMouseLeave)
 
     return () => {
+      ro.disconnect()
+      window.removeEventListener('scroll', updateRect)
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('mouseout', handleMouseLeave)
+      if (rafId.current) cancelAnimationFrame(rafId.current)
     }
-  }, [disabled, padding, magnetStrength])
+  }, [disabled, padding, magnetStrength, updateRect])
 
   return (
     <div ref={ref} className={className} style={{ position: 'relative', display: 'inline-block' }}>

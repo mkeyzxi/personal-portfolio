@@ -27,6 +27,16 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
   serverExternalPackages: ["firebase-admin"],
+  experimental: {
+    optimizePackageImports: [
+      'framer-motion',
+      'motion',
+      '@iconify/react',
+      'date-fns',
+      'lucide-react',
+      'swr',
+    ],
+  },
   async headers() {
     return [
       {

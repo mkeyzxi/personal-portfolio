@@ -103,7 +103,6 @@ export default function RootLayout({
     >
       <head>
         <link rel="preconnect" href="https://api.iconify.design" />
-        <link rel="preconnect" href="https://my-next-app-2b56d.firebaseapp.com" />
         {/*
          * Dark Mode Anti-FOUC Script — PRD §9.9, SDD §4.1
          *

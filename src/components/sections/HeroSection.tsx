@@ -6,6 +6,7 @@ import {Icon} from '@iconify/react'
 import {OWNER_INFO} from '@/lib/constants'
 import ShinyText from '@/components/ShinyText'
 import Magnet from '@/components/ui/Magnet'
+import dynamic from 'next/dynamic'
 // ============================================================
 // ANIMASI FRAMER MOTION
 // ============================================================
@@ -22,17 +23,18 @@ import Magnet from '@/components/ui/Magnet'
 //   },
 // }
 
-import GradientWaves from '@/components/ui/GradientWaves'
+// Lazy-load GradientWaves — heavy WebGL shader should not block initial paint
+const GradientWaves = dynamic(
+  () => import('@/components/ui/GradientWaves'),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--color-bg-surface)] to-[var(--color-bg-main)] opacity-30" />
+    ),
+  }
+)
 
-// Efek fade up untuk elemen individu
-const itemVariants = {
-  hidden: {opacity: 0, y: 20},
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {type: 'spring' as const, stiffness: 300, damping: 24},
-  },
-}
+
 
 // Custom hook untuk mendeteksi dark mode secara reaktif tanpa SSR mismatch
 function useThemeStatus() {

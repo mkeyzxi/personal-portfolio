@@ -38,9 +38,13 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ success: true, data: stories });
   } catch (error: unknown) {
-    console.error('Error fetching stories:', error);
+    const isIndexError = error && typeof error === 'object' && 'code' in error && (error as { code: number }).code === 9;
+    
+    if (!isIndexError) {
+      console.error('Error fetching stories:', error);
+    }
      
-    if (error && typeof error === 'object' && 'code' in error && (error as { code: number }).code === 9) {
+    if (isIndexError) {
       // Fallback for index error
       const db = getAdminDb();
       const storiesSnapshot = await db.collection('stories').get();

@@ -8,14 +8,17 @@ import type {Project} from '@/types'
 
 // Import Split Components
 import {ExecutiveSnapshot} from './home/ExecutiveSnapshot'
-import {WhatIDo} from './home/WhatIDo'
-import {FeaturedWorks} from './home/FeaturedWorks'
-import {ExperienceOverview} from './home/ExperienceOverview'
-import {TechPreview} from './home/TechPreview'
-import {StoryArticles} from './home/StoryArticles'
-import {TestimonialsPreview} from './home/TestimonialsPreview'
-import {GithubActivity} from './home/GithubActivity'
-import {ContactCTA} from './home/ContactCTA'
+import dynamic from 'next/dynamic'
+
+// Lazy load below-the-fold components to reduce initial JS payload
+const WhatIDo = dynamic(() => import('./home/WhatIDo').then((mod) => mod.WhatIDo))
+const FeaturedWorks = dynamic(() => import('./home/FeaturedWorks').then((mod) => mod.FeaturedWorks))
+const ExperienceOverview = dynamic(() => import('./home/ExperienceOverview').then((mod) => mod.ExperienceOverview))
+const TechPreview = dynamic(() => import('./home/TechPreview').then((mod) => mod.TechPreview))
+const StoryArticles = dynamic(() => import('./home/StoryArticles').then((mod) => mod.StoryArticles))
+const TestimonialsPreview = dynamic(() => import('./home/TestimonialsPreview').then((mod) => mod.TestimonialsPreview))
+const GithubActivity = dynamic(() => import('./home/GithubActivity').then((mod) => mod.GithubActivity))
+const ContactCTA = dynamic(() => import('./home/ContactCTA').then((mod) => mod.ContactCTA))
 
 // ============================================================
 // KOMPONEN UTAMA RANGKUMAN HOME (EXECUTIVE DASHBOARD)
