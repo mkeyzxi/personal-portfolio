@@ -40,14 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# file
-AGENTS.md
-CLAUDE.md
-.claude
-NewFeatProyek.md
-NewFeatTestimonials.md
-plansebelumnya.md
-PRD.md
-SDD.md
-NewFeatStorys.md
-seed_categories.js
+# Abaikan semua file berpartisi .md di seluruh folder
+*.md
+**/*.md
+
+# KECUALIKAN README.md agar tetap dilacak oleh Git
+!README.md
+!**/README.md
