@@ -176,7 +176,7 @@ const GradientWaves: React.FC<GradientWavesProps> = ({
   zoom = 1.0,
   height = 5.5,
   fogDepth = 15,
-  detail = 'medium',
+  detail = 'low',
   brightness = 1.0,
   opacity = 1.0,
   mouseInteraction = true,
@@ -197,7 +197,7 @@ const GradientWaves: React.FC<GradientWavesProps> = ({
       alpha: true,
       premultipliedAlpha: true,
       antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2),
+      dpr: Math.min(window.devicePixelRatio || 1, 1.5),
     })
 
     const gl = renderer.gl
@@ -260,10 +260,16 @@ const GradientWaves: React.FC<GradientWavesProps> = ({
     const currentMouse: [number, number] = [0.5, 0.5]
     const targetMouse: [number, number] = [0.5, 0.5]
 
+    // Cache canvas rect to avoid forced reflow on every pointer move
+    let cachedCanvasRect = canvas.getBoundingClientRect()
+    const rectRo = new ResizeObserver(() => {
+      cachedCanvasRect = canvas.getBoundingClientRect()
+    })
+    rectRo.observe(canvas)
+
     const onPointerMove = (e: PointerEvent) => {
-      const rect = canvas.getBoundingClientRect()
-      targetMouse[0] = (e.clientX - rect.left) / rect.width
-      targetMouse[1] = 1.0 - (e.clientY - rect.top) / rect.height
+      targetMouse[0] = (e.clientX - cachedCanvasRect.left) / cachedCanvasRect.width
+      targetMouse[1] = 1.0 - (e.clientY - cachedCanvasRect.top) / cachedCanvasRect.height
     }
     const onPointerLeave = () => {
       targetMouse[0] = 0.5
@@ -276,8 +282,14 @@ const GradientWaves: React.FC<GradientWavesProps> = ({
     let isVisible = true
     let isPageVisible = !document.hidden
     const t0 = performance.now()
+    const FRAME_INTERVAL = 1000 / 30 // Throttle to 30fps — sufficient for slow ambient waves
+    let lastFrameTime = 0
 
     const loop = (t: number) => {
+      raf = requestAnimationFrame(loop)
+      // Skip frame if not enough time has elapsed (30fps throttle)
+      if (t - lastFrameTime < FRAME_INTERVAL) return
+      lastFrameTime = t
       ;(program.uniforms.iTime as {value: number}).value = (t - t0) * 0.001
       const tx = enableMouseRef.current ? targetMouse[0] : 0.5
       const ty = enableMouseRef.current ? targetMouse[1] : 0.5
@@ -287,7 +299,6 @@ const GradientWaves: React.FC<GradientWavesProps> = ({
       m[0] = currentMouse[0]
       m[1] = currentMouse[1]
       renderer.render({scene: mesh})
-      raf = requestAnimationFrame(loop)
     }
 
     const tryStart = () => {
@@ -303,7 +314,11 @@ const GradientWaves: React.FC<GradientWavesProps> = ({
     const io = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting
-        isVisible ? tryStart() : tryStop()
+        if (isVisible) {
+          tryStart()
+        } else {
+          tryStop()
+        }
       },
       {threshold: 0},
     )
@@ -311,15 +326,22 @@ const GradientWaves: React.FC<GradientWavesProps> = ({
 
     const onVisibility = () => {
       isPageVisible = !document.hidden
-      isPageVisible ? tryStart() : tryStop()
+      if (isPageVisible) {
+        tryStart()
+      } else {
+        tryStop()
+      }
     }
     document.addEventListener('visibilitychange', onVisibility)
 
-    tryStart()
+    // Delay start to let main thread finish initial paint first
+    const startDelay = setTimeout(tryStart, 150)
 
     return () => {
+      clearTimeout(startDelay)
       tryStop()
       ro.disconnect()
+      rectRo.disconnect()
       io.disconnect()
       document.removeEventListener('visibilitychange', onVisibility)
       canvas.removeEventListener('pointermove', onPointerMove)
@@ -338,7 +360,7 @@ const GradientWaves: React.FC<GradientWavesProps> = ({
     const ctx = ctxMap.get(container)
     if (!ctx) return
     const {program} = ctx
-    const u = program.uniforms as Record<string, {value: any}>
+    const u = program.uniforms as Record<string, {value: number | boolean | Float32Array}>
 
     enableMouseRef.current = mouseInteraction
 
