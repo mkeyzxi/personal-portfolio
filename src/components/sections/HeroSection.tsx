@@ -129,7 +129,7 @@ export default function HeroSection() {
           {OWNER_INFO.tagline}
         </h2>
 
-        <p className="mx-auto mb-10 max-w-2xl text-base text-[var(--color-text-muted)] sm:text-lg leading-relaxed">
+        <p className="mx-auto mb-10 max-w-2xl text-base text-[var(--color-text-secondary)] sm:text-lg leading-relaxed">
           Saya mengembangkan aplikasi web yang modern, cepat, dan berorientasi pada pengalaman
           pengguna. Dengan memadukan desain yang bersih, arsitektur yang baik, dan kode yang
           berkualitas, saya membangun solusi digital yang efisien, mudah dipelihara, dan memberikan
