@@ -408,7 +408,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
                 placeholder="Konten README markdown..."
               />
             ) : (
-              content && <BlockNoteEditor initialContent={content} onChange={setContent} />
+              <BlockNoteEditor initialContent={content} onChange={setContent} />
             )}
 
             {/* Tombol reset README jika ingin kembali ke BlockNote */}

@@ -28,7 +28,14 @@ export default function BlockNoteEditor({ initialContent, onChange, editable = t
     return () => observer.disconnect();
   }, []);
 
-  const initialBlocks = initialContent ? JSON.parse(initialContent) : undefined;
+  let initialBlocks = undefined;
+  if (initialContent && initialContent !== '[]') {
+    try {
+      initialBlocks = JSON.parse(initialContent);
+    } catch (e) {
+      console.error("Invalid BlockNote initial content:", e);
+    }
+  }
   
   const editor = useCreateBlockNote({
     initialContent: initialBlocks

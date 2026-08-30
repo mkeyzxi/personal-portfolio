@@ -31,11 +31,11 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
       canonical: `/projects/${project.slug || slug}`,
     },
     openGraph: {
-      images: [project.thumbnail || '/og-image.jpeg'],
+      images: [project.thumbnail || '/profile.png'],
     },
     twitter: {
       card: 'summary_large_image',
-      images: [project.thumbnail || '/og-image.jpeg'],
+      images: [project.thumbnail || '/profile.png'],
     },
   }
 }

@@ -2,7 +2,6 @@
 
 import { useState, useEffect, type ComponentType } from 'react';
 import dynamic from 'next/dynamic';
-import { AnimatePresence, motion } from 'framer-motion';
 import type { SectionKey } from '@/types';
 import { VALID_SECTION_KEYS, STORAGE_KEY_ACTIVE_SECTION } from '@/lib/constants';
 
@@ -15,7 +14,7 @@ import { VALID_SECTION_KEYS, STORAGE_KEY_ACTIVE_SECTION } from '@/lib/constants'
 // Setiap section hanya dimuat saat pertama kali diaktifkan.
 // ============================================================
 
-import HomeSkeleton from '@/components/skeletons/HomeSkeleton';
+import ServerHeroContent from '@/components/sections/ServerHeroContent';
 import AboutSkeleton from '@/components/skeletons/AboutSkeleton';
 import ExperienceSkeleton from '@/components/skeletons/ExperienceSkeleton';
 import ProjectsSkeleton from '@/components/skeletons/ProjectsSkeleton';
@@ -49,7 +48,7 @@ const RedirectToStory = () => {
 
 const HomeSection = dynamic(
   () => import('@/components/sections/HomeSection'),
-  { ssr: false, loading: () => <HomeSkeleton /> }
+  { ssr: false, loading: () => <ServerHeroContent /> }
 );
 const AboutSection = dynamic(
   () => import('@/components/sections/AboutSection'),
@@ -130,19 +129,7 @@ function getStoredSection(): SectionKey | null {
   return null;
 }
 
-// ============================================================
-// ANIMASI — SDD §4.3
-// ============================================================
-// Hanya menggunakan opacity dan transform y (translasi).
-// Manipulasi lebar/tinggi DILARANG untuk menghindari Reflow.
-// ============================================================
-
-const sectionTransition = {
-  initial: { opacity: 0, y: 16 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -16 },
-  transition: { duration: 0.25, ease: 'easeInOut' as const },
-};
+// Transisi diganti dengan animasi CSS murni di className untuk mengurangi initial JS payload.
 
 /**
  * AppShell — Komponen inti arsitektur SPA.
@@ -214,17 +201,12 @@ export default function AppShell() {
   const ActiveComponent = SECTION_MAP[activeSection];
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={activeSection}
-        initial={sectionTransition.initial}
-        animate={sectionTransition.animate}
-        exit={sectionTransition.exit}
-        transition={sectionTransition.transition}
-        className="min-h-full"
-      >
-        <ActiveComponent />
-      </motion.div>
-    </AnimatePresence>
+    <div
+      key={activeSection}
+      className="min-h-full animate-fade-in-up"
+      style={{ animationDuration: '0.3s' }}
+    >
+      <ActiveComponent />
+    </div>
   );
 }

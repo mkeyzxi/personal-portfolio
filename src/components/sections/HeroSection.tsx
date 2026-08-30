@@ -1,10 +1,8 @@
 'use client'
 
 import {useState, useEffect} from 'react'
-import {motion} from 'framer-motion'
 import {Icon} from '@iconify/react'
 import {OWNER_INFO} from '@/lib/constants'
-import ShinyText from '@/components/ShinyText'
 import Magnet from '@/components/ui/Magnet'
 import dynamic from 'next/dynamic'
 // ============================================================
@@ -24,17 +22,12 @@ import dynamic from 'next/dynamic'
 // }
 
 // Lazy-load GradientWaves — heavy WebGL shader should not block initial paint
-const GradientWaves = dynamic(
-  () => import('@/components/ui/GradientWaves'),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--color-bg-surface)] to-[var(--color-bg-main)] opacity-30" />
-    ),
-  }
-)
-
-
+const GradientWaves = dynamic(() => import('@/components/ui/GradientWaves'), {
+  ssr: false,
+  loading: () => (
+    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--color-bg-surface)] to-[var(--color-bg-main)] opacity-30" />
+  ),
+})
 
 // Custom hook untuk mendeteksi dark mode secara reaktif tanpa SSR mismatch
 function useThemeStatus() {
@@ -100,19 +93,9 @@ export default function HeroSection() {
           style={{animationDuration: '0.8s'}}
         >
           <span className="inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-1.5 text-sm font-medium text-[var(--color-text-secondary)]">
-            {/* <span className="mr-2 flex h-2 w-2 rounded-full bg-[var(--color-text-primary)] animate-pulse"></span> */}
-            <ShinyText
-              text="Tersedia untuk proyek baru"
-              speed={2}
-              delay={0}
-              color={isDarkMode ? '#b5b5b5' : '#737373'}
-              shineColor={isDarkMode ? '#ffffff' : '#171717'}
-              spread={120}
-              direction="left"
-              yoyo={false}
-              pauseOnHover={false}
-              disabled={false}
-            />
+            <span className="shiny-text-static">
+              Tersedia untuk proyek baru
+            </span>
           </span>
         </div>
 
@@ -145,7 +128,7 @@ export default function HeroSection() {
         >
           <button
             onClick={() => navigateTo('projects')}
-            className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-[var(--color-interactive)] px-8 py-4 font-semibold text-[var(--color-interactive-text)] transition-all hover:scale-105 hover:bg-[var(--color-interactive-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:ring-offset-2 dark:focus:ring-offset-[#0a0a0a]"
+            className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-3xl rounded-tr-md rounded-bl-md bg-[var(--color-interactive)] px-8 py-4 font-semibold text-[var(--color-interactive-text)] transition-all hover:scale-105 hover:bg-[var(--color-interactive-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:ring-offset-2 dark:focus:ring-offset-[#0a0a0a]"
           >
             Lihat Proyek
             <Icon
@@ -170,27 +153,20 @@ export default function HeroSection() {
       </div>
 
       {/* ── Scroll to Explore Indicator ───────────────────────── */}
-      <motion.div
-        initial={{opacity: 0}}
-        animate={{opacity: 1}}
-        transition={{delay: 0.8, duration: 0.8}}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors z-20"
+      <div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors z-20 animate-fade-in-up"
+        style={{animationDuration: '0.8s', animationDelay: '0.8s', animationFillMode: 'both'}}
         onClick={() => {
           const el = document.getElementById('home-overview')
           el?.scrollIntoView({behavior: 'smooth'})
         }}
       >
-        {/* <span className="text-[11px] font-mono uppercase tracking-widest font-semibold">
-          Jelajahi Ringkasan
-        </span> */}
-        <motion.div
-          animate={{y: [0, 6, 0]}}
-          transition={{duration: 1.5, repeat: Infinity, ease: 'easeInOut'}}
-          className="will-change-transform transform-gpu"
+        <div
+          className="will-change-transform transform-gpu animate-bounce"
         >
           <Icon icon="lucide:chevron-down" className="h-5 w-5 text-[var(--color-text-primary)]" />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   )
 }

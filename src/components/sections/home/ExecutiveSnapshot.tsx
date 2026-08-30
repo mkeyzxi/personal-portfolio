@@ -120,7 +120,7 @@ export function ExecutiveSnapshot({
             href={cvDownloadUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-[var(--color-interactive)] px-7 py-3.5 font-semibold text-sm text-[var(--color-interactive-text)] shadow-md transition-all duration-300 hover:scale-[1.02] hover:bg-[var(--color-interactive-hover)]"
+            className="group inline-flex items-center justify-center gap-2.5 rounded-3xl rounded-tr-md rounded-bl-md bg-[var(--color-interactive)] px-7 py-3.5 font-semibold text-sm text-[var(--color-interactive-text)] shadow-md transition-all duration-300 hover:scale-[1.02] hover:bg-[var(--color-interactive-hover)]"
           >
             <Icon icon="lucide:file-text" className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
             <span>Unduh CV / Resume</span>

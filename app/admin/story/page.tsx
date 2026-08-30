@@ -104,8 +104,14 @@ export default function AdminStoryDashboard() {
 
   const handleSave = async () => {
     try {
-      const payload = { title, slug, categorySlug, summary, content, status };
-      const url = view === 'edit' ? `/api/stories/${slug}` : '/api/stories';
+      let finalSlug = slug.trim();
+      if (!finalSlug && title) {
+        finalSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+        setSlug(finalSlug);
+      }
+      
+      const payload = { title, slug: finalSlug, categorySlug, summary, content, status };
+      const url = view === 'edit' ? `/api/stories/${finalSlug}` : '/api/stories';
       const method = view === 'edit' ? 'PUT' : 'POST';
 
       if (typeof navigator !== 'undefined' && !navigator.onLine) {
@@ -141,7 +147,7 @@ export default function AdminStoryDashboard() {
         fetchStories(user);
       } else {
         const err = await res.json();
-        alert('Gagal menyimpan: ' + (err instanceof Error ? err.message : String(err)));
+        alert('Gagal menyimpan: ' + (err.message || JSON.stringify(err)));
       }
     } catch (e) {
       console.error(e);
@@ -219,9 +225,9 @@ export default function AdminStoryDashboard() {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-[var(--color-text-secondary)]">Slug (URL) *</label>
+              <label className="text-sm font-medium text-[var(--color-text-secondary)]">Slug (URL) (Kosongkan untuk otomatis dari judul)</label>
               <input 
-                type="text" placeholder="misal: perjalanan-karir-saya" value={slug} onChange={(e) => setSlug(e.target.value)}
+                type="text" placeholder="Otomatis berdasarkan judul..." value={slug} onChange={(e) => setSlug(e.target.value)}
                 className="w-full p-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-main)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-interactive)]" 
               />
             </div>

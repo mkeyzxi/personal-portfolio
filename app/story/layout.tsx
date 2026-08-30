@@ -10,16 +10,17 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Story & Artikel | Makbul N',
     description:
-      'Catatan perjalanan, pemikiran, dan tutorial seputar pengembangan web, teknologi, dan pengalaman pribadi.',
+      'Tulisan dan artikel seputar teknologi, web development, dan pengalaman pribadi.',
     url: 'https://www.makbuln.web.id/story',
-    images: ['/og-image.jpeg'],
+    images: ['/profile.png'],
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Story & Artikel | Makbul N',
     description:
-      'Catatan perjalanan, pemikiran, dan tutorial seputar pengembangan web, teknologi, dan pengalaman pribadi.',
-    images: ['/og-image.jpeg'],
+      'Tulisan dan artikel seputar teknologi, web development, dan pengalaman pribadi.',
+    images: ['/profile.png'],
   },
 }
 
