@@ -41,7 +41,7 @@ export function GithubActivity() {
           href="https://github.com/mkeyzxi"
           target="_blank"
           rel="noopener noreferrer"
-          className="group hidden sm:inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-6 py-3.5 font-semibold text-sm text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] hover:border-[var(--color-text-muted)] shadow-sm"
+          className="group hidden sm:inline-flex items-center gap-2 rounded-3xl rounded-tr-md rounded-bl-md border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-6 py-3.5 font-semibold text-sm text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] hover:border-[var(--color-text-muted)] shadow-sm"
         >
           Kunjungi Repositori GitHub
           <Icon icon="lucide:external-link" className="w-4 h-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

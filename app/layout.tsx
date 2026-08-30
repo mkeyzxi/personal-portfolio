@@ -52,6 +52,10 @@ export const metadata: Metadata = {
     'typescript',
     'firebase',
     'web development',
+    'makbul',
+    'makbul n',
+    'muhammad makbul n',
+    'mbul',
   ],
   authors: [{name: 'Muhammad Makbul N'}],
   robots: 'index, follow',
@@ -69,7 +73,7 @@ export const metadata: Metadata = {
     title: 'Makbul N | Full Stack Developer',
     description:
       'Personal Portfolio — Full Stack Developer spesialisasi Next.js, React, TypeScript, Laravel, PHP, dan Firebase.',
-    images: [{url: '/og-image.jpeg', width: 1200, height: 630}],
+    images: [{url: '/profile.png', width: 1200, height: 630}],
     siteName: 'Muhammad Makbul N',
   },
   twitter: {
@@ -77,7 +81,7 @@ export const metadata: Metadata = {
     title: 'Makbul N | Full Stack Developer',
     description:
       'Personal Portfolio — Full Stack Developer spesialisasi Next.js, React, TypeScript, Laravel, PHP, dan Firebase.',
-    images: ['/og-image.jpeg'],
+    images: ['/profile.png'],
   },
 }
 
@@ -150,6 +154,16 @@ export default function RootLayout({
                   name: 'Makbul N Portfolio',
                   url: 'https://www.makbuln.web.id',
                 },
+                {
+                  '@type': 'SiteNavigationElement',
+                  name: ['Projects', 'Stories', 'Experience', 'Contact'],
+                  url: [
+                    'https://www.makbuln.web.id/#projects',
+                    'https://www.makbuln.web.id/story',
+                    'https://www.makbuln.web.id/#experience',
+                    'https://www.makbuln.web.id/#contact'
+                  ]
+                }
               ],
             }),
           }}

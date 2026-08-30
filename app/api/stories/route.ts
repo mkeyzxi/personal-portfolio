@@ -3,7 +3,7 @@ import { getAdminDb } from '@/lib/firebase-admin-db';
 import { verifyAdminToken } from '@/lib/adminAuthHelper';
 
 export const runtime = 'nodejs';
-
+export const dynamic = 'force-dynamic';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const category = searchParams.get('category');

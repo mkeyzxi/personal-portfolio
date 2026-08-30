@@ -6,9 +6,10 @@ import type { SectionKey } from '@/types';
 import { VALID_SECTION_KEYS, STORAGE_KEY_ACTIVE_SECTION } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
+import dynamic from 'next/dynamic';
 import SidebarNav from './SidebarNav';
 import BottomNav from './BottomNav';
-import MobileDrawer from './MobileDrawer';
+const MobileDrawer = dynamic(() => import('./MobileDrawer'), { ssr: false });
 import Footer from '@/components/global/Footer';
 import { Toaster } from '@/components/ui/sonner';
 import { useSectionTitle } from '@/hooks/useSectionTitle';

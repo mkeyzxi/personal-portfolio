@@ -51,7 +51,7 @@ export async function POST(request: Request) {
 
     // Ambil data dari request body
     const body = await request.json();
-    const { location, employmentStatus, education, yearsOfExperience, bio } = body;
+    const { location, employmentStatus, education, yearsOfExperience, bio, cvDownloadUrl } = body;
 
     // Validasi data
     if (!location || !employmentStatus || !education || yearsOfExperience === undefined || !bio) {
@@ -67,6 +67,7 @@ export async function POST(request: Request) {
       education,
       yearsOfExperience: Number(yearsOfExperience),
       bio,
+      cvDownloadUrl: cvDownloadUrl || '',
       updatedAt: new Date().toISOString()
     }, { merge: true });
 

@@ -45,7 +45,7 @@ export function ContactCTA({navigateTo}: {navigateTo: (section: string) => void}
         <div className="relative z-10 flex flex-col sm:flex-row w-full md:w-auto gap-4 shrink-0">
           <button
             onClick={() => navigateTo('contact')}
-            className="group flex items-center justify-center gap-3 rounded-full bg-[var(--color-interactive)] px-9 py-4 font-bold text-[var(--color-interactive-text)] shadow-md transition-all duration-300 hover:scale-[1.03] hover:bg-[var(--color-interactive-hover)]"
+            className="group flex items-center justify-center gap-3 rounded-3xl rounded-tr-md rounded-bl-md bg-[var(--color-interactive)] px-9 py-4 font-bold text-[var(--color-interactive-text)] shadow-md transition-all duration-300 hover:scale-[1.03] hover:bg-[var(--color-interactive-hover)]"
           >
             Hubungi Saya Sekarang
             <Icon icon="lucide:arrow-right" className="h-5 w-5 transition-transform group-hover:translate-x-1" />

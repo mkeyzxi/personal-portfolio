@@ -19,6 +19,7 @@ export default function AdminAboutDashboard() {
   const [education, setEducation] = useState('')
   const [yearsOfExperience, setYearsOfExperience] = useState<number>(0)
   const [bio, setBio] = useState('')
+  const [cvDownloadUrl, setCvDownloadUrl] = useState('')
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -43,6 +44,7 @@ export default function AdminAboutDashboard() {
         setEducation(data.education || '')
         setYearsOfExperience(data.yearsOfExperience || 0)
         setBio(data.bio || '')
+        setCvDownloadUrl(data.cvDownloadUrl || '')
       }
     } catch (e) {
       console.error(e)
@@ -63,6 +65,7 @@ export default function AdminAboutDashboard() {
         education,
         yearsOfExperience,
         bio,
+        cvDownloadUrl,
       }
 
       const res = await fetch('/api/about', {
@@ -164,6 +167,19 @@ export default function AdminAboutDashboard() {
               onChange={(e) => setYearsOfExperience(Number(e.target.value))}
               className="p-3 rounded border border-[var(--color-border)] bg-[var(--color-bg-main)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-interactive)]"
               placeholder="Misal: 3"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 md:col-span-2">
+            <label className="text-sm font-medium text-[var(--color-text-primary)]">
+              Link Download CV / Resume (Google Drive URL)
+            </label>
+            <input
+              type="text"
+              value={cvDownloadUrl}
+              onChange={(e) => setCvDownloadUrl(e.target.value)}
+              className="p-3 rounded border border-[var(--color-border)] bg-[var(--color-bg-main)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-interactive)]"
+              placeholder="Misal: https://drive.google.com/file/d/..."
             />
           </div>
         </div>

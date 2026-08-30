@@ -128,6 +128,7 @@ export interface AboutData {
   education: string;
   yearsOfExperience: number;
   bio: string;
+  cvDownloadUrl?: string;
   totalProjects?: number; // Fetched dynamically, not stored in about collection
   updatedAt?: string;
 }

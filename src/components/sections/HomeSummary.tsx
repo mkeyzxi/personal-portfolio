@@ -4,7 +4,7 @@ import useSWR from 'swr'
 import {fetcher} from '@/lib/fetcher'
 import {experiences} from '@/data/experiences'
 import {techStack} from '@/data/techstack'
-import type {Project} from '@/types'
+import type {Project, AboutData} from '@/types'
 
 // Import Split Components
 import {ExecutiveSnapshot} from './home/ExecutiveSnapshot'
@@ -38,8 +38,12 @@ export default function HomeSummary() {
   const previewTechs = Object.values(techStack).flat().slice(0, 12)
   const featuredExperiences = experiences.slice(0, 4)
 
-  const cvDownloadUrl =
-    'https://drive.google.com/file/d/1o2uuU3WLrY5zUTHGSBH1OVphIfyUlDoE/view?usp=sharing'
+  const {data: aboutData} = useSWR<{data: AboutData}>('/api/about', fetcher, {
+    revalidateOnFocus: false,
+    dedupingInterval: 600000,
+  })
+  
+  const cvDownloadUrl = aboutData?.data?.cvDownloadUrl || 'https://drive.google.com/file/d/1YK0d-yJlkAXoAb4gtGBMvkfLAyUdktFj/view?usp=sharing'
 
   return (
     <div className="w-full flex flex-col items-center py-24 px-6 md:px-10">

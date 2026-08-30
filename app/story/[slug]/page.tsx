@@ -39,11 +39,11 @@ export async function generateMetadata({
       canonical: `/story/${story.slug || resolvedParams.slug}`,
     },
     openGraph: {
-      images: ['/og-image.jpeg'],
+      images: ['/profile.png'],
     },
     twitter: {
       card: 'summary_large_image',
-      images: ['/og-image.jpeg'],
+      images: ['/profile.png'],
     },
   }
 }

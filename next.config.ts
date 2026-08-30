@@ -5,6 +5,32 @@ const withPWA = withPWAInit({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
   register: true,
+  workboxOptions: {
+    runtimeCaching: [
+      {
+        urlPattern: /\/api\/.*$/i,
+        handler: 'NetworkFirst',
+        options: {
+          cacheName: 'api-cache',
+          expiration: {
+            maxEntries: 100,
+            maxAgeSeconds: 24 * 60 * 60 * 30, // 30 days
+          },
+          networkTimeoutSeconds: 10,
+        },
+      },
+      {
+        urlPattern: /\.(?:png|jpg|jpeg|svg|webp|gif|ico)$/i,
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'image-cache',
+          expiration: {
+            maxEntries: 200,
+          },
+        },
+      },
+    ],
+  },
 });
 
 const nextConfig: NextConfig = {
@@ -35,6 +61,8 @@ const nextConfig: NextConfig = {
       'date-fns',
       'lucide-react',
       'swr',
+      'sonner',
+      '@base-ui/react',
     ],
   },
   async headers() {

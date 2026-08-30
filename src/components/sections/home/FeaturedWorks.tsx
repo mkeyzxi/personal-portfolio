@@ -85,7 +85,7 @@ export function FeaturedWorks({navigateTo}: {navigateTo: (section: string) => vo
 
         <button
           onClick={() => navigateTo('projects')}
-          className="group hidden sm:inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-6 py-3.5 font-semibold text-sm text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] hover:border-[var(--color-text-muted)] shadow-sm"
+          className="group hidden sm:inline-flex items-center gap-2 rounded-3xl rounded-tr-md rounded-bl-md border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-6 py-3.5 font-semibold text-sm text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] hover:border-[var(--color-text-muted)] shadow-sm"
         >
           Lihat Semua Proyek
           <Icon icon="lucide:arrow-right" className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -99,7 +99,7 @@ export function FeaturedWorks({navigateTo}: {navigateTo: (section: string) => vo
       <div className="flex sm:hidden justify-center mt-2">
         <button
           onClick={() => navigateTo('projects')}
-          className="w-full justify-center group inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-6 py-3.5 font-semibold text-sm text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] shadow-sm"
+          className="w-full justify-center group inline-flex items-center gap-2 rounded-3xl rounded-tr-md rounded-bl-md border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-6 py-3.5 font-semibold text-sm text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] shadow-sm"
         >
           Lihat Semua Proyek
           <Icon icon="lucide:arrow-right" className="w-4 h-4 transition-transform group-hover:translate-x-1" />
