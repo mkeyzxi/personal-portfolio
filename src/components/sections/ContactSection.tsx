@@ -56,7 +56,10 @@ export default function ContactSection() {
               </h3>
               <div className="flex items-start gap-4">
                 <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-bg-elevated)]">
-                  <Icon icon="lucide:file-text" className="h-5 w-5 text-[var(--color-text-primary)]" />
+                  <Icon
+                    icon="lucide:file-text"
+                    className="h-5 w-5 text-[var(--color-text-primary)]"
+                  />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm font-medium text-[var(--color-text-muted)]">CV</span>
@@ -87,7 +90,10 @@ export default function ContactSection() {
 
               <div className="flex items-start gap-4">
                 <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-bg-elevated)]">
-                  <Icon icon="lucide:map-pin" className="h-5 w-5 text-[var(--color-text-primary)]" />
+                  <Icon
+                    icon="lucide:map-pin"
+                    className="h-5 w-5 text-[var(--color-text-primary)]"
+                  />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm font-medium text-[var(--color-text-muted)]">Lokasi</span>
@@ -108,7 +114,7 @@ export default function ContactSection() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={link.ariaLabel}
-                    className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-bg-elevated)] transition-all hover:bg-[var(--color-bg-surface)] border border-transparent hover:border-[var(--color-border)] hover:-translate-y-1"
+                    className="flex h-12 w-12 items-center justify-center rounded-tr-sm rounded-bl-sm rounded-2xl  bg-[var(--color-bg-elevated)] transition-all hover:bg-[var(--color-bg-surface)] border border-transparent hover:border-[var(--color-border)] hover:-translate-y-1"
                   >
                     <Icon icon={link.iconify} className="h-6 w-6" />
                   </a>

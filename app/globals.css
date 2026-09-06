@@ -246,23 +246,6 @@ body {
   }
 }
 
-/*
- * ============================================================
- * GRAYSCALE FILTER — SDD §4.3
- * ============================================================
- * Thumbnail proyek dan avatar secara default monokrom.
- * Warna asli hanya dirender saat hover.
- * ============================================================
- */
-
-.img-mono {
-  filter: grayscale(100%);
-  transition: filter 500ms ease;
-}
-
-.img-mono:hover {
-  filter: grayscale(0%);
-}
 
 /*
  * ============================================================

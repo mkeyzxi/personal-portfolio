@@ -57,7 +57,7 @@ export default function TechStackSection() {
                   >
                     <Icon 
                       icon={tech.icon} 
-                      className="text-4xl text-[var(--color-text-primary)] transition-transform group-hover:scale-110 grayscale group-hover:grayscale-0 duration-300" 
+                      className="text-4xl text-[var(--color-text-primary)] transition-transform group-hover:scale-110 lg:grayscale lg:group-hover:grayscale-0 duration-300" 
                     />
                     <span className="text-sm font-medium text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors text-center">
                       {tech.name}

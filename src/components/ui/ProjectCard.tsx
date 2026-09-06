@@ -81,7 +81,7 @@ export default function ProjectCard({project, index}: ProjectCardProps) {
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
               loading="lazy"
-              className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-out group-hover:scale-110"
+              className="object-cover lg:grayscale lg:group-hover:grayscale-0 transition-all duration-700 ease-out group-hover:scale-110"
             />
             {project.featured && (
               <div className="absolute group-hover:backdrop-blur-md group-hover:bg-[var(--color-interactive)]/50 top-3 right-3 rounded-full bg-[var(--color-interactive)]/90 backdrop-blur-md px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--color-interactive-text)] shadow-sm">
@@ -119,7 +119,7 @@ export default function ProjectCard({project, index}: ProjectCardProps) {
               >
                 <Icon
                   icon={getTechIcon(tech)}
-                  className="h-4 w-4 grayscale opacity-70 transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100"
+                  className="h-4 w-4 lg:grayscale opacity-70 transition-all duration-500 lg:group-hover:grayscale-0 group-hover:opacity-100"
                 />
               </div>
             ))}

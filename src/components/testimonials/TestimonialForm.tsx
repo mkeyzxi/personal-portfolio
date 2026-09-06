@@ -117,7 +117,7 @@ export default function TestimonialForm({onSuccess, onLoginRequest}: Testimonial
                   alt={user.displayName || 'Avatar'}
                   width={20}
                   height={20}
-                  className="w-5 h-5 rounded-full img-mono"
+                  className="w-5 h-5 rounded-full lg:grayscale transition-all duration-500 lg:hover:grayscale-0"
                 />
               ) : (
                 <div className="w-5 h-5 rounded-full bg-[var(--color-bg-surface)] flex items-center justify-center">
