@@ -56,7 +56,7 @@ function TestimonialsPreviewContent() {
                 alt={item.name || 'Kolaborator'}
                 width={44}
                 height={44}
-                className="w-11 h-11 rounded-full object-cover border border-[var(--color-border)] img-mono"
+                className="w-11 h-11 rounded-full object-cover border border-[var(--color-border)] lg:grayscale transition-all duration-500 lg:hover:grayscale-0"
               />
             ) : (
               <div className="w-11 h-11 rounded-full bg-[var(--color-bg-elevated)] flex items-center justify-center border border-[var(--color-border)] text-[var(--color-text-primary)] font-bold uppercase text-base">

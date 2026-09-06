@@ -38,8 +38,8 @@ export function TechPreview({
             Teknologi Pilihan
           </h3>
           <p className="text-[var(--color-text-secondary)] text-base sm:text-lg max-w-2xl leading-relaxed">
-            Katalog peralatan modern berakurasi tinggi yang saya gunakan untuk menjamin performa
-            dan pemanduan produk.
+            Katalog peralatan modern berakurasi tinggi yang saya gunakan untuk menjamin performa dan
+            pemanduan produk.
           </p>
         </div>
 
@@ -48,12 +48,15 @@ export function TechPreview({
           className="group hidden sm:inline-flex items-center gap-2 rounded-3xl rounded-tr-md rounded-bl-md border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-6 py-3.5 font-semibold text-sm text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] hover:border-[var(--color-text-muted)] shadow-sm"
         >
           Lihat Seluruh Tech Stack
-          <Icon icon="lucide:arrow-right" className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          <Icon
+            icon="lucide:arrow-right"
+            className="w-4 h-4 transition-transform group-hover:translate-x-1"
+          />
         </button>
       </div>
 
       {/* Tech Badges Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 w-full">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 w-full p-1">
         {previewTechs.map((tech) => (
           <div
             key={tech.name}
@@ -63,7 +66,7 @@ export function TechPreview({
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-bg-elevated)] border border-[var(--color-border)] shadow-inner group-hover:bg-[var(--color-bg-main)] transition-colors">
               <Icon
                 icon={tech.icon}
-                className="w-6 h-6 grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110"
+                className="w-6 h-6 lg:grayscale lg:group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110"
               />
             </div>
             <div className="flex flex-col overflow-hidden">
@@ -84,7 +87,10 @@ export function TechPreview({
           className="w-full justify-center group inline-flex items-center gap-2 rounded-3xl rounded-tr-md rounded-bl-md border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-6 py-3.5 font-semibold text-sm text-[var(--color-text-primary)] transition-all hover:bg-[var(--color-bg-elevated)] shadow-sm"
         >
           Lihat Seluruh Tech Stack
-          <Icon icon="lucide:arrow-right" className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          <Icon
+            icon="lucide:arrow-right"
+            className="w-4 h-4 transition-transform group-hover:translate-x-1"
+          />
         </button>
       </div>
     </motion.section>

@@ -5,21 +5,36 @@ import {Icon} from '@iconify/react'
 import {OWNER_INFO} from '@/lib/constants'
 import Magnet from '@/components/ui/Magnet'
 import dynamic from 'next/dynamic'
+import {motion, Variants} from 'framer-motion'
+
 // ============================================================
 // ANIMASI FRAMER MOTION
 // ============================================================
 
 // Stagger untuk kontainer teks
-// const containerVariants = {
-//   hidden: {opacity: 0},
-//   show: {
-//     opacity: 1,
-//     transition: {
-//       staggerChildren: 0.15,
-//       delayChildren: 0.2,
-//     },
-//   },
-// }
+const containerVariants: Variants = {
+  hidden: {opacity: 0},
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
+    },
+  },
+}
+
+const itemVariants: Variants = {
+  hidden: {opacity: 0, y: 30},
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+      damping: 20,
+    },
+  },
+}
 
 // Lazy-load GradientWaves — heavy WebGL shader should not block initial paint
 const GradientWaves = dynamic(() => import('@/components/ui/GradientWaves'), {
@@ -87,44 +102,47 @@ export default function HeroSection() {
       </div>
 
       {/* ── Content ────────────────────────────────────────────── */}
-      <div className="relative z-10 w-full max-w-3xl text-center">
-        <div
-          className="mb-6 flex justify-center animate-fade-in-up"
-          style={{animationDuration: '0.8s'}}
-        >
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        className="relative z-10 w-full max-w-3xl text-center"
+      >
+        <motion.div variants={itemVariants} className="mb-6 flex justify-center">
           <span className="inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-1.5 text-sm font-medium text-[var(--color-text-secondary)]">
-            <span className="shiny-text-static">
-              Tersedia untuk proyek baru
-            </span>
+            <span className="shiny-text-static">Tersedia untuk proyek baru</span>
           </span>
-        </div>
+        </motion.div>
 
-        <h1
+        <motion.h1
           id="home-heading"
-          className="mb-4 text-5xl font-extrabold tracking-tight text-[var(--color-text-primary)] sm:text-6xl md:text-7xl animate-fade-in-up"
-          style={{animationDuration: '0.8s', animationDelay: '0.1s', animationFillMode: 'both'}}
+          variants={itemVariants}
+          className="mb-4 text-5xl font-extrabold tracking-tight text-[var(--color-text-primary)] sm:text-6xl md:text-7xl"
         >
           {OWNER_INFO.name}
-        </h1>
+        </motion.h1>
 
-        <h2
-          className="mb-8 text-xl font-medium text-[var(--color-text-secondary)] sm:text-2xl animate-fade-in-up"
-          style={{animationDuration: '0.8s', animationDelay: '0.2s', animationFillMode: 'both'}}
+        <motion.h2
+          variants={itemVariants}
+          className="mb-8 text-xl font-medium text-[var(--color-text-secondary)] sm:text-2xl"
         >
           {OWNER_INFO.tagline}
-        </h2>
+        </motion.h2>
 
-        <p className="mx-auto mb-10 max-w-2xl text-base text-[var(--color-text-secondary)] sm:text-lg leading-relaxed">
+        <motion.p
+          variants={itemVariants}
+          className="mx-auto mb-10 max-w-2xl text-base text-[var(--color-text-secondary)] sm:text-lg leading-relaxed"
+        >
           Saya mengembangkan aplikasi web yang modern, cepat, dan berorientasi pada pengalaman
           pengguna. Dengan memadukan desain yang bersih, arsitektur yang baik, dan kode yang
           berkualitas, saya membangun solusi digital yang efisien, mudah dipelihara, dan memberikan
           nilai bagi bisnis.
-        </p>
+        </motion.p>
 
         {/* ── Call to Action Buttons ───────────────────────────── */}
-        <div
-          className="flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in-up"
-          style={{animationDuration: '0.8s', animationDelay: '0.4s', animationFillMode: 'both'}}
+        <motion.div
+          variants={itemVariants}
+          className="flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
           <button
             onClick={() => navigateTo('projects')}
@@ -149,24 +167,24 @@ export default function HeroSection() {
               Hubungi Saya
             </button>
           </Magnet>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* ── Scroll to Explore Indicator ───────────────────────── */}
-      <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors z-20 animate-fade-in-up"
-        style={{animationDuration: '0.8s', animationDelay: '0.8s', animationFillMode: 'both'}}
+      <motion.div
+        initial={{opacity: 0, y: -20}}
+        animate={{opacity: 1, y: 0}}
+        transition={{delay: 1.2, duration: 0.8, type: 'spring', stiffness: 100}}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors z-20"
         onClick={() => {
           const el = document.getElementById('home-overview')
           el?.scrollIntoView({behavior: 'smooth'})
         }}
       >
-        <div
-          className="will-change-transform transform-gpu animate-bounce"
-        >
+        <div className="will-change-transform transform-gpu animate-bounce">
           <Icon icon="lucide:chevron-down" className="h-5 w-5 text-[var(--color-text-primary)]" />
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }

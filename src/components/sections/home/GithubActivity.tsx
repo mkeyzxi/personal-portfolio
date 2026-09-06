@@ -64,7 +64,7 @@ export function GithubActivity() {
               src="https://raw.githubusercontent.com/mkeyzxi/mkeyzxi/output/pacman-contribution-graph-dark.svg"
               alt="GitHub Contribution Pacman Graph mkeyzxi"
               loading="lazy"
-              className="max-w-full h-auto rounded-xl object-contain img-mono hover:grayscale-0 transition-all duration-700"
+              className="max-w-full h-auto rounded-xl object-contain lg:grayscale lg:hover:grayscale-0 transition-all duration-700"
             />
           </picture>
         </div>

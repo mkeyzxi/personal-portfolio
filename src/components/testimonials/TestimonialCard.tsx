@@ -89,7 +89,7 @@ export default function TestimonialCard({testimonial, onUpdate}: TestimonialCard
               width={40}
               height={40}
               referrerPolicy="no-referrer"
-              className="w-10 h-10 rounded-full img-mono border border-[var(--color-border)]"
+              className="w-10 h-10 rounded-full lg:grayscale transition-all duration-500 lg:hover:grayscale-0 border border-[var(--color-border)]"
             />
           ) : (
             <div className="w-10 h-10 rounded-full bg-[var(--color-bg-elevated)] flex items-center justify-center border border-[var(--color-border)]">

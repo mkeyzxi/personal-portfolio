@@ -10,8 +10,7 @@ export default function ServerHeroContent() {
 
       <div className="relative z-10 w-full max-w-3xl text-center">
         <div
-          className="mb-6 flex justify-center animate-fade-in-up"
-          style={{ animationDuration: '0.8s' }}
+          className="mb-6 flex justify-center"
         >
           <span className="inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-1.5 text-sm font-medium text-[var(--color-text-secondary)]">
             <span className="shiny-text-static">
@@ -22,21 +21,18 @@ export default function ServerHeroContent() {
 
         <h1
           id="home-heading-static"
-          className="mb-4 text-5xl font-extrabold tracking-tight text-[var(--color-text-primary)] sm:text-6xl md:text-7xl animate-fade-in-up"
-          style={{ animationDuration: '0.8s', animationDelay: '0.1s', animationFillMode: 'both' }}
+          className="mb-4 text-5xl font-extrabold tracking-tight text-[var(--color-text-primary)] sm:text-6xl md:text-7xl"
         >
           {OWNER_INFO.name}
         </h1>
 
         <h2
-          className="mb-8 text-xl font-medium text-[var(--color-text-secondary)] sm:text-2xl animate-fade-in-up"
-          style={{ animationDuration: '0.8s', animationDelay: '0.2s', animationFillMode: 'both' }}
+          className="mb-8 text-xl font-medium text-[var(--color-text-secondary)] sm:text-2xl"
         >
           {OWNER_INFO.tagline}
         </h2>
 
-        <p className="mx-auto mb-10 max-w-2xl text-base text-[var(--color-text-secondary)] sm:text-lg leading-relaxed animate-fade-in-up"
-           style={{ animationDuration: '0.8s', animationDelay: '0.3s', animationFillMode: 'both' }}
+        <p className="mx-auto mb-10 max-w-2xl text-base text-[var(--color-text-secondary)] sm:text-lg leading-relaxed"
         >
           Saya mengembangkan aplikasi web yang modern, cepat, dan berorientasi pada pengalaman
           pengguna. Dengan memadukan desain yang bersih, arsitektur yang baik, dan kode yang
@@ -46,8 +42,7 @@ export default function ServerHeroContent() {
 
         {/* Static CTA Buttons */}
         <div
-          className="flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in-up"
-          style={{ animationDuration: '0.8s', animationDelay: '0.4s', animationFillMode: 'both' }}
+          className="flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
           <a
             href="#projects"

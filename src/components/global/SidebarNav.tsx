@@ -86,7 +86,7 @@ export default function SidebarNav({
           >
             {/* 
               Menggunakan tag img standar sementara. 
-              SDD §4.3: Wajib ada class img-mono (grayscale).
+              Menggunakan class grayscale untuk efek monokrom.
             */}
             <Image
               src={OWNER_INFO.avatarPath}
@@ -94,7 +94,7 @@ export default function SidebarNav({
               fill
               sizes="80px"
               priority
-              className="object-cover img-mono"
+              className="object-cover lg:grayscale transition-all duration-500 lg:hover:grayscale-0"
             />
           </div>
           <div

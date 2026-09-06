@@ -102,7 +102,7 @@ function AboutContent() {
               fill
               sizes="(max-width: 768px) 100vw, 300px"
               loading="lazy"
-              className="object-cover img-mono"
+              className="object-cover lg:grayscale transition-all duration-500 lg:hover:grayscale-0"
             />
           </div>
         </div>
