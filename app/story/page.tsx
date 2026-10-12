@@ -29,8 +29,14 @@ export default function StoryIndexPage() {
   const [navigatingId, setNavigatingId] = useState<string | null>(null);
 
   // Menggunakan SWR untuk caching otomatis dengan fetcher terstandarisasi.
-  const { data: catRes, error: catError } = useSWR('/api/categories', fetcher, { revalidateOnFocus: false });
-  const { data: storyRes, error: storyError } = useSWR('/api/stories', fetcher, { revalidateOnFocus: false });
+  const swrOptions = {
+    revalidateOnFocus: true,
+    dedupingInterval: 60000,
+    refreshInterval: 0,
+  };
+
+  const { data: catRes, error: catError } = useSWR('/api/categories', fetcher, swrOptions);
+  const { data: storyRes, error: storyError } = useSWR('/api/stories', fetcher, swrOptions);
 
   const categories: Category[] = Array.isArray(catRes) ? catRes : (catRes?.success ? catRes.data : (catRes?.data || []));
   const allStories: StoryItem[] = Array.isArray(storyRes) ? storyRes : (storyRes?.success ? storyRes.data : (storyRes?.data || []));

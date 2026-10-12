@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAdminDb } from '@/lib/firebase-admin-db';
 import { getAdminAuth } from '@/lib/firebase-admin-auth';
+import { invalidateCache } from '@/lib/revalidate';
 
 export const runtime = 'nodejs';
 
@@ -70,6 +71,8 @@ export async function POST(request: Request) {
       cvDownloadUrl: cvDownloadUrl || '',
       updatedAt: new Date().toISOString()
     }, { merge: true });
+
+    invalidateCache(['/', '/about', '/api/about']);
 
     return NextResponse.json({ success: true, message: 'Data About berhasil diperbarui' }, { status: 200 });
   } catch (error: unknown) {

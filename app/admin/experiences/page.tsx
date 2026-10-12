@@ -201,7 +201,7 @@ export default function AdminExperiencesDashboard() {
                       className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors"
                       title="Delete"
                     >
-                      <Icon icon="lucide:trash2" className="w-5 h-5 inline-block" />
+                      <Icon icon="lucide:trash" className="w-5 h-5 inline-block" />
                     </button>
                   </td>
                 </tr>

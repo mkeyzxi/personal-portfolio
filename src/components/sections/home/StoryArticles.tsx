@@ -11,13 +11,14 @@ import {sectionVariants, itemVariants} from './shared'
 
 function StoriesPreviewContent() {
   const {data: catRes} = useSWR('/api/categories', fetcher, {
-    revalidateOnFocus: false,
-    dedupingInterval: 60000 * 5,
+    revalidateOnFocus: true,
+    dedupingInterval: 60000,
+    refreshInterval: 0,
     suspense: true,
   })
   const {data: storyRes} = useSWR('/api/stories', fetcher, {
-    revalidateOnFocus: false,
-    dedupingInterval: 60000 * 5,
+    revalidateOnFocus: true,
+    dedupingInterval: 60000,
     suspense: true,
   })
 

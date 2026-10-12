@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
 import { getAdminDb } from '@/lib/firebase-admin-db';
 import { verifyAdminToken } from '@/lib/adminAuthHelper';
+import { invalidateCache } from '@/lib/revalidate';
 
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 60; // Cache selama 60 detik
+export const revalidate = 0; // Selalu ambil data terbaru dari Firestore
 
 // GET: Mengambil daftar semua proyek
 export async function GET() {
@@ -75,6 +76,8 @@ export async function POST(request: Request) {
       readmeContent: readmeContent || null,
       createdAt: new Date().toISOString(),
     });
+
+    invalidateCache(['/', '/projects', `/projects/${slug}`, '/api/projects']);
 
     return NextResponse.json({ success: true, message: 'Proyek berhasil ditambahkan', id: docRef.id }, { status: 201 });
   } catch (error) {

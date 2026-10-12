@@ -10,12 +10,19 @@ import type { Project } from '@/types';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
+import useSWR from 'swr';
+import { fetcher } from '@/lib/fetcher';
 
 export default function AdminProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<import('firebase/auth').User | null>(null);
   const router = useRouter();
+
+  // SWR mutate untuk invalidasi cache setelah operasi admin
+  const { mutate } = useSWR('/api/projects', fetcher, {
+    revalidateOnFocus: false,
+  });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -52,6 +59,9 @@ export default function AdminProjectsPage() {
     try {
       await deleteDoc(doc(db, 'projects', projectId));
       setProjects(prev => prev.filter(p => p.id !== projectId));
+      
+      // Invalidate SWR cache untuk memastikan data terbaru di-fetch
+      await mutate();
     } catch (err) {
       console.error('Error deleting project:', err);
       alert('Gagal menghapus proyek');
@@ -151,7 +161,7 @@ export default function AdminProjectsPage() {
                             className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors"
                             title="Hapus Proyek"
                           >
-                            <Icon icon="lucide:trash2" className="h-5 w-5" />
+                            <Icon icon="lucide:trash" className="h-5 w-5" />
                           </button>
                         </div>
                       </td>

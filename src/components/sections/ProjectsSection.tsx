@@ -27,8 +27,9 @@ const CATEGORY_LABELS: Record<string, string> = {
 // Karena filter membutuhkan data category dari response fetch, kita gabungkan fetch dan filter ke dalam satu Content Component.
 function ProjectsDataContent() {
   const {data: projects = []} = useSWR<Project[]>('/api/projects', fetcher, {
-    revalidateOnFocus: false,
-    dedupingInterval: 60000 * 5,
+    revalidateOnFocus: true,
+    dedupingInterval: 60000,
+    refreshInterval: 0,
     suspense: true,
   })
 

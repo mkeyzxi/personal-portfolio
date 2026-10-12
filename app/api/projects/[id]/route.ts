@@ -1,8 +1,12 @@
 import { NextResponse } from 'next/server';
 import { getAdminDb } from '@/lib/firebase-admin-db';
 import { verifyAdminToken } from '@/lib/adminAuthHelper';
+import { invalidateCache } from '@/lib/revalidate';
 
 export const runtime = 'nodejs';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0; // Selalu ambil data terbaru dari Firestore
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -99,6 +103,8 @@ export async function PUT(request: Request, { params }: RouteParams) {
       readmeContent: readmeContent || null,
       updatedAt: new Date().toISOString(),
     });
+
+    invalidateCache(['/', '/projects', `/projects/${slug}`, '/api/projects']);
 
     return NextResponse.json({ success: true, message: 'Proyek berhasil diperbarui' }, { status: 200 });
   } catch (error) {

@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 if (typeof global.Response === 'undefined') {
-  global.Response = class Response {} as any;
+  global.Response = class Response {} as unknown as typeof global.Response;
 }
 import { useSyncOfflineData } from './useSyncOfflineData';
 import { db } from '@/lib/db';

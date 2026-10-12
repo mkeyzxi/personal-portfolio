@@ -30,8 +30,9 @@ export default function HomeSummary() {
 
   // Mengambil total aktual dari database projects melalui cache SWR 1-Kali-Fetch
   const {data: allProjects = []} = useSWR<Project[]>('/api/projects', fetcher, {
-    revalidateOnFocus: false,
-    dedupingInterval: 600000,
+    revalidateOnFocus: true,
+    dedupingInterval: 60000,
+    refreshInterval: 0,
   })
   const dynamicProjectsCount = allProjects.length > 0 ? `${allProjects.length}+` : '5+'
 
@@ -39,7 +40,7 @@ export default function HomeSummary() {
   const featuredExperiences = experiences.slice(0, 4)
 
   const {data: aboutData} = useSWR<{data: AboutData}>('/api/about', fetcher, {
-    revalidateOnFocus: false,
+    revalidateOnFocus: true,
     dedupingInterval: 600000,
   })
   

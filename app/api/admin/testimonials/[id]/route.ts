@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAdminDb } from '@/lib/firebase-admin-db';
 import { verifyAdminToken } from '@/lib/adminAuthHelper';
+import { invalidateCache } from '@/lib/revalidate';
 
 export const runtime = 'nodejs';
 
@@ -35,6 +36,8 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       updatedAt: new Date().toISOString()
     });
 
+    invalidateCache(['/', '/testimonials', '/api/testimonials', '/api/admin/testimonials']);
+
     return NextResponse.json({ success: true, message: 'Status testimoni berhasil diperbarui' }, { status: 200 });
   } catch (error) {
     console.error('Error in PUT /api/admin/testimonials/[id]:', error);
@@ -60,6 +63,8 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     }
 
     await docRef.delete();
+
+    invalidateCache(['/', '/testimonials', '/api/testimonials', '/api/admin/testimonials']);
 
     return NextResponse.json({ success: true, message: 'Testimoni berhasil dihapus' }, { status: 200 });
   } catch (error) {

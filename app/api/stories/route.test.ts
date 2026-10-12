@@ -89,7 +89,7 @@ describe('/api/stories', () => {
     it('filters by category if category is provided', async () => {
       (verifyAdminToken as jest.Mock).mockRejectedValueOnce(new Error('No token'));
       
-      const mockDocs = [];
+      const mockDocs: Array<{ id: string; data: () => Record<string, unknown> }> = [];
       mockGet.mockResolvedValueOnce({ docs: mockDocs });
 
       const request = new Request('http://localhost/api/stories?category=tech');

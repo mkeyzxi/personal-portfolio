@@ -9,7 +9,10 @@ import {id} from 'date-fns/locale'
 import ReadmeRenderer from '@/components/public/ReadmeRenderer'
 import BlockNoteRenderer from '@/components/public/BlockNoteRenderer'
 
-export const revalidate = 3600 // ISR 1 jam
+// ISR dengan fallback pendek. Invalidasi primer dilakukan lewat invalidateCache()
+// di app/api/projects/* setiap kali proyek dibuat/diubah, sehingga data admin
+// langsung terlihat. Nilai ini hanya cadangan bila invalidasi gagal.
+export const revalidate = 60
 
 interface PageProps {
   params: Promise<{slug: string}>

@@ -14,7 +14,7 @@ function TestimonialContent({ user }: { user: {uid?: string} | null }) {
   const { data: testimonials = [], mutate: fetchTestimonials } = useSWR<Testimonial[]>(
     '/api/testimonials', 
     fetcher,
-    { revalidateOnFocus: false, dedupingInterval: 60000, suspense: true }
+    { revalidateOnFocus: true, dedupingInterval: 60000, refreshInterval: 0, suspense: true }
   );
 
   return (

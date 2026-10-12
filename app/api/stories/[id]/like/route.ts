@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAdminDb } from '@/lib/firebase-admin-db';
 import { getAdminAuth } from '@/lib/firebase-admin-auth';
+import { invalidateCache } from '@/lib/revalidate';
 
 export const runtime = 'nodejs';
 
@@ -57,6 +58,8 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
         return { liked: true, newCount: currentLikes + 1 };
       }
     });
+
+    invalidateCache(['/', '/story', '/api/stories']);
 
     return NextResponse.json({ success: true, ...result });
   } catch (error: unknown) {

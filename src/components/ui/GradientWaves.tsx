@@ -37,12 +37,6 @@ const hexToRgb = (hex: string): [number, number, number] => {
   ]
 }
 
-const detailToSteps = (detail: GradientWavesDetail): number => {
-  if (detail === 'low') return 40.0
-  if (detail === 'high') return 110.0
-  return 70.0
-}
-
 const vertex = `#version 300 es
 in vec2 position;
 void main() {

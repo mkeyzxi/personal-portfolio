@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAdminDb } from '@/lib/firebase-admin-db';
 import { verifyAdminToken } from '@/lib/adminAuthHelper';
+import { invalidateCache } from '@/lib/revalidate';
 
 export const runtime = 'nodejs';
 
@@ -54,6 +55,8 @@ export async function POST(request: Request) {
     };
 
     const docRef = await db.collection('categories').add(newCategory);
+
+    invalidateCache(['/', '/api/categories']);
 
     return NextResponse.json({ 
       success: true, 
