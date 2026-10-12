@@ -12,8 +12,10 @@ import {sectionVariants, itemVariants} from './shared'
 
 function TestimonialsPreviewContent() {
   const {data: testimonials = []} = useSWR<Testimonial[]>('/api/testimonials', fetcher, {
-    revalidateOnFocus: false,
-    dedupingInterval: 60000 * 5,
+    revalidateOnFocus: true,
+
+    dedupingInterval: 60000,
+    refreshInterval: 0,    dedupingInterval: 60000 * 5,
     suspense: true,
   })
 

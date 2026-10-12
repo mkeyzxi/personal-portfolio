@@ -56,7 +56,7 @@ function AboutContent() {
   const {data: aboutData} = useSWR<AboutData>(
     '/api/about',
     fetcher,
-    {revalidateOnFocus: false, dedupingInterval: 60000 * 60, suspense: true}, // suspense: true
+    {revalidateOnFocus: true, dedupingInterval: 60000, refreshInterval: 0, suspense: true}, // suspense: true
   )
 
   // Gunakan data CMS jika ada, fallback ke data bawaan atau kosong

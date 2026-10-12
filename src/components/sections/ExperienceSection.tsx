@@ -23,7 +23,7 @@ function ExperienceContent({activeFilter}: {activeFilter: FilterType}) {
   const {data: experiences = []} = useSWR<Experience[]>(
     '/api/experiences',
     fetcher,
-    {revalidateOnFocus: false, dedupingInterval: 60000 * 5, suspense: true}, // suspense: true
+    {revalidateOnFocus: true, dedupingInterval: 60000, refreshInterval: 0, suspense: true}, // suspense: true
   )
 
   const filteredExperiences = experiences.filter((exp) =>

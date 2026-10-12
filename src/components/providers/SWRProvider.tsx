@@ -74,7 +74,7 @@ export function SWRProvider({ children }: { children: ReactNode }) {
         dedupingInterval: 600000,
         
         // 2. Mencegah fetch berulang saat pengguna berpindah tab/jendela di browser
-        revalidateOnFocus: false,
+        revalidateOnFocus: true,
         
         // 3. Jangan revalidate ulang jika cache lokal sudah matang (1 Kali Fetch instan)
         revalidateIfStale: false,
