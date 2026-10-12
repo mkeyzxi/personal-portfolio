@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAdminDb } from '@/lib/firebase-admin-db';
 import { verifyAdminToken } from '@/lib/adminAuthHelper';
+import { invalidateCache } from '@/lib/revalidate';
 
 export const runtime = 'nodejs';
 
@@ -56,6 +57,8 @@ export async function POST(request: Request) {
     };
 
     const docRef = await adminDb.collection('experiences').add(newExperience);
+
+    invalidateCache(['/', '/api/experiences', '/api/admin/experiences']);
 
     return NextResponse.json({ 
       success: true, 

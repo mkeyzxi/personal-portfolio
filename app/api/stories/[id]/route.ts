@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAdminDb } from '@/lib/firebase-admin-db';
 import { verifyAdminToken } from '@/lib/adminAuthHelper';
+import { invalidateCache } from '@/lib/revalidate';
 
 export const runtime = 'nodejs';
 
@@ -69,6 +70,8 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 
     await storyRef.update(updateData);
 
+    invalidateCache(['/', '/story', '/api/stories', `/story/${slug}`]);
+
     return NextResponse.json({ success: true, message: 'Story updated successfully' });
   } catch (error: unknown) {
     console.error('Error updating story:', error);
@@ -118,6 +121,8 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     });
 
     await batch.commit();
+
+    invalidateCache(['/', '/story', '/api/stories', `/story/${slug}`]);
 
     return NextResponse.json({ success: true, message: 'Story and all associated data deleted successfully' });
   } catch (error: unknown) {

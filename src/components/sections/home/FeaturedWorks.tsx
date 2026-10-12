@@ -14,9 +14,8 @@ import {sectionVariants, ParallaxLayer} from './shared'
 function FeaturedProjectsContent() {
   const {data: projects = []} = useSWR<Project[]>('/api/projects', fetcher, {
     revalidateOnFocus: true,
-
     dedupingInterval: 60000,
-    refreshInterval: 0,    dedupingInterval: 60000 * 5,
+    refreshInterval: 0,
     suspense: true,
   })
 

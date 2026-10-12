@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAdminDb } from '@/lib/firebase-admin-db';
 import { verifyAdminToken } from '@/lib/adminAuthHelper';
+import { invalidateCache } from '@/lib/revalidate';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -113,6 +114,8 @@ export async function POST(request: Request) {
     };
 
     const docRef = await db.collection('stories').add(newStory);
+
+    invalidateCache(['/', '/story', '/api/stories']);
 
     return NextResponse.json({ 
       success: true, 

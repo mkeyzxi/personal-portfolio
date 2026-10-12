@@ -31,9 +31,8 @@ export default function HomeSummary() {
   // Mengambil total aktual dari database projects melalui cache SWR 1-Kali-Fetch
   const {data: allProjects = []} = useSWR<Project[]>('/api/projects', fetcher, {
     revalidateOnFocus: true,
-
     dedupingInterval: 60000,
-    refreshInterval: 0,    dedupingInterval: 600000,
+    refreshInterval: 0,
   })
   const dynamicProjectsCount = allProjects.length > 0 ? `${allProjects.length}+` : '5+'
 

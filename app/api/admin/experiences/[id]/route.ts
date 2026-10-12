@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAdminDb } from '@/lib/firebase-admin-db';
 import { verifyAdminToken } from '@/lib/adminAuthHelper';
+import { invalidateCache } from '@/lib/revalidate';
 
 export const runtime = 'nodejs';
 
@@ -25,6 +26,8 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 
     await adminDb.collection('experiences').doc(id).update(updateData);
 
+    invalidateCache(['/', '/api/experiences', '/api/admin/experiences']);
+
     return NextResponse.json({ success: true, message: 'Experience updated successfully' }, { status: 200 });
   } catch (error: unknown) {
     console.error('Error in PUT /api/admin/experiences/[id]:', error);
@@ -44,6 +47,8 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     const adminDb = getAdminDb();
 
     await adminDb.collection('experiences').doc(id).delete();
+
+    invalidateCache(['/', '/api/experiences', '/api/admin/experiences']);
 
     return NextResponse.json({ success: true, message: 'Experience deleted successfully' }, { status: 200 });
   } catch (error: unknown) {

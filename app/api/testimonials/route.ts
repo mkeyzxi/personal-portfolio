@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAdminDb } from '@/lib/firebase-admin-db';
 import { getAdminAuth } from '@/lib/firebase-admin-auth';
+import { invalidateCache } from '@/lib/revalidate';
 
 export const runtime = 'nodejs';
 
@@ -119,6 +120,8 @@ export async function POST(request: Request) {
     };
 
     const docRef = await adminDb.collection('testimonials').add(newTestimonial);
+
+    invalidateCache(['/', '/testimonials', '/api/testimonials']);
 
     return NextResponse.json({ success: true, message: 'Testimoni berhasil ditambahkan', id: docRef.id, data: { id: docRef.id, ...newTestimonial } }, { status: 201 });
   } catch (error) {

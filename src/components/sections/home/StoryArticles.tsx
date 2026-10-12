@@ -12,9 +12,8 @@ import {sectionVariants, itemVariants} from './shared'
 function StoriesPreviewContent() {
   const {data: catRes} = useSWR('/api/categories', fetcher, {
     revalidateOnFocus: true,
-
     dedupingInterval: 60000,
-    refreshInterval: 0,    dedupingInterval: 60000,
+    refreshInterval: 0,
     suspense: true,
   })
   const {data: storyRes} = useSWR('/api/stories', fetcher, {
